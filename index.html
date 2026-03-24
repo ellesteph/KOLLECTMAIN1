@@ -4,153 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kollect | Virtual POS</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-body {
-  margin:0;
-  font-family:'Inter', sans-serif;
-  background:#f5f7fa;
-  color:#000;
-  overflow-x:hidden;
-}
+/* General Styles */
+body { margin:0; font-family:'Inter', sans-serif; background:#fff; color:#000; overflow-x:hidden; }
+header { padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:#fff; z-index:10; box-shadow:0 2px 4px rgba(0,0,0,0.05);}
+header h1 { font-weight:700; font-size:1.8rem; }
+header nav button { margin-left:1rem; padding:0.5rem 1rem; border:none; background:#000; color:#fff; font-weight:600; cursor:pointer; border-radius:4px; transition: all 0.3s ease; }
+header nav button:hover { transform:translateY(-2px); opacity:0.85; }
 
-/* HEADER */
-header {
-  padding:1rem 2rem;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  background:#fff;
-  z-index:10;
-  box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
+.container { padding:4rem 2rem; max-width:1200px; margin:auto; }
 
-header h1 {
-  font-weight:700;
-  font-size:1.8rem;
-  background: linear-gradient(90deg,#007cf0,#00dfd8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+/* Hero Section */
+.hero { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 2rem; animation:fadeIn 1s ease forwards; }
+.hero h2 { font-size:2.5rem; margin-bottom:1rem; }
+.hero p { font-size:1.2rem; margin-bottom:2rem; opacity:0.7; }
+.hero button { font-size:1rem; padding:0.8rem 2rem; background:#000; color:#fff; border:none; cursor:pointer; border-radius:4px; transition: all 0.3s ease; margin:0.5rem; }
+.hero button:hover { transform:translateY(-3px); opacity:0.9; }
 
-header nav button {
-  margin-left:1rem;
-  padding:0.6rem 1.2rem;
-  border:none;
-  background:#000;
-  color:#fff;
-  font-weight:600;
-  cursor:pointer;
-  border-radius:8px;
-  transition: all 0.3s ease;
-}
+/* Why Kollect Section */
+#whyKollect { display:none; text-align:center; margin-top:4rem; }
+#whyKollect.active { display:block; animation:fadeIn 0.8s ease forwards; }
+#whyKollect h2 { font-size:2rem; margin-bottom:1rem; }
+#whyKollect p { font-size:1.1rem; margin-bottom:2rem; line-height:1.6; opacity:0.85; }
 
-header nav button:hover {
-  transform:translateY(-2px);
-  opacity:0.85;
-}
+/* Features Cards */
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:2rem; margin-top:2rem; }
+.card { padding:2rem; border:1px solid #000; border-radius:8px; text-align:center; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor:pointer; }
+.card:hover { transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.1); }
 
-/* HERO */
-.hero {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:6rem 2rem;
-  animation:fadeIn 1s ease forwards;
-}
-
-.hero h2 {
-  font-size:3rem;
-  margin-bottom:1rem;
-  line-height:1.2;
-  background: linear-gradient(90deg,#007cf0,#00dfd8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-  font-size:1.2rem;
-  margin-bottom:2rem;
-  opacity:0.8;
-}
-
-.hero button {
-  font-size:1.2rem;
-  padding:1rem 2.5rem;
-  background:#000;
-  color:#fff;
-  border:none;
-  cursor:pointer;
-  border-radius:10px;
-  font-weight:bold;
-  transition: all 0.3s ease;
-}
-
-.hero button:hover {
-  transform:translateY(-4px);
-  opacity:0.9;
-}
-
-/* FEATURES GRID */
-.grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-  gap:2rem;
-  margin-top:3rem;
-}
-
-.card {
-  padding:2rem;
-  border:1px solid #e0e0e0;
-  border-radius:12px;
-  text-align:center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor:pointer;
-  background:#fff;
-}
-
-.card:hover {
-  transform:translateY(-8px);
-  box-shadow:0 15px 25px rgba(0,0,0,0.1);
-}
-
-.card h3 {
-  margin-bottom:0.8rem;
-  color:#007cf0;
-}
-
-.card p {
-  opacity:0.7;
-  font-size:0.95rem;
-}
-
-/* SECTIONS */
-section {
-  max-width:1200px;
-  margin:auto;
-  padding:2rem;
-}
-
-/* CTA */
-.cta-section {
-  display:flex;
-  justify-content:center;
-  margin-top:2rem;
-}
-
-.cta-section button {
-  margin:0 1rem;
-}
-
-/* ANIMATION */
-@keyframes fadeIn {
-  from{opacity:0;}
-  to{opacity:1;}
-}
+/* Animations */
+@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
 </style>
 </head>
 <body>
@@ -158,57 +42,53 @@ section {
 <header>
     <h1>Kollect</h1>
     <nav>
-        <button onclick="location.href='signup.html'">Sign Up</button>
-        <button onclick="location.href='login.html'">Sign In</button>
+        <button onclick="window.location.href='signup.html'">Sign Up</button>
+        <button onclick="window.location.href='login.html'">Sign In</button>
     </nav>
 </header>
 
-<section class="hero">
-    <h2>Accept Payments Globally<br>Without a POS</h2>
-    <p>Kollect helps African businesses and individuals accept local and foreign cards seamlessly and securely.</p>
-    <div class="cta-section">
-        <button onclick="location.href='signup.html'">Get Started</button>
-        <button onclick="location.href='signup.html'">Why Kollect</button>
-    </div>
-</section>
+<div class="container">
 
-<section class="features">
-    <h2 style="text-align:center;">Kollect Features</h2>
-    <div class="grid">
-        <div class="card">
-            <h3>No Hardware Needed</h3>
-            <p>Accept payments from anywhere without a POS machine.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Accept Payments Globally<br>Without a POS</h2>
+        <p>Kollect helps African businesses and individuals accept local and foreign cards seamlessly and securely.</p>
+        <button onclick="window.location.href='signup.html'">Get Started</button>
+        <button onclick="showWhyKollect()">Why Kollect</button>
+    </section>
+
+    <!-- Why Kollect Section -->
+    <section id="whyKollect">
+        <h2>What is Kollect?</h2>
+        <p>Kollect is a virtual payment platform that lets you receive payments anywhere without needing a physical POS machine. Accept payments globally using your phone or laptop.</p>
+        
+        <h2>How It Works</h2>
+        <p><strong>Create Account:</strong> Sign up and access your dashboard instantly.</p>
+        <p><strong>Accept Payments:</strong> Use Virtual POS or payment links.</p>
+        <p><strong>Get Paid:</strong> Receive money instantly into your wallet.</p>
+
+        <h2>Built for Modern Payments</h2>
+        <p>Accept payments anywhere, anytime.</p>
+
+        <h2>Why Kollect</h2>
+        <div class="grid">
+            <div class="card">No Hardware Needed</div>
+            <div class="card">Accept Foreign Cards</div>
+            <div class="card">Instant Settlement</div>
+            <div class="card">Multi-Currency Support</div>
         </div>
-        <div class="card">
-            <h3>Accept Local & Foreign Cards</h3>
-            <p>Receive payments in NGN, GHS, RWF, and more.</p>
-        </div>
-        <div class="card">
-            <h3>Instant Settlement</h3>
-            <p>Funds appear in your wallet immediately.</p>
-        </div>
-        <div class="card">
-            <h3>Virtual POS / Payment Links</h3>
-            <p>Share links or QR codes to get paid instantly.</p>
-        </div>
-        <div class="card">
-            <h3>Secure Transactions</h3>
-            <p>256-bit encryption & PCI DSS compliant.</p>
-        </div>
-        <div class="card">
-            <h3>Transaction Reports</h3>
-            <p>View your full payment history in one dashboard.</p>
-        </div>
-        <div class="card">
-            <h3>Mobile & Web Ready</h3>
-            <p>Works perfectly on smartphones, tablets, and laptops.</p>
-        </div>
-        <div class="card">
-            <h3>Low Fees & Transparent Pricing</h3>
-            <p>Pay minimal fees with full transparency.</p>
-        </div>
-    </div>
-</section>
+    </section>
+
+</div>
+
+<script>
+// Show Why Kollect section
+function showWhyKollect() {
+    const section = document.getElementById('whyKollect');
+    section.classList.add('active');
+    section.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
 
 </body>
 </html>
