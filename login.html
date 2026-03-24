@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kollect | Login</title>
+<link rel="stylesheet" href="style.css">
+
+<!-- Firebase SDK first -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+<!-- Firebase config and app.js -->
+<script src="firebase.js"></script>
+<script src="app.js"></script>
+</head>
+<body>
+<div class="container">
+  <h2>Login</h2>
+
+  <input id="loginEmail" placeholder="Email">
+  <input id="loginPassword" placeholder="Password" type="password">
+
+  <!-- Login button triggers JS login() -->
+  <button class="primary" onclick="login(event)">Login</button>
+
+  <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+</div>
+</body>
+</html>
