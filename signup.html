@@ -6,21 +6,18 @@
 <title>Kollect | Sign Up</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body { margin:0; font-family:'Inter', sans-serif; background:#f5f7fa; color:#000; }
-.container { max-width:500px; margin:4rem auto; padding:2rem; border-radius:12px; background:#fff; box-shadow:0 15px 30px rgba(0,0,0,0.1); }
-h2 { text-align:center; margin-bottom:2rem; font-weight:700; background:linear-gradient(90deg,#007cf0,#00dfd8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-input, select { width:100%; padding:0.9rem; margin:0.8rem 0; border:1px solid #ccc; border-radius:8px; font-size:1rem; transition: all 0.3s ease; }
-input:focus, select:focus { border-color:#007cf0; box-shadow:0 0 5px rgba(0,124,240,0.3); outline:none; }
-button.primary { width:100%; padding:1rem; background:#000; color:#fff; border:none; font-weight:600; font-size:1rem; border-radius:10px; cursor:pointer; margin-top:1.5rem; transition: all 0.3s ease; }
-button.primary:hover { transform:translateY(-2px); opacity:0.9; }
+body { margin:0; font-family:'Inter', sans-serif; background:#eef2f3; color:#000; }
+.container { max-width:500px; margin:4rem auto; padding:2rem; border-radius:12px; background:linear-gradient(135deg,#f5f7fa,#c3cfe2); box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+h2 { text-align:center; margin-bottom:2rem; font-weight:700; }
+input, select { width:100%; padding:0.8rem; margin:0.8rem 0; border:1px solid #000; border-radius:6px; font-size:1rem; }
+input:focus, select:focus { outline:none; border-color:#6a11cb; box-shadow:0 0 5px rgba(106,17,203,0.3); }
+button.primary { width:100%; padding:0.8rem; background:linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; border:none; font-weight:600; font-size:1rem; border-radius:6px; cursor:pointer; margin-top:1rem; transition:0.3s; }
+button.primary:hover { opacity:0.9; transform:translateY(-2px); }
 .tab-selector { display:flex; justify-content:space-around; margin-bottom:2rem; }
-.tab-selector button { flex:1; padding:0.8rem 1rem; font-weight:600; border:none; cursor:pointer; border-radius:8px; transition: all 0.3s ease; background:#fff; border:2px solid #000; margin:0 0.2rem; }
-.tab-selector button.active { background:#000; color:#fff; }
+.tab-selector button { flex:1; padding:0.8rem 1rem; font-weight:600; border:none; cursor:pointer; border-radius:6px; transition:0.3s; background:#fff; border:2px solid #6a11cb; color:#6a11cb; }
+.tab-selector button.active { background:linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; }
 .tab-content { display:none; opacity:0; transform:translateY(20px); transition: all 0.5s ease; }
 .tab-content.active { display:block; opacity:1; transform:translateY(0); }
-.signup-footer { text-align:center; margin-top:1rem; }
-.signup-footer a { color:#007cf0; text-decoration:none; font-weight:600; }
-.signup-footer a:hover { text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -40,7 +37,7 @@ button.primary:hover { transform:translateY(-2px); opacity:0.9; }
         <input id="email" type="email" placeholder="Email">
         <input id="phone" type="tel" placeholder="Phone Number">
         <input id="password" type="password" placeholder="Password">
-        <button class="primary" onclick="signUp()">Sign Up</button>
+        <button class="primary" onclick="signUpUser()">Sign Up</button>
     </div>
 
     <!-- Business Signup -->
@@ -57,41 +54,37 @@ button.primary:hover { transform:translateY(-2px); opacity:0.9; }
         <input id="emailBus" type="email" placeholder="Email">
         <input id="phoneBus" type="tel" placeholder="Phone Number">
         <input id="passwordBus" type="password" placeholder="Password">
-        <button class="primary" onclick="signUp()">Sign Up</button>
-    </div>
-
-    <div class="signup-footer">
-        Already have an account? <a href="login.html">Sign In</a>
+        <button class="primary" onclick="signUpUser()">Sign Up</button>
     </div>
 </div>
 
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+<!-- Firebase 12 ES Module -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
-<script>
-// Firebase config
+// Firebase configuration
 const firebaseConfig = {
-    apiKey:  "AIzaSyBLN0O36j1DWxUN5U1B4iuP6kH-YNUENkk",
-    authDomain: "kollect-aa5a3.firebaseapp.com",
-    projectId: "kollect-aa5a3",
-    storageBucket: "kollect-aa5a3.firebasestorage.app",
-    messagingSenderId: "57011462366",
-    appId: "1:57011462366:web:a060ffe0e8be47f61ae24f",
-    measurementId: "G-QCP7K
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
 
-// Tab toggle
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Tab switch
 function showUserType(type){
     const individual = document.getElementById("individual");
     const business = document.getElementById("business");
     const individualBtn = document.getElementById("individualBtn");
     const businessBtn = document.getElementById("businessBtn");
-
     if(type==='individual'){
         individual.classList.add("active");
         business.classList.remove("active");
@@ -105,66 +98,44 @@ function showUserType(type){
     }
 }
 
-// Sign Up function
-function signUp(){
-    const btn = document.querySelector('.primary');
-    btn.disabled = true;
-    btn.innerText = "Creating Account...";
-
+// Signup function
+async function signUpUser(){
     const isIndividual = document.getElementById("individual").classList.contains("active");
-    let userData = {};
-    let email, phone, password;
+    let email, password, userData = {};
 
     if(isIndividual){
-        const fullName = document.getElementById("fullName").value.trim();
-        email = document.getElementById("email").value.trim();
-        phone = document.getElementById("phone").value.trim();
-        password = document.getElementById("password").value.trim();
-
-        if(!fullName || !email || !phone || !password){
-            alert("Please fill all fields");
-            btn.disabled = false; btn.innerText = "Sign Up"; return;
-        }
-        userData = { fullName, email, phone };
+        const fullName = document.getElementById("fullName").value;
+        email = document.getElementById("email").value;
+        password = document.getElementById("password").value;
+        const phone = document.getElementById("phone").value;
+        if(!fullName || !email || !password || !phone) return alert("Please fill all fields");
+        userData = { fullName, phone };
     } else {
-        const businessName = document.getElementById("businessName").value.trim();
+        const businessName = document.getElementById("businessName").value;
         const businessType = document.getElementById("businessType").value;
-        email = document.getElementById("emailBus").value.trim();
-        phone = document.getElementById("phoneBus").value.trim();
-        password = document.getElementById("passwordBus").value.trim();
-
-        if(!businessName || !businessType || !email || !phone || !password){
-            alert("Please fill all fields");
-            btn.disabled = false; btn.innerText = "Sign Up"; return;
-        }
-        userData = { businessName, businessType, email, phone };
+        email = document.getElementById("emailBus").value;
+        password = document.getElementById("passwordBus").value;
+        const phone = document.getElementById("phoneBus").value;
+        if(!businessName || !businessType || !email || !password || !phone) return alert("Please fill all fields");
+        userData = { businessName, businessType, phone };
     }
 
-    auth.createUserWithEmailAndPassword(email, password)
-    .then(userCredential=>{
-        const userId = userCredential.user.uid;
-        return db.collection("users").doc(userId).set({
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
+        await setDoc(doc(db, "users", uid), {
             userType: isIndividual ? "individual" : "business",
             details: userData,
             wallet: { NGN:0, GHS:0, RWF:0 },
             transactions: []
         });
-    })
-    .then(()=>{
-        alert("Account created successfully! Redirecting to dashboard...");
+        alert("Account created successfully!");
         window.location.href = "dashboard.html";
-    })
-    .catch(error=>{
-        if(error.code==='auth/email-already-in-use'){
-            alert("This email is already registered. Please sign in instead.");
-            window.location.href = "login.html";
-        } else {
-            alert(error.message);
-        }
-        btn.disabled = false;
-        btn.innerText = "Sign Up";
-    });
+    } catch(error) {
+        alert(error.message);
+    }
 }
 </script>
+
 </body>
 </html>
