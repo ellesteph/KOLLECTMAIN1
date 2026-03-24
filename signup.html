@@ -13,17 +13,11 @@ input, select { width:100%; padding:0.9rem; margin:0.8rem 0; border:1px solid #c
 input:focus, select:focus { border-color:#007cf0; box-shadow:0 0 5px rgba(0,124,240,0.3); outline:none; }
 button.primary { width:100%; padding:1rem; background:#000; color:#fff; border:none; font-weight:600; font-size:1rem; border-radius:10px; cursor:pointer; margin-top:1.5rem; transition: all 0.3s ease; }
 button.primary:hover { transform:translateY(-2px); opacity:0.9; }
-
-/* Tabs */
 .tab-selector { display:flex; justify-content:space-around; margin-bottom:2rem; }
 .tab-selector button { flex:1; padding:0.8rem 1rem; font-weight:600; border:none; cursor:pointer; border-radius:8px; transition: all 0.3s ease; background:#fff; border:2px solid #000; margin:0 0.2rem; }
 .tab-selector button.active { background:#000; color:#fff; }
-
-/* Tab Content */
 .tab-content { display:none; opacity:0; transform:translateY(20px); transition: all 0.5s ease; }
 .tab-content.active { display:block; opacity:1; transform:translateY(0); }
-
-/* Footer CTA */
 .signup-footer { text-align:center; margin-top:1rem; }
 .signup-footer a { color:#007cf0; text-decoration:none; font-weight:600; }
 .signup-footer a:hover { text-decoration:underline; }
@@ -72,16 +66,16 @@ button.primary:hover { transform:translateY(-2px); opacity:0.9; }
 </div>
 
 <!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
 <script>
 // Firebase config
 const firebaseConfig = {
-    apiKey: "AIzaSyBLN0O36j1DWxUN5U1B4iuP6kH-YNUENkk",
-    authDomain: "kollect-aa5a3.firebaseapp.com",
-    projectId: "kollect-aa5a3",
+    apiKey: "PASTE_YOURS",
+    authDomain: "PASTE_YOURS",
+    projectId: "PASTE_YOURS",
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -107,8 +101,12 @@ function showUserType(type){
     }
 }
 
-// Sign up function
+// Sign Up function
 function signUp(){
+    const btn = document.querySelector('.primary');
+    btn.disabled = true;
+    btn.innerText = "Creating Account...";
+
     const isIndividual = document.getElementById("individual").classList.contains("active");
     let userData = {};
     let email, phone, password;
@@ -119,7 +117,10 @@ function signUp(){
         phone = document.getElementById("phone").value.trim();
         password = document.getElementById("password").value.trim();
 
-        if(!fullName || !email || !phone || !password) return alert("Please fill all fields");
+        if(!fullName || !email || !phone || !password){
+            alert("Please fill all fields");
+            btn.disabled = false; btn.innerText = "Sign Up"; return;
+        }
         userData = { fullName, email, phone };
     } else {
         const businessName = document.getElementById("businessName").value.trim();
@@ -128,26 +129,38 @@ function signUp(){
         phone = document.getElementById("phoneBus").value.trim();
         password = document.getElementById("passwordBus").value.trim();
 
-        if(!businessName || !businessType || !email || !phone || !password) return alert("Please fill all fields");
+        if(!businessName || !businessType || !email || !phone || !password){
+            alert("Please fill all fields");
+            btn.disabled = false; btn.innerText = "Sign Up"; return;
+        }
         userData = { businessName, businessType, email, phone };
     }
 
     auth.createUserWithEmailAndPassword(email, password)
     .then(userCredential=>{
         const userId = userCredential.user.uid;
-        db.collection("users").doc(userId).set({
+        return db.collection("users").doc(userId).set({
             userType: isIndividual ? "individual" : "business",
             details: userData,
             wallet: { NGN:0, GHS:0, RWF:0 },
             transactions: []
-        }).then(()=> {
-            alert("Account created successfully!");
-            window.location.href = "dashboard.html";
         });
     })
-    .catch(error => alert(error.message));
+    .then(()=>{
+        alert("Account created successfully! Redirecting to dashboard...");
+        window.location.href = "dashboard.html";
+    })
+    .catch(error=>{
+        if(error.code==='auth/email-already-in-use'){
+            alert("This email is already registered. Please sign in instead.");
+            window.location.href = "login.html";
+        } else {
+            alert(error.message);
+        }
+        btn.disabled = false;
+        btn.innerText = "Sign Up";
+    });
 }
 </script>
-
 </body>
 </html>
