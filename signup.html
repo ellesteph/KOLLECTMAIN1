@@ -25,22 +25,22 @@ button.primary:hover { opacity:0.9; transform:translateY(-2px); }
 <div class="container">
     <h2>Create Your Kollect Account</h2>
 
-    <!-- User Type Tabs -->
+    <!-- Tabs -->
     <div class="tab-selector">
-        <button id="individualBtn" class="active" onclick="showUserType('individual')">Individual</button>
-        <button id="businessBtn" onclick="showUserType('business')">Business</button>
+        <button id="individualBtn" class="active">Individual</button>
+        <button id="businessBtn">Business</button>
     </div>
 
-    <!-- Individual Signup -->
+    <!-- Individual -->
     <div id="individual" class="tab-content active">
         <input id="fullName" placeholder="Full Name">
         <input id="email" type="email" placeholder="Email">
         <input id="phone" type="tel" placeholder="Phone Number">
         <input id="password" type="password" placeholder="Password">
-        <button class="primary" onclick="signUpUser()">Sign Up</button>
+        <button class="primary" onclick="signUp()">Sign Up</button>
     </div>
 
-    <!-- Business Signup -->
+    <!-- Business -->
     <div id="business" class="tab-content">
         <input id="businessName" placeholder="Business Name">
         <select id="businessType">
@@ -54,17 +54,17 @@ button.primary:hover { opacity:0.9; transform:translateY(-2px); }
         <input id="emailBus" type="email" placeholder="Email">
         <input id="phoneBus" type="tel" placeholder="Phone Number">
         <input id="passwordBus" type="password" placeholder="Password">
-        <button class="primary" onclick="signUpUser()">Sign Up</button>
+        <button class="primary" onclick="signUp()">Sign Up</button>
     </div>
 </div>
 
-<!-- Firebase 12 ES Module -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+<!-- Firebase CDN -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
-// Firebase configuration
+<script>
+// Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyBLN0O36j1DWxUN5U1B4iuP6kH-YNUENkk",
     authDomain: "kollect-aa5a3.firebaseapp.com",
@@ -75,40 +75,35 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-// Tab switch
-function showUserType(type){
-    const individual = document.getElementById("individual");
-    const business = document.getElementById("business");
-    const individualBtn = document.getElementById("individualBtn");
-    const businessBtn = document.getElementById("businessBtn");
-    if(type==='individual'){
-        individual.classList.add("active");
-        business.classList.remove("active");
-        individualBtn.classList.add("active");
-        businessBtn.classList.remove("active");
-    } else {
-        individual.classList.remove("active");
-        business.classList.add("active");
-        individualBtn.classList.remove("active");
-        businessBtn.classList.add("active");
-    }
-}
+// Tab toggle
+document.getElementById("individualBtn").addEventListener("click",()=>{
+    document.getElementById("individual").classList.add("active");
+    document.getElementById("business").classList.remove("active");
+    document.getElementById("individualBtn").classList.add("active");
+    document.getElementById("businessBtn").classList.remove("active");
+});
+document.getElementById("businessBtn").addEventListener("click",()=>{
+    document.getElementById("business").classList.add("active");
+    document.getElementById("individual").classList.remove("active");
+    document.getElementById("businessBtn").classList.add("active");
+    document.getElementById("individualBtn").classList.remove("active");
+});
 
 // Signup function
-async function signUpUser(){
+function signUp(){
     const isIndividual = document.getElementById("individual").classList.contains("active");
-    let email, password, userData = {};
+    let email, password, userData={};
 
     if(isIndividual){
         const fullName = document.getElementById("fullName").value;
         email = document.getElementById("email").value;
         password = document.getElementById("password").value;
         const phone = document.getElementById("phone").value;
-        if(!fullName || !email || !password || !phone) return alert("Please fill all fields");
+        if(!fullName || !email || !phone || !password) return alert("Please fill all fields");
         userData = { fullName, phone };
     } else {
         const businessName = document.getElementById("businessName").value;
@@ -116,24 +111,26 @@ async function signUpUser(){
         email = document.getElementById("emailBus").value;
         password = document.getElementById("passwordBus").value;
         const phone = document.getElementById("phoneBus").value;
-        if(!businessName || !businessType || !email || !password || !phone) return alert("Please fill all fields");
+        if(!businessName || !businessType || !email || !phone || !password) return alert("Please fill all fields");
         userData = { businessName, businessType, phone };
     }
 
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    auth.createUserWithEmailAndPassword(email,password)
+    .then(userCredential=>{
         const uid = userCredential.user.uid;
-        await setDoc(doc(db, "users", uid), {
-            userType: isIndividual ? "individual" : "business",
+        db.collection("users").doc(uid).set({
+            userType: isIndividual?"individual":"business",
             details: userData,
-            wallet: { NGN:0, GHS:0, RWF:0 },
-            transactions: []
+            wallet:{NGN:0,GHS:0,RWF:0},
+            transactions:[]
+        }).then(()=>{
+            alert("Account created successfully!");
+            window.location.href="dashboard.html";
         });
-        alert("Account created successfully!");
-        window.location.href = "dashboard.html";
-    } catch(error) {
+    })
+    .catch(error=>{
         alert(error.message);
-    }
+    });
 }
 </script>
 
