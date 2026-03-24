@@ -1,54 +1,20 @@
 // firebase.js
+import { initializeApp } from "firebase/app";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_ID",
-    appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBLN0O36j1DWxUN5U1B4iuP6kH-YNUENkk",
+  authDomain: "kollect-aa5a3.firebaseapp.com",
+  projectId: "kollect-aa5a3",
+  storageBucket: "kollect-aa5a3.firebasestorage.app",
+  messagingSenderId: "57011462366",
+  appId: "1:57011462366:web:a060ffe0e8be47f61ae24f",
+  measurementId: "G-QCP7K46FXY"
 };
 
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-// Sign-up
-function signUp() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-            const userId = userCredential.user.uid;
-            // Initialize wallet for user
-            db.collection("users").doc(userId).set({
-                balance: 0,
-                currency: "NGN",
-                transactions: []
-            });
-            alert("Account created successfully!");
-            window.location.href = "dashboard.html";
-        })
-        .catch((error) => alert(error.message));
-}
-
-// Login
-function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-            window.location.href = "dashboard.html";
-        })
-        .catch((error) => alert(error.message));
-}
-
-// Logout
-function logout() {
-    auth.signOut().then(() => {
-        window.location.href = "login.html";
-    });
-}
+export { auth, db };
