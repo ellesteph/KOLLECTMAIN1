@@ -4,40 +4,155 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kollect | Virtual POS</title>
-<link rel="stylesheet" href="style.css">
+
 <style>
-/* General Styles */
 body { margin:0; font-family:'Inter', sans-serif; background:#fff; color:#000; overflow-x:hidden; }
-header { padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:#fff; z-index:10; box-shadow:0 2px 4px rgba(0,0,0,0.05);}
+
+header {
+  padding:1rem 2rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  background:#fff;
+  z-index:10;
+  box-shadow:0 2px 4px rgba(0,0,0,0.05);
+}
+
 header h1 { font-weight:700; font-size:1.8rem; }
-header nav button { margin-left:1rem; padding:0.5rem 1rem; border:none; background:#000; color:#fff; font-weight:600; cursor:pointer; border-radius:4px; transition: all 0.3s ease; }
-header nav button:hover { transform:translateY(-2px); opacity:0.85; }
 
-.container { padding:4rem 2rem; max-width:1200px; margin:auto; }
+header nav button {
+  margin-left:1rem;
+  padding:0.6rem 1.2rem;
+  border:none;
+  background:#000;
+  color:#fff;
+  font-weight:600;
+  cursor:pointer;
+  border-radius:6px;
+  transition: all 0.3s ease;
+}
 
-/* Hero Section */
-.hero { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 2rem; animation:fadeIn 1s ease forwards; }
-.hero h2 { font-size:2.5rem; margin-bottom:1rem; }
-.hero p { font-size:1.2rem; margin-bottom:2rem; opacity:0.7; }
-.hero button { font-size:1rem; padding:0.8rem 2rem; background:#000; color:#fff; border:none; cursor:pointer; border-radius:4px; transition: all 0.3s ease; }
-.hero button:hover { transform:translateY(-3px); opacity:0.9; }
+header nav button:hover {
+  transform:translateY(-2px);
+  opacity:0.85;
+}
 
-/* Tab / Sections */
-.tab-bar { display:flex; justify-content:center; margin-bottom:2rem; gap:1rem; }
-.tab-bar button { padding:0.8rem 1.5rem; border:none; background:#000; color:#fff; cursor:pointer; border-radius:4px; font-weight:600; transition: all 0.3s ease; }
-.tab-bar button.active { background:#fff; color:#000; border:2px solid #000; }
-.tab-content { display:none; opacity:0; transform:translateY(20px); transition: all 0.5s ease; }
-.tab-content.active { display:block; opacity:1; transform:translateY(0); }
+/* HERO */
+.hero {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:6rem 2rem;
+  animation:fadeIn 1s ease forwards;
+}
 
-/* Features Cards */
-.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:2rem; margin-top:2rem; }
-.card { padding:2rem; border:1px solid #000; border-radius:8px; text-align:center; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor:pointer; }
-.card:hover { transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.1); }
+.hero h2 {
+  font-size:2.8rem;
+  margin-bottom:1rem;
+}
 
-/* Animations */
-@keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+.hero p {
+  font-size:1.2rem;
+  margin-bottom:2rem;
+  opacity:0.7;
+}
+
+.hero button {
+  font-size:1.1rem;
+  padding:1rem 2.5rem;
+  background:#000;
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  border-radius:8px;
+  font-weight:bold;
+  transition: all 0.3s ease;
+}
+
+.hero button:hover {
+  transform:translateY(-4px);
+  opacity:0.9;
+}
+
+/* TAB CONTENT */
+.tab-content {
+  display:none;
+  opacity:0;
+  transform:translateY(20px);
+  transition: all 0.5s ease;
+}
+
+.tab-content.active {
+  display:block;
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* GRID */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
+  gap:2rem;
+  margin-top:2rem;
+}
+
+/* CARDS */
+.card {
+  padding:2rem;
+  border:1px solid #000;
+  border-radius:8px;
+  text-align:center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor:pointer;
+}
+
+.card:hover {
+  transform:translateY(-5px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card h3 { margin-bottom:10px; }
+.card p { opacity:0.7; }
+
+/* IMAGE */
+img {
+  transition:0.3s;
+}
+img:hover {
+  transform:scale(1.03);
+}
+
+/* SIGNUP BOX */
+.signup-box {
+  max-width:400px;
+  margin:3rem auto;
+  padding:2rem;
+  border:1px solid #000;
+  border-radius:10px;
+}
+
+.signup-box button {
+  width:100%;
+  margin-top:1.5rem;
+  padding:1rem;
+  font-size:1rem;
+  font-weight:bold;
+  border-radius:8px;
+  background:#000;
+  color:#fff;
+}
+
+@keyframes fadeIn {
+  from{opacity:0;}
+  to{opacity:1;}
+}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -45,64 +160,119 @@ header nav button:hover { transform:translateY(-2px); opacity:0.85; }
     <nav>
         <button class="tab-btn active" onclick="openTab(event,'about')">About</button>
         <button class="tab-btn" onclick="openTab(event,'signup')">Sign Up</button>
+        <button onclick="location.href='login.html'">Sign In</button>
     </nav>
 </header>
 
 <div class="container">
 
-    <!-- About Tab -->
-    <div id="about" class="tab-content active">
-        <section class="hero">
-            <h2>Accept Payments Globally<br>Without a POS</h2>
-            <p>Kollect helps African businesses and individuals accept local and foreign cards seamlessly and securely.</p>
-            <button onclick="openTabFromCode('signup')">Get Started</button>
-        </section>
+<!-- ABOUT -->
+<div id="about" class="tab-content active">
 
-        <section class="features">
-            <h2 style="text-align:center; margin-top:4rem;">Why Kollect</h2>
-            <div class="grid">
-                <div class="card">No Hardware Needed</div>
-                <div class="card">Accept Foreign Cards</div>
-                <div class="card">Instant Settlement</div>
-                <div class="card">Multi-Currency Support</div>
+    <section class="hero">
+        <h2>Accept Payments Globally<br>Without a POS</h2>
+        <p>Kollect helps African businesses and individuals accept local and foreign cards seamlessly and securely.</p>
+        <button onclick="openTabFromCode('signup')">Get Started</button>
+    </section>
+
+    <section style="text-align:center; margin-top:4rem;">
+        <h2>What is Kollect?</h2>
+        <p style="max-width:600px; margin:auto; opacity:0.7;">
+            Kollect is a virtual payment platform that lets you receive payments anywhere without needing a physical POS machine.
+            Accept payments globally using your phone or laptop.
+        </p>
+    </section>
+
+    <section style="margin-top:4rem;">
+        <h2 style="text-align:center;">How It Works</h2>
+        <div class="grid">
+            <div class="card">
+                <h3> Create Account</h3>
+                <p>Sign up and access your dashboard instantly.</p>
             </div>
-        </section>
-    </div>
 
-    <!-- Sign Up Tab -->
-    <div id="signup" class="tab-content">
-        <section style="text-align:center; padding:4rem 2rem;">
-            <h2>Create Your Kollect Account</h2>
-            <button style="margin-top:2rem;" onclick="location.href='signup.html'">Get Started / Sign Up</button>
-        </section>
-    </div>
+            <div class="card">
+                <h3> Accept Payments</h3>
+                <p>Use Virtual POS or payment links.</p>
+            </div>
+
+            <div class="card">
+                <h3> Get Paid</h3>
+                <p>Receive money instantly into your wallet.</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="margin-top:4rem; text-align:center;">
+        <h2>Built for Modern Payments</h2>
+        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3"
+             style="width:90%; max-width:700px; border-radius:10px; margin-top:20px;">
+        <p style="margin-top:1rem; opacity:0.6;">
+            Accept payments anywhere, anytime.
+        </p>
+    </section>
+
+    <section class="features">
+        <h2 style="text-align:center; margin-top:4rem;">Why Kollect</h2>
+        <div class="grid">
+            <div class="card"> No Hardware Needed</div>
+            <div class="card"> Accept Foreign Cards</div>
+            <div class="card"> Instant Settlement</div>
+            <div class="card"> Multi-Currency Support</div>
+        </div>
+    </section>
+
+</div>
+
+<!-- SIGNUP -->
+<div id="signup" class="tab-content">
+    <section style="text-align:center; padding:4rem 2rem;">
+        <h2>Create Your Kollect Account</h2>
+
+        <div class="signup-box">
+            <p>Start accepting payments in minutes.</p>
+
+            <button onclick="location.href='signup.html'">
+                Create Account
+            </button>
+
+            <p style="margin-top:1rem;">
+                Already have an account?
+                <a href="login.html">Sign In</a>
+            </p>
+        </div>
+    </section>
+</div>
 
 </div>
 
 <script>
-// Tab switching
 function openTab(evt, tabName){
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(tc => tc.classList.remove('active'));
+
     const buttons = document.querySelectorAll('.tab-btn');
     buttons.forEach(btn => btn.classList.remove('active'));
+
     document.getElementById(tabName).classList.add('active');
 
-    // Activate button if event exists
     if(evt) evt.currentTarget.classList.add('active');
 }
 
-// Open tab programmatically from hero button
 function openTabFromCode(tabName){
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn=>{
-        if(btn.textContent.toLowerCase() === tabName){
-            btn.click();
-        } else btn.classList.remove('active');
-    });
     const tabContents = document.querySelectorAll('.tab-content');
     tabContents.forEach(tc => tc.classList.remove('active'));
+
     document.getElementById(tabName).classList.add('active');
+
+    const buttons = document.querySelectorAll('.tab-btn');
+    buttons.forEach(btn => {
+        if(btn.textContent.toLowerCase() === tabName){
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
 }
 </script>
 
