@@ -6,16 +6,20 @@
 <title>Kollect | Sign Up</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-body { margin:0; font-family:'Inter', sans-serif; background:#eef2f3; color:#000; }
-.container { max-width:500px; margin:4rem auto; padding:2rem; border-radius:12px; background:linear-gradient(135deg,#f5f7fa,#c3cfe2); box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+body { margin:0; font-family:'Inter', sans-serif; background:#fff; color:#000; }
+.container { max-width:500px; margin:5rem auto; padding:2rem; border:1px solid #000; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.05); }
 h2 { text-align:center; margin-bottom:2rem; font-weight:700; }
-input, select { width:100%; padding:0.8rem; margin:0.8rem 0; border:1px solid #000; border-radius:6px; font-size:1rem; }
-input:focus, select:focus { outline:none; border-color:#6a11cb; box-shadow:0 0 5px rgba(106,17,203,0.3); }
-button.primary { width:100%; padding:0.8rem; background:linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; border:none; font-weight:600; font-size:1rem; border-radius:6px; cursor:pointer; margin-top:1rem; transition:0.3s; }
-button.primary:hover { opacity:0.9; transform:translateY(-2px); }
+input, select { width:100%; padding:0.8rem; margin:0.8rem 0; border:1px solid #000; border-radius:6px; font-size:1rem; transition: all 0.3s ease; }
+input:focus, select:focus { border-color:#000; box-shadow:0 0 5px rgba(0,0,0,0.2); outline:none; }
+button.primary { width:100%; padding:0.8rem; background:#000; color:#fff; border:none; font-weight:600; font-size:1rem; border-radius:6px; cursor:pointer; margin-top:1rem; transition: all 0.3s ease; }
+button.primary:hover { transform:translateY(-2px); opacity:0.85; }
+
+/* Tab selection */
 .tab-selector { display:flex; justify-content:space-around; margin-bottom:2rem; }
-.tab-selector button { flex:1; padding:0.8rem 1rem; font-weight:600; border:none; cursor:pointer; border-radius:6px; transition:0.3s; background:#fff; border:2px solid #6a11cb; color:#6a11cb; }
-.tab-selector button.active { background:linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; }
+.tab-selector button { flex:1; padding:0.8rem 1rem; font-weight:600; border:none; cursor:pointer; border-radius:6px; transition: all 0.3s ease; background:#fff; border:2px solid #000; }
+.tab-selector button.active { background:#000; color:#fff; }
+
+/* Smooth show/hide */
 .tab-content { display:none; opacity:0; transform:translateY(20px); transition: all 0.5s ease; }
 .tab-content.active { display:block; opacity:1; transform:translateY(0); }
 </style>
@@ -25,13 +29,13 @@ button.primary:hover { opacity:0.9; transform:translateY(-2px); }
 <div class="container">
     <h2>Create Your Kollect Account</h2>
 
-    <!-- Tabs -->
+    <!-- User Type Tabs -->
     <div class="tab-selector">
-        <button id="individualBtn" class="active">Individual</button>
-        <button id="businessBtn">Business</button>
+        <button id="individualBtn" class="active" onclick="showUserType('individual')">Individual</button>
+        <button id="businessBtn" onclick="showUserType('business')">Business</button>
     </div>
 
-    <!-- Individual -->
+    <!-- Individual Signup -->
     <div id="individual" class="tab-content active">
         <input id="fullName" placeholder="Full Name">
         <input id="email" type="email" placeholder="Email">
@@ -40,7 +44,7 @@ button.primary:hover { opacity:0.9; transform:translateY(-2px); }
         <button class="primary" onclick="signUp()">Sign Up</button>
     </div>
 
-    <!-- Business -->
+    <!-- Business Signup -->
     <div id="business" class="tab-content">
         <input id="businessName" placeholder="Business Name">
         <select id="businessType">
@@ -58,79 +62,79 @@ button.primary:hover { opacity:0.9; transform:translateY(-2px); }
     </div>
 </div>
 
-<!-- Firebase CDN -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 <script>
-// Firebase config
 const firebaseConfig = {
     apiKey: "AIzaSyBLN0O36j1DWxUN5U1B4iuP6kH-YNUENkk",
     authDomain: "kollect-aa5a3.firebaseapp.com",
     projectId: "kollect-aa5a3",
-    storageBucket: "kollect-aa5a3.firebasestorage.app",
-    messagingSenderId: "57011462366",
-    appId: "1:57011462366:web:a060ffe0e8be47f61ae24f",
 };
-
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Tab toggle
-document.getElementById("individualBtn").addEventListener("click",()=>{
-    document.getElementById("individual").classList.add("active");
-    document.getElementById("business").classList.remove("active");
-    document.getElementById("individualBtn").classList.add("active");
-    document.getElementById("businessBtn").classList.remove("active");
-});
-document.getElementById("businessBtn").addEventListener("click",()=>{
-    document.getElementById("business").classList.add("active");
-    document.getElementById("individual").classList.remove("active");
-    document.getElementById("businessBtn").classList.add("active");
-    document.getElementById("individualBtn").classList.remove("active");
-});
+// Toggle Individual / Business tabs
+function showUserType(type){
+    const individual = document.getElementById("individual");
+    const business = document.getElementById("business");
+    const individualBtn = document.getElementById("individualBtn");
+    const businessBtn = document.getElementById("businessBtn");
+
+    if(type==='individual'){
+        individual.classList.add("active");
+        business.classList.remove("active");
+        individualBtn.classList.add("active");
+        businessBtn.classList.remove("active");
+    } else {
+        individual.classList.remove("active");
+        business.classList.add("active");
+        individualBtn.classList.remove("active");
+        businessBtn.classList.add("active");
+    }
+}
 
 // Signup function
 function signUp(){
-    const isIndividual = document.getElementById("individual").classList.contains("active");
-    let email, password, userData={};
+    const userType = document.getElementById("individual").classList.contains("active") ? "individual" : "business";
+    let userData = {};
+    let email, phone, password;
 
-    if(isIndividual){
-        const fullName = document.getElementById("fullName").value;
-        email = document.getElementById("email").value;
-        password = document.getElementById("password").value;
-        const phone = document.getElementById("phone").value;
+    if(userType === "individual"){
+        const fullName = document.getElementById("fullName").value.trim();
+        email = document.getElementById("email").value.trim();
+        phone = document.getElementById("phone").value.trim();
+        password = document.getElementById("password").value.trim();
+
         if(!fullName || !email || !phone || !password) return alert("Please fill all fields");
-        userData = { fullName, phone };
+        userData = { fullName, email, phone };
     } else {
-        const businessName = document.getElementById("businessName").value;
+        const businessName = document.getElementById("businessName").value.trim();
         const businessType = document.getElementById("businessType").value;
-        email = document.getElementById("emailBus").value;
-        password = document.getElementById("passwordBus").value;
-        const phone = document.getElementById("phoneBus").value;
+        email = document.getElementById("emailBus").value.trim();
+        phone = document.getElementById("phoneBus").value.trim();
+        password = document.getElementById("passwordBus").value.trim();
+
         if(!businessName || !businessType || !email || !phone || !password) return alert("Please fill all fields");
-        userData = { businessName, businessType, phone };
+        userData = { businessName, businessType, email, phone };
     }
 
-    auth.createUserWithEmailAndPassword(email,password)
+    auth.createUserWithEmailAndPassword(email, password)
     .then(userCredential=>{
-        const uid = userCredential.user.uid;
-        db.collection("users").doc(uid).set({
-            userType: isIndividual?"individual":"business",
+        const userId = userCredential.user.uid;
+        db.collection("users").doc(userId).set({
+            userType,
             details: userData,
-            wallet:{NGN:0,GHS:0,RWF:0},
-            transactions:[]
-        }).then(()=>{
+            wallet: { NGN:0, GHS:0, RWF:0 },
+            transactions: []
+        }).then(()=> {
             alert("Account created successfully!");
-            window.location.href="dashboard.html";
+            window.location.href = "dashboard.html";
         });
     })
-    .catch(error=>{
-        alert(error.message);
-    });
+    .catch(error => alert(error.message));
 }
 </script>
 
