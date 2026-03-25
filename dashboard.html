@@ -74,51 +74,41 @@ header{
     cursor:pointer;
 }
 
-/* SWITCHER LINE */
-.switcher-container{
+/* DASHBOARD SWITCHER */
+#dashboardSwitcher {
     display:flex;
-    justify-content:center;
+    justify-content:space-around;
     align-items:center;
-    position:relative;
-    margin:1rem 0;
-}
-
-.switcher-line{
-    position:relative;
-    width:90%;
-    height:40px;
     background:#000;
-    border-radius:20px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 5%;
+    border-radius:25px;
+    margin:1rem;
+    height:50px;
+    max-width:400px;
+    margin-left:auto;
+    margin-right:auto;
+    position:relative;
 }
 
-.switcher-option{
-    position:relative;
-    z-index:2;
-    flex:1;
-    text-align:center;
-    color:#000;
+.switcher-option {
     font-weight:600;
     cursor:pointer;
-    transition:0.3s;
+    position:relative;
+    z-index:2;
+    color:#000;
 }
 
-.switcher-option.active{
-    color:#fff;
-}
+.switcher-option.active { color:#fff; }
 
-.switcher-indicator{
+/* Curved active indicator */
+#switcherIndicator{
     position:absolute;
-    width:48%;
-    height:32px;
-    background:#000;
-    border-radius:16px;
-    top:4px;
-    left:0;
-    transition:0.3s;
+    top:-5px;
+    width:50%;
+    height:60px;
+    background:#fff;
+    border-radius:30px;
+    transition:0.3s all ease;
+    z-index:1;
 }
 
 /* QUICK ACTIONS */
@@ -229,7 +219,7 @@ header{
     color:#fff;
 }
 
-/* POS & CARDS */
+/* POS */
 .section{
     padding:1rem;
 }
@@ -240,7 +230,7 @@ header{
     overflow-x:auto;
 }
 
-.pos-card, .feature-card{
+.pos-card{
     min-width:190px;
     background:#fff;
     border-radius:18px;
@@ -250,14 +240,8 @@ header{
     cursor:pointer;
 }
 
-.pos-card:hover, .feature-card:hover{
+.pos-card:hover{
     transform:translateY(-3px);
-}
-
-.feature-card h4{
-    font-size:0.9rem;
-    font-weight:600;
-    margin-bottom:0.5rem;
 }
 
 /* TRANSACTIONS */
@@ -369,63 +353,129 @@ header{
     </div>
 </header>
 
-<!-- SWITCHER LINE -->
-<div class="switcher-container">
-    <div class="switcher-line">
-        <div class="switcher-indicator" id="switcherIndicator"></div>
-        <div class="switcher-option active" data-type="individual" onclick="switchDashboard('individual')">Individual</div>
-        <div class="switcher-option" data-type="business" onclick="switchDashboard('business')">Business</div>
+<!-- DASHBOARD SWITCHER LINE -->
+<div id="dashboardSwitcher">
+    <div class="switcher-option active" data-type="individual" onclick="switchDashboard('individual')">Individual</div>
+    <div class="switcher-option" data-type="business" onclick="switchDashboard('business')">Business</div>
+    <div id="switcherIndicator"></div>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="quick-actions">
+    <div class="quick-action-btn" onclick="alert('Top Up Airtime')">
+        <i data-feather="smartphone"></i>
+        <div>Airtime</div>
+    </div>
+    <div class="quick-action-btn" onclick="alert('Top Up Data')">
+        <i data-feather="wifi"></i>
+        <div>Data</div>
     </div>
 </div>
 
-<!-- DASHBOARD CONTENT -->
-<div id="dashboardContent">
-    <!-- Individual dashboard will stay here -->
+<!-- WALLET CARDS -->
+<div class="wallet-container">
+
+    <!-- Naira Wallet -->
+    <div class="wallet-card" style="background:#000;" data-wallet="NGN">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance">₦245,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
+    <!-- GH₵ Wallet -->
+    <div class="wallet-card" style="background:purple;" data-wallet="GHS">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance-ghs">GH₵12,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
+    <!-- RWF Wallet -->
+    <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance-rwf">RWF 300,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
+    <!-- CURVED EDGE CURRENCIES -->
+    <div class="currency-cut">
+        <span class="active" onclick="showWallet('NGN')">₦</span>
+        <span onclick="showWallet('GHS')">GH₵</span>
+        <span onclick="showWallet('RWF')">RWF</span>
+        <span class="more">+</span>
+    </div>
 </div>
 
-<!-- BUSINESS DASHBOARD -->
-<div id="businessSection" style="display:none;">
-    <!-- Smart Payments -->
-    <div class="section">
-        <h3>Smart Payments</h3>
-        <div class="pos-row">
-            <div class="feature-card"><h4>Dynamic Payment Links</h4><p>Links adapt to customer currency/location</p></div>
-            <div class="feature-card"><h4>Smart Split Payment</h4><p>Split invoices among multiple customers/wallets</p></div>
-            <div class="feature-card"><h4>Offline POS Sync</h4><p>Offline payments auto-sync</p></div>
-            <div class="feature-card"><h4>AI Fraud Prevention</h4><p>Detect unusual or duplicate transactions</p></div>
+<!-- POS -->
+<div class="section">
+    <h3>Virtual POS</h3>
+    <div class="pos-row">
+        <div class="pos-card" onclick="openPOS('₦ Naira')">
+            <strong>₦ Naira Payments</strong>
+            <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
+        </div>
+        <div class="pos-card" onclick="openPOS('$ USD')">
+            <strong>$ USD Payments</strong>
+            <p style="font-size:0.8rem;color:#555;">Accept payments in USD</p>
+        </div>
+        <div class="pos-card" onclick="openPOS('+ More')">
+            <strong>+ More</strong>
+        </div>
+    </div>
+</div>
+
+<!-- BUSINESS FEATURES SECTION (Dynamically Shown) -->
+<div id="businessSection" style="display:none;"></div>
+
+<!-- TRANSACTIONS -->
+<div class="section">
+    <div class="tx-header">
+        <div class="tx-filters">
+            <button class="active" onclick="filterTx('all')">All</button>
+            <button onclick="filterTx('credit')">Credits</button>
+            <button onclick="filterTx('debit')">Debits</button>
+        </div>
+        <div class="tx-search">
+            <input type="text" placeholder="Search" id="txSearch" oninput="searchTx()">
         </div>
     </div>
 
-    <!-- Business Insights & Gamification -->
-    <div class="section">
-        <h3>Business Insights & Gamification</h3>
-        <div class="pos-row">
-            <div class="feature-card"><h4>AI Revenue Insights</h4><p>Predict sales & suggest optimal pricing</p></div>
-            <div class="feature-card"><h4>Gamified Growth</h4><p>Badges & rewards for milestones</p></div>
-            <div class="feature-card"><h4>Customer Loyalty Analytics</h4><p>Track top customers & automate offers</p></div>
+    <div id="txList">
+        <div class="tx" data-type="credit">
+            <span>Fund Wallet</span><span class="credit">+ ₦50,000</span>
+        </div>
+        <div class="tx" data-type="debit">
+            <span>Sent to David</span><span class="debit">- ₦5,000</span>
+        </div>
+        <div class="tx" data-type="credit">
+            <span>Received from Jane</span><span class="credit">+ ₦20,000</span>
         </div>
     </div>
+</div>
 
-    <!-- Cross-Border & Currency -->
-    <div class="section">
-        <h3>Cross-Border & Currency</h3>
-        <div class="pos-row">
-            <div class="feature-card"><h4>Auto FX Conversion</h4><p>Real-time currency conversion</p></div>
-            <div class="feature-card"><h4>Cross-Border Analytics</h4><p>See revenue by country</p></div>
-            <div class="feature-card"><h4>Currency-Specific Actions</h4><p>Pay local suppliers directly</p></div>
-        </div>
-    </div>
-
-    <!-- Advanced Features -->
-    <div class="section">
-        <h3>Advanced Features</h3>
-        <div class="pos-row">
-            <div class="feature-card"><h4>Smart Virtual POS</h4><p>Link QR codes to items & shareable links</p></div>
-            <div class="feature-card"><h4>Offline Payment Capability</h4><p>Terminals store offline transactions</p></div>
-            <div class="feature-card"><h4>Automated Invoicing</h4><p>Recurring invoices & subscriptions</p></div>
-            <div class="feature-card"><h4>Customer Insights</h4><p>Loyalty & purchase history analytics</p></div>
-            <div class="feature-card"><h4>Expense & Cash Flow</h4><p>Track all incoming/outgoing & reports</p></div>
-        </div>
+<!-- POS MODAL -->
+<div class="modal" id="posModal">
+    <div class="modal-content">
+        <h3 id="posTitle">POS Payment</h3>
+        <input type="number" placeholder="Amount">
+        <input type="text" placeholder="Card Number">
+        <input type="text" placeholder="MM/YY">
+        <input type="text" placeholder="CVC">
+        <button onclick="closePOS()">Pay Now</button>
     </div>
 </div>
 
@@ -458,10 +508,74 @@ else if(h<18) g="Good Afternoon";
 else g="Good Evening";
 document.getElementById("userName").innerText = g + " 👋";
 
-/* SWITCH DASHBOARD */
+/* SHOW SELECTED WALLET */
+function showWallet(wallet){
+    const wallets = document.querySelectorAll(".wallet-card");
+    wallets.forEach(w=>{
+        w.style.display = w.dataset.wallet===wallet ? "block" : "none";
+    });
+    document.querySelectorAll(".currency-cut span").forEach(span=>{
+        span.classList.remove("active");
+        if(span.textContent.includes(wallet)) span.classList.add("active");
+    });
+}
+
+// Initialize: show Naira first
+showWallet('NGN');
+
+/* POS MODAL */
+function openPOS(name){
+    document.getElementById("posTitle").innerText = name + " Payment";
+    document.getElementById("posModal").style.display = "flex";
+}
+
+function closePOS(){
+    document.getElementById("posModal").style.display = "none";
+    alert("Payment submitted!");
+}
+
+/* TRANSACTION FILTER */
+function filterTx(type){
+    const buttons = document.querySelectorAll(".tx-filters button");
+    buttons.forEach(b => b.classList.remove("active"));
+    event.target.classList.add("active");
+
+    const txs = document.querySelectorAll("#txList .tx");
+    txs.forEach(tx => {
+        if(type==="all" || tx.dataset.type===type) tx.style.display="flex";
+        else tx.style.display="none";
+    });
+}
+
+/* SEARCH TX */
+function searchTx(){
+    const val = document.getElementById("txSearch").value.toLowerCase();
+    const txs = document.querySelectorAll("#txList .tx");
+    txs.forEach(tx => {
+        const text = tx.innerText.toLowerCase();
+        tx.style.display = text.includes(val) ? "flex" : "none";
+    });
+}
+
+/* DASHBOARD SWITCHER */
+let currentDashboard = 'individual';
+const indicator = document.getElementById('switcherIndicator');
+const options = document.querySelectorAll('.switcher-option');
+
+function initSwitcher(){
+    options.forEach(opt=>{
+        opt.classList.remove('active');
+        opt.style.color = '#000';
+    });
+    const activeOpt = document.querySelector(`.switcher-option[data-type="${currentDashboard}"]`);
+    activeOpt.classList.add('active');
+    activeOpt.style.color = '#fff';
+    indicator.style.left = currentDashboard === 'individual' ? '0%' : '50%';
+    showBusinessFeatures(currentDashboard === 'business');
+}
+
 function switchDashboard(type){
-    const indicator = document.getElementById('switcherIndicator');
-    const options = document.querySelectorAll('.switcher-option');
+    currentDashboard = type;
     options.forEach(opt=>{
         opt.classList.remove('active');
         opt.style.color = '#000';
@@ -469,16 +583,114 @@ function switchDashboard(type){
     const activeOpt = document.querySelector(`.switcher-option[data-type="${type}"]`);
     activeOpt.classList.add('active');
     activeOpt.style.color = '#fff';
-    indicator.style.left = type==='individual' ? '0%' : '50%';
-
-    document.getElementById('dashboardContent').style.display = type==='individual' ? 'block' : 'none';
-    document.getElementById('businessSection').style.display = type==='business' ? 'block' : 'none';
+    indicator.style.left = type === 'individual' ? '0%' : '50%';
+    showBusinessFeatures(type === 'business');
 }
 
-// Initialize Individual dashboard visible by default
-document.getElementById('dashboardContent').style.display = 'block';
-document.getElementById('businessSection').style.display = 'none';
-</script>
+/* SHOW/HIDE BUSINESS FEATURES */
+function showBusinessFeatures(show){
+    let businessSection = document.getElementById('businessSection');
 
+    if(show){
+        if(!businessSection.innerHTML){
+            businessSection.innerHTML = `
+                <h3>Kollect Business Features</h3>
+                <div class="pos-row">
+                    <div class="pos-card" onclick="openPOS('₦ Naira')">
+                        <strong>₦ Naira Payments</strong>
+                        <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
+                    </div>
+                    <div class="pos-card" onclick="openPOS('GH₵ Cedis')">
+                        <strong>GH₵ Payments</strong>
+                        <p style="font-size:0.8rem;color:#555;">Accept payments in Cedis</p>
+                    </div>
+                    <div class="pos-card" onclick="openPOS('RWF')">
+                        <strong>RWF Payments</strong>
+                        <p style="font-size:0.8rem;color:#555;">Accept payments in RWF</p>
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS SAME AS INDIVIDUAL -->
+                <div class="quick-actions">
+                    <div class="quick-action-btn" onclick="alert('Top Up Airtime')">
+                        <i data-feather="smartphone"></i>
+                        <div>Airtime</div>
+                    </div>
+                    <div class="quick-action-btn" onclick="alert('Top Up Data')">
+                        <i data-feather="wifi"></i>
+                        <div>Data</div>
+                    </div>
+                </div>
+
+                <!-- WALLETS SAME AS INDIVIDUAL -->
+                <div class="wallet-container">
+
+                    <!-- Naira Wallet -->
+                    <div class="wallet-card" style="background:#000;" data-wallet="NGN">
+                        <div class="balance-label">Available Balance</div>
+                        <div class="balance-amount" id="balance-business">₦245,000</div>
+                        <div class="actions">
+                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+                        </div>
+                    </div>
+
+                    <!-- GH₵ Wallet -->
+                    <div class="wallet-card" style="background:purple;" data-wallet="GHS">
+                        <div class="balance-label">Available Balance</div>
+                        <div class="balance-amount" id="balance-ghs-business">GH₵12,000</div>
+                        <div class="actions">
+                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+                        </div>
+                    </div>
+
+                    <!-- RWF Wallet -->
+                    <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
+                        <div class="balance-label">Available Balance</div>
+                        <div class="balance-amount" id="balance-rwf-business">RWF 300,000</div>
+                        <div class="actions">
+                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+                        </div>
+                    </div>
+
+                    <!-- CURVED EDGE CURRENCIES -->
+                    <div class="currency-cut">
+                        <span class="active" onclick="showWalletBusiness('NGN')">₦</span>
+                        <span onclick="showWalletBusiness('GHS')">GH₵</span>
+                        <span onclick="showWalletBusiness('RWF')">RWF</span>
+                    </div>
+                </div>
+            `;
+            feather.replace();
+        }
+        businessSection.style.display = 'block';
+    } else {
+        businessSection.style.display = 'none';
+    }
+}
+
+// Show wallet in business section
+function showWalletBusiness(wallet){
+    const wallets = document.querySelectorAll("#businessSection .wallet-card");
+    wallets.forEach(w=>{
+        w.style.display = w.dataset.wallet===wallet ? "block" : "none";
+    });
+    document.querySelectorAll("#businessSection .currency-cut span").forEach(span=>{
+        span.classList.remove("active");
+        if(span.textContent.includes(wallet)) span.classList.add("active");
+    });
+    showWalletBusiness('NGN'); // default
+}
+
+initSwitcher();
+</script>
 </body>
 </html>
