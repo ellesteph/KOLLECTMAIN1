@@ -4,32 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kollect | Login</title>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 body { margin:0; font-family:'Inter', sans-serif; background:#f5f7fa; }
 .container { max-width:400px; margin:6rem auto; padding:2rem; background:#fff; border-radius:12px; box-shadow:0 15px 30px rgba(0,0,0,0.1); }
 input { width:100%; padding:0.9rem; margin:0.8rem 0; border-radius:8px; border:1px solid #ccc; }
-button { width:100%; padding:1rem; background:#000; color:#fff; border:none; border-radius:10px; margin-top:1rem; }
+button { width:100%; padding:1rem; background:#000; color:#fff; border:none; border-radius:10px; margin-top:1rem; cursor:pointer; }
+button:hover { opacity:0.9; transform:translateY(-1px); transition:0.3s; }
+p { text-align:center; margin-top:1rem; }
+a { color:#007cf0; text-decoration:none; font-weight:600; }
+a:hover { text-decoration:underline; }
 </style>
 </head>
 
 <body>
-
 <div class="container">
   <h2>Login</h2>
 
   <input id="loginEmail" placeholder="Email">
   <input id="loginPassword" type="password" placeholder="Password">
 
-  <button onclick="login()">Login</button>
+  <button id="loginBtn" onclick="login()">Login</button>
 
   <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
 </div>
+
+<!-- Firebase v8 (compat) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
 // Firebase config
@@ -38,22 +41,19 @@ const firebaseConfig = {
   authDomain: "kollect-aa5a3.firebaseapp.com",
   projectId: "kollect-aa5a3",
 };
-
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 
-//  AUTO REDIRECT IF ALREADY LOGGED IN
+// Auto redirect if already logged in
 auth.onAuthStateChanged(user => {
     if (user) {
-        if (!window.location.href.includes("dashboard.html")) {
-            window.location.href = "dashboard.html";
-        }
+        window.location.href = "dashboard.html";
     }
 });
 
-//  LOGIN FUNCTION (FIXED)
+// Login function
 function login(){
-    const btn = document.querySelector('button');
+    const btn = document.getElementById('loginBtn');
     btn.disabled = true;
     btn.innerText = "Logging in...";
 
@@ -69,10 +69,8 @@ function login(){
 
     auth.signInWithEmailAndPassword(email, password)
     .then(() => {
-        console.log("Login success");
-
-        // INSTANT REDIRECT (MAIN FIX)
-        window.location.href = "dashboard.html";
+        console.log("Login successful, redirecting...");
+        // AuthState listener will handle redirect
     })
     .catch(error => {
         alert(error.message);
@@ -81,6 +79,5 @@ function login(){
     });
 }
 </script>
-
 </body>
 </html>
