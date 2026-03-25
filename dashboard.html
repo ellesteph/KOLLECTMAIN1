@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kollect</title>
+<title>Kollect Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/feather-icons"></script>
 
@@ -98,7 +98,7 @@ header{
     transform:translateY(-3px);
 }
 
-/* WALLET CARD */
+/* WALLET CARDS */
 .wallet-container{
     position:relative;
     margin:1rem;
@@ -106,14 +106,28 @@ header{
     height:auto;
 }
 
+/* PREMIUM WALLET CARD */
 .wallet-card{
     border-radius:28px;
-    padding:1.8rem 1.5rem;
+    padding:2rem 1.5rem 1.5rem 1.5rem;
     color:#fff;
     position:relative;
     box-shadow:0 20px 50px rgba(0,0,0,0.2);
     transition:transform 0.4s ease, opacity 0.4s ease;
-    display:none; /* only active currency will show */
+    display:none;
+    background-clip:padding-box;
+    overflow:hidden;
+}
+
+/* Mastercard-style curve */
+.wallet-card::after{
+    content:'';
+    position:absolute;
+    top:0; right:0;
+    width:80px; height:80px;
+    background:inherit;
+    border-radius:0 0 0 80px;
+    z-index:1;
 }
 
 /* BALANCE */
@@ -128,11 +142,13 @@ header{
     margin:0.5rem 0 1.2rem;
 }
 
-/* ACTION BUTTONS - COMPACT */
+/* ACTION BUTTONS */
 .actions{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:0.5rem;
+    position:relative;
+    z-index:2; /* above the curve */
 }
 
 .action-btn{
@@ -159,22 +175,26 @@ header{
     font-size:1.1rem;
 }
 
-/* CURVED CURRENCY CUT */
+/* CURVED EDGE CURRENCIES FLOATING */
 .currency-cut{
     display:flex;
     gap:12px;
-    margin-top:15px;
+    margin-top: -40px; /* floating over curve */
+    justify-content:flex-end;
+    position:relative;
+    z-index:3;
 }
 
 .currency-cut span{
     cursor:pointer;
     font-weight:600;
-    padding:0.25rem 0.6rem;
+    padding:0.3rem 0.6rem;
     border-radius:12px;
     transition:0.3s;
     background:#fff;
     color:#000;
     font-size:0.85rem;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }
 
 .currency-cut span.active{
@@ -435,19 +455,16 @@ header{
 <script>
 feather.replace();
 
-/* PROFILE MENU */
 function toggleMenu(){
     const menu = document.getElementById("menu");
     menu.style.display = menu.style.display === "block" ? "none" : "block";
 }
 
-/* NOTIFICATIONS */
 function toggleNotif(){
     const notif = document.getElementById("notifMenu");
     notif.style.display = notif.style.display === "block" ? "none" : "block";
 }
 
-/* LOGOUT */
 function logout(){
     alert("Logged out");
     window.location.href = "login.html";
@@ -461,7 +478,7 @@ else if(h<18) g="Good Afternoon";
 else g="Good Evening";
 document.getElementById("userName").innerText = g + " 👋";
 
-/* SHOW SELECTED WALLET */
+/* SHOW WALLET */
 function showWallet(wallet){
     const wallets = document.querySelectorAll(".wallet-card");
     wallets.forEach(w=>{
@@ -473,7 +490,7 @@ function showWallet(wallet){
     });
 }
 
-// Initialize: show Naira first
+// initialize
 showWallet('NGN');
 
 /* POS MODAL */
