@@ -21,6 +21,8 @@ header{
     justify-content:space-between;
     align-items:center;
     padding:1rem 1.5rem;
+    background:#fff;
+    box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
 
 .logo{
@@ -118,6 +120,7 @@ header{
     position:relative;
     box-shadow:0 20px 50px rgba(0,0,0,0.2);
     transition:transform 0.4s ease, opacity 0.4s ease;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 5% 100%, 0 85%);
 }
 
 /* BALANCE */
@@ -336,7 +339,7 @@ header{
 <div class="wallet-container">
     <div class="wallet-slider" id="walletSlider">
 
-        <!-- Naira -->
+        <!-- Naira Wallet -->
         <div class="wallet-card" style="background:#000;" data-wallet="NGN">
             <div class="balance-label">Available Balance</div>
             <div class="balance-amount" id="balance">₦245,000</div>
@@ -346,9 +349,14 @@ header{
                 <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
                 <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
             </div>
+            <div class="currency-cut">
+                <span class="active" onclick="switchWallet(0)">₦</span>
+                <span onclick="switchWallet(1)">GH₵</span>
+                <span onclick="switchWallet(2)">RWF</span>
+            </div>
         </div>
 
-        <!-- Ghana Cedis -->
+        <!-- Ghana Cedis Wallet -->
         <div class="wallet-card" style="background:purple;" data-wallet="GHS">
             <div class="balance-label">Available Balance</div>
             <div class="balance-amount" id="balance-ghs">GH₵12,000</div>
@@ -360,7 +368,7 @@ header{
             </div>
         </div>
 
-        <!-- RWF -->
+        <!-- RWF Wallet -->
         <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
             <div class="balance-label">Available Balance</div>
             <div class="balance-amount" id="balance-rwf">RWF 300,000</div>
@@ -371,13 +379,7 @@ header{
                 <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
             </div>
         </div>
-    </div>
 
-    <!-- Currency Selector -->
-    <div class="currency-cut">
-        <span class="active" onclick="switchWallet(0)">₦</span>
-        <span onclick="switchWallet(1)">GH₵</span>
-        <span onclick="switchWallet(2)">RWF</span>
     </div>
 </div>
 
@@ -474,9 +476,7 @@ let currentWallet = 0;
 function switchWallet(i){
     currentWallet = i;
     slider.style.transform = `translateX(-${i*100}%)`;
-    currencies.forEach((c, idx)=>{
-        c.classList.toggle("active", idx===i);
-    });
+    currencies.forEach((c, idx)=>{ c.classList.toggle("active", idx===i); });
 }
 
 /* SWIPE */
