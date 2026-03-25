@@ -1,5 +1,5 @@
 function signUp(){
-    const activeTab = document.querySelector('.tab-content.active'); // target active tab
+    const activeTab = document.querySelector('.tab-content.active'); //  target active tab
     const btn = activeTab.querySelector('button.primary');
     btn.disabled = true;
     btn.innerText = "Creating Account...";
@@ -46,7 +46,7 @@ function signUp(){
         });
     })
     .then(()=>{
-        //  safer redirect after small delay
+        // safer redirect after small delay
         console.log("Account created successfully!");
         setTimeout(()=>{
             window.location.href = "dashboard.html";
