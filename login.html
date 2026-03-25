@@ -4,62 +4,55 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kollect | Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-body { margin:0; font-family:'Inter', sans-serif; background:#f5f7fa; color:#000; }
-.container { max-width:400px; margin:6rem auto; padding:2rem; border-radius:12px; background:#fff; box-shadow:0 15px 30px rgba(0,0,0,0.1); }
-h2 { text-align:center; margin-bottom:2rem; font-weight:700; background:linear-gradient(90deg,#007cf0,#00dfd8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-input { width:100%; padding:0.9rem; margin:0.8rem 0; border:1px solid #ccc; border-radius:8px; font-size:1rem; transition: all 0.3s ease; }
-input:focus { border-color:#007cf0; box-shadow:0 0 5px rgba(0,124,240,0.3); outline:none; }
-button.primary { width:100%; padding:1rem; background:#000; color:#fff; border:none; font-weight:600; font-size:1rem; border-radius:10px; cursor:pointer; margin-top:1.5rem; transition: all 0.3s ease; }
-button.primary:hover { transform:translateY(-2px); opacity:0.9; }
-.login-footer { text-align:center; margin-top:1rem; }
-.login-footer a { color:#007cf0; text-decoration:none; font-weight:600; }
-.login-footer a:hover { text-decoration:underline; }
-</style>
-</head>
-<body>
 
-<div class="container">
-    <h2>Sign In to Kollect</h2>
-
-    <input id="loginEmail" type="email" placeholder="Email">
-    <input id="loginPassword" type="password" placeholder="Password">
-    <button class="primary" onclick="login(event)">Login</button>
-
-    <div class="login-footer">
-        Don't have an account? <a href="signup.html">Sign Up</a>
-    </div>
-</div>
-
-<!-- Firebase SDK -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
 
+<style>
+body { margin:0; font-family:'Inter', sans-serif; background:#f5f7fa; }
+.container { max-width:400px; margin:6rem auto; padding:2rem; background:#fff; border-radius:12px; box-shadow:0 15px 30px rgba(0,0,0,0.1); }
+input { width:100%; padding:0.9rem; margin:0.8rem 0; border-radius:8px; border:1px solid #ccc; }
+button { width:100%; padding:1rem; background:#000; color:#fff; border:none; border-radius:10px; margin-top:1rem; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>Login</h2>
+
+  <input id="loginEmail" placeholder="Email">
+  <input id="loginPassword" type="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+
+  <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+</div>
+
 <script>
 // Firebase config
 const firebaseConfig = {
-    apiKey: "AIzaSyBLN0O36j1DWxUN5U1B4iuP6kH-YNUENkk",
-    authDomain: "kollect-aa5a3.firebaseapp.com",
-    projectId: "kollect-aa5a3",
+  apiKey: "AIzaSyBLN0O36j1DWxUN5U1B4iuP6kH-YNUENkk",
+  authDomain: "kollect-aa5a3.firebaseapp.com",
+  projectId: "kollect-aa5a3",
 };
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-const db = firebase.firestore();
 
-// Auto redirect if already logged in
+// THIS IS THE IMPORTANT FIX
 auth.onAuthStateChanged(user => {
-    if(user){
+    if (user) {
+        console.log("User detected, redirecting...");
         window.location.href = "dashboard.html";
     }
 });
 
 // Login function
-function login(event){
-    event.preventDefault(); // prevent default form submit
-
-    const btn = document.querySelector('button.primary');
+function login(){
+    const btn = document.querySelector('button');
     btn.disabled = true;
     btn.innerText = "Logging in...";
 
@@ -67,30 +60,22 @@ function login(event){
     const password = document.getElementById("loginPassword").value.trim();
 
     if(!email || !password){
-        alert("Please enter both email and password");
+        alert("Please enter email and password");
         btn.disabled = false;
         btn.innerText = "Login";
         return;
     }
 
     auth.signInWithEmailAndPassword(email, password)
-        .then(userCredential => {
-            console.log("Login successful for UID:", userCredential.user.uid);
-            setTimeout(() => {
-                window.location.href = "dashboard.html";
-            }, 500);
-        })
-        .catch(error => {
-            if(error.code === 'auth/user-not-found'){
-                alert("No account found with this email. Please sign up first.");
-            } else if(error.code === 'auth/wrong-password'){
-                alert("Incorrect password. Please try again.");
-            } else {
-                alert(error.message);
-            }
-            btn.disabled = false;
-            btn.innerText = "Login";
-        });
+    .then(() => {
+        console.log("Login success");
+        //  No redirect here anymore (AuthState will handle it)
+    })
+    .catch(error => {
+        alert(error.message);
+        btn.disabled = false;
+        btn.innerText = "Login";
+    });
 }
 </script>
 
