@@ -1,75 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kollect | Sign Up</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-body { margin:0; font-family:'Inter', sans-serif; background:#f5f7fa; color:#000; }
-.container { max-width:500px; margin:4rem auto; padding:2rem; border-radius:12px; background:#fff; box-shadow:0 15px 30px rgba(0,0,0,0.1); }
-h2 { text-align:center; margin-bottom:2rem; font-weight:700; background:linear-gradient(90deg,#007cf0,#00dfd8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-input, select { width:100%; padding:0.9rem; margin:0.8rem 0; border:1px solid #ccc; border-radius:8px; font-size:1rem; transition: all 0.3s ease; }
-input:focus, select:focus { border-color:#007cf0; box-shadow:0 0 5px rgba(0,124,240,0.3); outline:none; }
-button.primary { width:100%; padding:1rem; background:#000; color:#fff; border:none; font-weight:600; font-size:1rem; border-radius:10px; cursor:pointer; margin-top:1.5rem; transition: all 0.3s ease; }
-button.primary:hover { transform:translateY(-2px); opacity:0.9; }
-.tab-selector { display:flex; justify-content:space-around; margin-bottom:2rem; }
-.tab-selector button { flex:1; padding:0.8rem 1rem; font-weight:600; border:none; cursor:pointer; border-radius:8px; transition: all 0.3s ease; background:#fff; border:2px solid #000; margin:0 0.2rem; }
-.tab-selector button.active { background:#000; color:#fff; }
-.tab-content { display:none; opacity:0; transform:translateY(20px); transition: all 0.5s ease; }
-.tab-content.active { display:block; opacity:1; transform:translateY(0); }
-.signup-footer { text-align:center; margin-top:1rem; }
-.signup-footer a { color:#007cf0; text-decoration:none; font-weight:600; }
-.signup-footer a:hover { text-decoration:underline; }
-</style>
-</head>
-<body>
-
-<div class="container">
-    <h2>Create Your Kollect Account</h2>
-
-    <!-- User Type Tabs -->
-    <div class="tab-selector">
-        <button id="individualBtn" class="active" onclick="showUserType('individual')">Individual</button>
-        <button id="businessBtn" onclick="showUserType('business')">Business</button>
-    </div>
-
-    <!-- Individual Signup -->
-    <div id="individual" class="tab-content active">
-        <input id="fullName" placeholder="Full Name">
-        <input id="email" type="email" placeholder="Email">
-        <input id="phone" type="tel" placeholder="Phone Number">
-        <input id="password" type="password" placeholder="Password">
-        <button class="primary" onclick="signUp()">Sign Up</button>
-    </div>
-
-    <!-- Business Signup -->
-    <div id="business" class="tab-content">
-        <input id="businessName" placeholder="Business Name">
-        <select id="businessType">
-            <option value="">Select Business Type</option>
-            <option value="Retail">Retail</option>
-            <option value="Food & Beverage">Food & Beverage</option>
-            <option value="Tech">Tech</option>
-            <option value="Services">Services</option>
-            <option value="Other">Other</option>
-        </select>
-        <input id="emailBus" type="email" placeholder="Email">
-        <input id="phoneBus" type="tel" placeholder="Phone Number">
-        <input id="passwordBus" type="password" placeholder="Password">
-        <button class="primary" onclick="signUp()">Sign Up</button>
-    </div>
-
-    <div class="signup-footer">
-        Already have an account? <a href="login.html">Sign In</a>
-    </div>
-</div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
 <script>
 // Firebase config
 const firebaseConfig = {
@@ -77,6 +5,7 @@ const firebaseConfig = {
     authDomain: "kollect-aa5a3.firebaseapp.com",
     projectId: "kollect-aa5a3",
 };
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -88,7 +17,7 @@ auth.onAuthStateChanged(user => {
     }
 });
 
-// Tab toggle
+// Tab toggle (UNCHANGED)
 function showUserType(type){
     const individual = document.getElementById("individual");
     const business = document.getElementById("business");
@@ -108,9 +37,9 @@ function showUserType(type){
     }
 }
 
-// Sign Up function (fixed)
+// FIXED SIGNUP FUNCTION
 function signUp(){
-    const activeTab = document.querySelector('.tab-content.active'); // target active tab
+    const activeTab = document.querySelector('.tab-content.active');
     const btn = activeTab.querySelector('button.primary');
     btn.disabled = true;
     btn.innerText = "Creating Account...";
@@ -127,10 +56,13 @@ function signUp(){
 
         if(!fullName || !email || !phone || !password){
             alert("Please fill all fields");
-            btn.disabled = false; btn.innerText = "Sign Up"; 
+            btn.disabled = false; 
+            btn.innerText = "Sign Up"; 
             return;
         }
+
         userData = { fullName, email, phone };
+
     } else {
         const businessName = document.getElementById("businessName").value.trim();
         const businessType = document.getElementById("businessType").value;
@@ -140,27 +72,31 @@ function signUp(){
 
         if(!businessName || !businessType || !email || !phone || !password){
             alert("Please fill all fields");
-            btn.disabled = false; btn.innerText = "Sign Up"; 
+            btn.disabled = false; 
+            btn.innerText = "Sign Up"; 
             return;
         }
+
         userData = { businessName, businessType, email, phone };
     }
 
     auth.createUserWithEmailAndPassword(email, password)
     .then(userCredential=>{
         const userId = userCredential.user.uid;
+
         return db.collection("users").doc(userId).set({
             userType: isIndividual ? "individual" : "business",
             details: userData,
-            wallet: { NGN:0, GHS:0, RWF:0 },
+            wallet: { NGN:0, GHC:0, RWF:0 },
             transactions: []
         });
     })
     .then(()=>{
-        console.log("Account created successfully!");
-        setTimeout(()=>{
-            window.location.href = "dashboard.html";
-        }, 500);
+        //  SHOW SUCCESS
+        alert("Account created successfully! Please login.");
+
+        //  REDIRECT TO LOGIN (BEST PRACTICE)
+        window.location.href = "login.html";
     })
     .catch(error=>{
         if(error.code==='auth/email-already-in-use'){
@@ -169,10 +105,9 @@ function signUp(){
         } else {
             alert(error.message);
         }
+
         btn.disabled = false;
         btn.innerText = "Sign Up";
     });
 }
 </script>
-</body>
-</html>
