@@ -1,49 +1,696 @@
-<!-- ADD THIS BELOW HEADER (for navigation) -->
-<div style="display:flex; align-items:flex-start;">
-    <!-- Vertical Navigation Line -->
-    <div id="dashboardLine" style="
-        position:relative;
-        width:6px;
-        background:linear-gradient(to bottom,#7B3FE4,#4a148c);
-        border-radius:3px;
-        margin:1rem;
-        padding:0.5rem 0;
-        height:120px;
-        display:flex;
-        flex-direction:column;
-        justify-content:space-between;
-    ">
-        <div class="line-marker" id="individualMarker" style="
-            width:14px;
-            height:14px;
-            border-radius:50%;
-            background:#ccc;
-            cursor:pointer;
-            transition:all 0.3s ease;
-        " title="Individual" onclick="switchDashboard('individual')"></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kollect</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
 
-        <div class="line-marker" id="businessMarker" style="
-            width:14px;
-            height:14px;
-            border-radius:50%;
-            background:#7B3FE4;
-            cursor:pointer;
-            transition:all 0.3s ease;
-        " title="Business" onclick="switchDashboard('business')"></div>
+<style>
+body {
+    margin:0;
+    font-family:'Inter', sans-serif;
+    background:#f5f5f7;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem 1.5rem;
+    background:#fff;
+    box-shadow:0 3px 10px rgba(0,0,0,0.05);
+}
+
+.logo{
+    font-weight:700;
+    font-size:1.3rem;
+}
+
+.profile-section{
+    display:flex;
+    align-items:center;
+    gap:1rem;
+    position:relative;
+}
+
+.profile-section img{
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    cursor:pointer;
+}
+
+.dropdown, .notif-dropdown{
+    position:absolute;
+    top:45px;
+    right:0;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+    display:none;
+    overflow:hidden;
+    z-index:20;
+}
+
+.dropdown button, .notif-dropdown div{
+    border:none;
+    background:#fff;
+    padding:0.8rem 1.2rem;
+    width:100%;
+    text-align:left;
+    cursor:pointer;
+}
+
+.dropdown button:hover, .notif-dropdown div:hover{
+    background:#f2f2f2;
+}
+
+/* NOTIFICATIONS */
+.bell{
+    font-size:1.4rem;
+    cursor:pointer;
+}
+
+/* DASHBOARD SWITCHER */
+#dashboardSwitcher {
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    background:#000;
+    border-radius:25px;
+    margin:1rem;
+    height:50px;
+    max-width:400px;
+    margin-left:auto;
+    margin-right:auto;
+    position:relative;
+}
+
+.switcher-option {
+    font-weight:600;
+    cursor:pointer;
+    position:relative;
+    z-index:2;
+    color:#000;
+}
+
+.switcher-option.active { color:#fff; }
+
+/* Curved active indicator */
+#switcherIndicator{
+    position:absolute;
+    top:-5px;
+    width:50%;
+    height:60px;
+    background:#fff;
+    border-radius:30px;
+    transition:0.3s all ease;
+    z-index:1;
+}
+
+/* QUICK ACTIONS */
+.quick-actions{
+    display:flex;
+    gap:15px;
+    padding:1rem;
+    overflow-x:auto;
+}
+
+.quick-action-btn{
+    min-width:100px;
+    background:#fff;
+    border-radius:16px;
+    padding:1rem 0.5rem;
+    text-align:center;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    cursor:pointer;
+    flex-shrink:0;
+    transition:0.3s;
+}
+
+.quick-action-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* WALLET CARD */
+.wallet-container{
+    position:relative;
+    margin:1rem;
+    overflow:hidden;
+    height:auto;
+}
+
+.wallet-card{
+    border-radius:28px;
+    padding:1.8rem 1.5rem;
+    color:#fff;
+    position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+    transition:transform 0.4s ease, opacity 0.4s ease;
+    display:none; /* only active currency will show */
+}
+
+/* BALANCE */
+.balance-label{
+    opacity:0.7;
+    font-size:0.85rem;
+}
+
+.balance-amount{
+    font-size:2.3rem;
+    font-weight:700;
+    margin:0.5rem 0 1.2rem;
+}
+
+/* ACTION BUTTONS - COMPACT */
+.actions{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:0.5rem;
+}
+
+.action-btn{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:3px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    padding:0.7rem;
+    border-radius:12px;
+    cursor:pointer;
+    transition:0.3s;
+    font-size:0.85rem;
+}
+
+.action-btn:hover{
+    background:rgba(255,255,255,0.18);
+    transform:translateY(-2px);
+}
+
+.icon{
+    font-size:1.1rem;
+}
+
+/* CURVED CURRENCY CUT */
+.currency-cut{
+    display:flex;
+    gap:12px;
+    margin-top:15px;
+}
+
+.currency-cut span{
+    cursor:pointer;
+    font-weight:600;
+    padding:0.25rem 0.6rem;
+    border-radius:12px;
+    transition:0.3s;
+    background:#fff;
+    color:#000;
+    font-size:0.85rem;
+}
+
+.currency-cut span.active{
+    background:#000;
+    color:#fff;
+}
+
+/* POS */
+.section{
+    padding:1rem;
+}
+
+.pos-row{
+    display:flex;
+    gap:1rem;
+    overflow-x:auto;
+}
+
+.pos-card{
+    min-width:190px;
+    background:#fff;
+    border-radius:18px;
+    padding:1.2rem;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.pos-card:hover{
+    transform:translateY(-3px);
+}
+
+/* TRANSACTIONS */
+.tx-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:0.5rem;
+}
+
+.tx-filters{
+    display:flex;
+    gap:0.5rem;
+}
+
+.tx-filters button{
+    padding:0.4rem 0.8rem;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:0.85rem;
+    background:#eee;
+}
+
+.tx-filters button.active{
+    background:#000;
+    color:#fff;
+}
+
+.tx-search input{
+    padding:0.5rem 0.8rem;
+    border-radius:8px;
+    border:1px solid #ccc;
+    width:150px;
+}
+
+.tx{
+    display:flex;
+    justify-content:space-between;
+    padding:0.9rem;
+    background:#fff;
+    border-radius:12px;
+    margin-bottom:0.6rem;
+    font-size:0.9rem;
+}
+
+.credit{color:#16a34a;}
+.debit{color:#dc2626;}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:50;
+}
+
+.modal-content{
+    background:#fff;
+    padding:2rem;
+    border-radius:20px;
+    width:90%;
+    max-width:400px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+}
+
+.modal-content input{
+    width:100%;
+    padding:0.8rem;
+    margin:0.6rem 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+.modal-content button{
+    padding:0.8rem 1rem;
+    border:none;
+    border-radius:10px;
+    background:#000;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">Kollect</div>
+    <div class="profile-section">
+        <i class="bell" data-feather="bell" onclick="toggleNotif()"></i>
+        <img src="https://via.placeholder.com/40" onclick="toggleMenu()">
+        <span id="userName">User</span>
+
+        <div class="dropdown" id="menu">
+            <button onclick="logout()">Logout</button>
+        </div>
+
+        <div class="notif-dropdown" id="notifMenu">
+            <div>Payment received</div>
+            <div>Withdrawal successful</div>
+            <div>Promo: Top up for 10% bonus</div>
+        </div>
     </div>
+</header>
 
-    <!-- Empty Hamburger Menu -->
-    <div id="hamburgerMenu" style="
-        margin-left:1rem;
-        cursor:pointer;
-        padding:0.5rem;
-        display:flex;
-        flex-direction:column;
-        justify-content:space-between;
-        height:24px;
-    " onclick="toggleHamburger()">
-        <span style="width:24px;height:3px;background:#000;border-radius:2px;display:block;"></span>
-        <span style="width:24px;height:3px;background:#000;border-radius:2px;display:block;"></span>
-        <span style="width:24px;height:3px;background:#000;border-radius:2px;display:block;"></span>
+<!-- DASHBOARD SWITCHER LINE -->
+<div id="dashboardSwitcher">
+    <div class="switcher-option active" data-type="individual" onclick="switchDashboard('individual')">Individual</div>
+    <div class="switcher-option" data-type="business" onclick="switchDashboard('business')">Business</div>
+    <div id="switcherIndicator"></div>
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="quick-actions">
+    <div class="quick-action-btn" onclick="alert('Top Up Airtime')">
+        <i data-feather="smartphone"></i>
+        <div>Airtime</div>
+    </div>
+    <div class="quick-action-btn" onclick="alert('Top Up Data')">
+        <i data-feather="wifi"></i>
+        <div>Data</div>
     </div>
 </div>
+
+<!-- WALLET CARDS -->
+<div class="wallet-container">
+
+    <!-- Naira Wallet -->
+    <div class="wallet-card" style="background:#000;" data-wallet="NGN">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance">₦245,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
+    <!-- GH₵ Wallet -->
+    <div class="wallet-card" style="background:purple;" data-wallet="GHS">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance-ghs">GH₵12,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
+    <!-- RWF Wallet -->
+    <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance-rwf">RWF 300,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
+    <!-- CURVED EDGE CURRENCIES -->
+    <div class="currency-cut">
+        <span class="active" onclick="showWallet('NGN')">₦</span>
+        <span onclick="showWallet('GHS')">GH₵</span>
+        <span onclick="showWallet('RWF')">RWF</span>
+        <span class="more">+</span>
+    </div>
+</div>
+
+<!-- POS -->
+<div class="section">
+    <h3>Virtual POS</h3>
+    <div class="pos-row">
+        <div class="pos-card" onclick="openPOS('₦ Naira')">
+            <strong>₦ Naira Payments</strong>
+            <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
+        </div>
+        <div class="pos-card" onclick="openPOS('$ USD')">
+            <strong>$ USD Payments</strong>
+            <p style="font-size:0.8rem;color:#555;">Accept payments in USD</p>
+        </div>
+        <div class="pos-card" onclick="openPOS('+ More')">
+            <strong>+ More</strong>
+        </div>
+    </div>
+</div>
+
+<!-- BUSINESS FEATURES SECTION (Dynamically Shown) -->
+<div id="businessSection" style="display:none;"></div>
+
+<!-- TRANSACTIONS -->
+<div class="section">
+    <div class="tx-header">
+        <div class="tx-filters">
+            <button class="active" onclick="filterTx('all')">All</button>
+            <button onclick="filterTx('credit')">Credits</button>
+            <button onclick="filterTx('debit')">Debits</button>
+        </div>
+        <div class="tx-search">
+            <input type="text" placeholder="Search" id="txSearch" oninput="searchTx()">
+        </div>
+    </div>
+
+    <div id="txList">
+        <div class="tx" data-type="credit">
+            <span>Fund Wallet</span><span class="credit">+ ₦50,000</span>
+        </div>
+        <div class="tx" data-type="debit">
+            <span>Sent to David</span><span class="debit">- ₦5,000</span>
+        </div>
+        <div class="tx" data-type="credit">
+            <span>Received from Jane</span><span class="credit">+ ₦20,000</span>
+        </div>
+    </div>
+</div>
+
+<!-- POS MODAL -->
+<div class="modal" id="posModal">
+    <div class="modal-content">
+        <h3 id="posTitle">POS Payment</h3>
+        <input type="number" placeholder="Amount">
+        <input type="text" placeholder="Card Number">
+        <input type="text" placeholder="MM/YY">
+        <input type="text" placeholder="CVC">
+        <button onclick="closePOS()">Pay Now</button>
+    </div>
+</div>
+
+<script>
+feather.replace();
+
+/* PROFILE MENU */
+function toggleMenu(){
+    const menu = document.getElementById("menu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+}
+
+/* NOTIFICATIONS */
+function toggleNotif(){
+    const notif = document.getElementById("notifMenu");
+    notif.style.display = notif.style.display === "block" ? "none" : "block";
+}
+
+/* LOGOUT */
+function logout(){
+    alert("Logged out");
+    window.location.href = "login.html";
+}
+
+/* GREETING */
+const h = new Date().getHours();
+let g = "Hello";
+if(h<12) g="Good Morning";
+else if(h<18) g="Good Afternoon";
+else g="Good Evening";
+document.getElementById("userName").innerText = g + " 👋";
+
+/* SHOW SELECTED WALLET */
+function showWallet(wallet){
+    const wallets = document.querySelectorAll(".wallet-card");
+    wallets.forEach(w=>{
+        w.style.display = w.dataset.wallet===wallet ? "block" : "none";
+    });
+    document.querySelectorAll(".currency-cut span").forEach(span=>{
+        span.classList.remove("active");
+        if(span.textContent.includes(wallet)) span.classList.add("active");
+    });
+}
+
+// Initialize: show Naira first
+showWallet('NGN');
+
+/* POS MODAL */
+function openPOS(name){
+    document.getElementById("posTitle").innerText = name + " Payment";
+    document.getElementById("posModal").style.display = "flex";
+}
+
+function closePOS(){
+    document.getElementById("posModal").style.display = "none";
+    alert("Payment submitted!");
+}
+
+/* TRANSACTION FILTER */
+function filterTx(type){
+    const buttons = document.querySelectorAll(".tx-filters button");
+    buttons.forEach(b => b.classList.remove("active"));
+    event.target.classList.add("active");
+
+    const txs = document.querySelectorAll("#txList .tx");
+    txs.forEach(tx => {
+        if(type==="all" || tx.dataset.type===type) tx.style.display="flex";
+        else tx.style.display="none";
+    });
+}
+
+/* SEARCH TX */
+function searchTx(){
+    const val = document.getElementById("txSearch").value.toLowerCase();
+    const txs = document.querySelectorAll("#txList .tx");
+    txs.forEach(tx => {
+        const text = tx.innerText.toLowerCase();
+        tx.style.display = text.includes(val) ? "flex" : "none";
+    });
+}
+
+/* DASHBOARD SWITCHER */
+let currentDashboard = 'individual';
+const indicator = document.getElementById('switcherIndicator');
+const options = document.querySelectorAll('.switcher-option');
+
+function initSwitcher(){
+    options.forEach(opt=>{
+        opt.classList.remove('active');
+        opt.style.color = '#000';
+    });
+    const activeOpt = document.querySelector(`.switcher-option[data-type="${currentDashboard}"]`);
+    activeOpt.classList.add('active');
+    activeOpt.style.color = '#fff';
+    indicator.style.left = currentDashboard === 'individual' ? '0%' : '50%';
+    showBusinessFeatures(currentDashboard === 'business');
+}
+
+function switchDashboard(type){
+    currentDashboard = type;
+    options.forEach(opt=>{
+        opt.classList.remove('active');
+        opt.style.color = '#000';
+    });
+    const activeOpt = document.querySelector(`.switcher-option[data-type="${type}"]`);
+    activeOpt.classList.add('active');
+    activeOpt.style.color = '#fff';
+    indicator.style.left = type === 'individual' ? '0%' : '50%';
+    showBusinessFeatures(type === 'business');
+}
+
+/* SHOW/HIDE BUSINESS FEATURES */
+function showBusinessFeatures(show){
+    let businessSection = document.getElementById('businessSection');
+
+    if(show){
+        if(!businessSection.innerHTML){
+            businessSection.innerHTML = `
+                <h3>Kollect Business Features</h3>
+                <div class="pos-row">
+                    <div class="pos-card" onclick="openPOS('₦ Naira')">
+                        <strong>₦ Naira Payments</strong>
+                        <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
+                    </div>
+                    <div class="pos-card" onclick="openPOS('GH₵ Cedis')">
+                        <strong>GH₵ Payments</strong>
+                        <p style="font-size:0.8rem;color:#555;">Accept payments in Cedis</p>
+                    </div>
+                    <div class="pos-card" onclick="openPOS('RWF')">
+                        <strong>RWF Payments</strong>
+                        <p style="font-size:0.8rem;color:#555;">Accept payments in RWF</p>
+                    </div>
+                </div>
+
+                <!-- QUICK ACTIONS SAME AS INDIVIDUAL -->
+                <div class="quick-actions">
+                    <div class="quick-action-btn" onclick="alert('Top Up Airtime')">
+                        <i data-feather="smartphone"></i>
+                        <div>Airtime</div>
+                    </div>
+                    <div class="quick-action-btn" onclick="alert('Top Up Data')">
+                        <i data-feather="wifi"></i>
+                        <div>Data</div>
+                    </div>
+                </div>
+
+                <!-- WALLETS SAME AS INDIVIDUAL -->
+                <div class="wallet-container">
+
+                    <!-- Naira Wallet -->
+                    <div class="wallet-card" style="background:#000;" data-wallet="NGN">
+                        <div class="balance-label">Available Balance</div>
+                        <div class="balance-amount" id="balance-business">₦245,000</div>
+                        <div class="actions">
+                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+                        </div>
+                    </div>
+
+                    <!-- GH₵ Wallet -->
+                    <div class="wallet-card" style="background:purple;" data-wallet="GHS">
+                        <div class="balance-label">Available Balance</div>
+                        <div class="balance-amount" id="balance-ghs-business">GH₵12,000</div>
+                        <div class="actions">
+                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+                        </div>
+                    </div>
+
+                    <!-- RWF Wallet -->
+                    <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
+                        <div class="balance-label">Available Balance</div>
+                        <div class="balance-amount" id="balance-rwf-business">RWF 300,000</div>
+                        <div class="actions">
+                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+                        </div>
+                    </div>
+
+                    <!-- CURVED EDGE CURRENCIES -->
+                    <div class="currency-cut">
+                        <span class="active" onclick="showWalletBusiness('NGN')">₦</span>
+                        <span onclick="showWalletBusiness('GHS')">GH₵</span>
+                        <span onclick="showWalletBusiness('RWF')">RWF</span>
+                    </div>
+                </div>
+            `;
+            feather.replace();
+        }
+        businessSection.style.display = 'block';
+    } else {
+        businessSection.style.display = 'none';
+    }
+}
+
+// Show wallet in business section
+function showWalletBusiness(wallet){
+    const wallets = document.querySelectorAll("#businessSection .wallet-card");
+    wallets.forEach(w=>{
+        w.style.display = w.dataset.wallet===wallet ? "block" : "none";
+    });
+    document.querySelectorAll("#businessSection .currency-cut span").forEach(span=>{
+        span.classList.remove("active");
+        if(span.textContent.includes(wallet)) span.classList.add("active");
+    });
+    showWalletBusiness('NGN'); // default
+}
+
+initSwitcher();
+</script>
+</body>
+</html>
