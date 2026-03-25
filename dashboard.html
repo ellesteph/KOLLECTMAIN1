@@ -416,7 +416,6 @@ header{
         <span class="active" onclick="showWallet('NGN')">₦</span>
         <span onclick="showWallet('GHS')">GH₵</span>
         <span onclick="showWallet('RWF')">RWF</span>
-        <span class="more">+</span>
     </div>
 </div>
 
@@ -551,7 +550,7 @@ function filterTx(type){
 function searchTx(){
     const val = document.getElementById("txSearch").value.toLowerCase();
     const txs = document.querySelectorAll("#txList .tx");
-    txs.forEach(tx => {
+    txs.forEach(tx=>{
         const text = tx.innerText.toLowerCase();
         tx.style.display = text.includes(val) ? "flex" : "none";
     });
@@ -581,116 +580,4 @@ function switchDashboard(type){
         opt.style.color = '#000';
     });
     const activeOpt = document.querySelector(`.switcher-option[data-type="${type}"]`);
-    activeOpt.classList.add('active');
-    activeOpt.style.color = '#fff';
-    indicator.style.left = type === 'individual' ? '0%' : '50%';
-    showBusinessFeatures(type === 'business');
-}
-
-/* SHOW/HIDE BUSINESS FEATURES */
-function showBusinessFeatures(show){
-    let businessSection = document.getElementById('businessSection');
-
-    if(show){
-        if(!businessSection.innerHTML){
-            businessSection.innerHTML = `
-                <h3>Kollect Business Features</h3>
-                <div class="pos-row">
-                    <div class="pos-card" onclick="openPOS('₦ Naira')">
-                        <strong>₦ Naira Payments</strong>
-                        <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
-                    </div>
-                    <div class="pos-card" onclick="openPOS('GH₵ Cedis')">
-                        <strong>GH₵ Payments</strong>
-                        <p style="font-size:0.8rem;color:#555;">Accept payments in Cedis</p>
-                    </div>
-                    <div class="pos-card" onclick="openPOS('RWF')">
-                        <strong>RWF Payments</strong>
-                        <p style="font-size:0.8rem;color:#555;">Accept payments in RWF</p>
-                    </div>
-                </div>
-
-                <!-- QUICK ACTIONS SAME AS INDIVIDUAL -->
-                <div class="quick-actions">
-                    <div class="quick-action-btn" onclick="alert('Top Up Airtime')">
-                        <i data-feather="smartphone"></i>
-                        <div>Airtime</div>
-                    </div>
-                    <div class="quick-action-btn" onclick="alert('Top Up Data')">
-                        <i data-feather="wifi"></i>
-                        <div>Data</div>
-                    </div>
-                </div>
-
-                <!-- WALLETS SAME AS INDIVIDUAL -->
-                <div class="wallet-container">
-
-                    <!-- Naira Wallet -->
-                    <div class="wallet-card" style="background:#000;" data-wallet="NGN">
-                        <div class="balance-label">Available Balance</div>
-                        <div class="balance-amount" id="balance-business">₦245,000</div>
-                        <div class="actions">
-                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
-                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
-                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-                        </div>
-                    </div>
-
-                    <!-- GH₵ Wallet -->
-                    <div class="wallet-card" style="background:purple;" data-wallet="GHS">
-                        <div class="balance-label">Available Balance</div>
-                        <div class="balance-amount" id="balance-ghs-business">GH₵12,000</div>
-                        <div class="actions">
-                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
-                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
-                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-                        </div>
-                    </div>
-
-                    <!-- RWF Wallet -->
-                    <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
-                        <div class="balance-label">Available Balance</div>
-                        <div class="balance-amount" id="balance-rwf-business">RWF 300,000</div>
-                        <div class="actions">
-                            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
-                            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
-                            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-                            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-                        </div>
-                    </div>
-
-                    <!-- CURVED EDGE CURRENCIES -->
-                    <div class="currency-cut">
-                        <span class="active" onclick="showWalletBusiness('NGN')">₦</span>
-                        <span onclick="showWalletBusiness('GHS')">GH₵</span>
-                        <span onclick="showWalletBusiness('RWF')">RWF</span>
-                    </div>
-                </div>
-            `;
-            feather.replace();
-        }
-        businessSection.style.display = 'block';
-    } else {
-        businessSection.style.display = 'none';
-    }
-}
-
-// Show wallet in business section
-function showWalletBusiness(wallet){
-    const wallets = document.querySelectorAll("#businessSection .wallet-card");
-    wallets.forEach(w=>{
-        w.style.display = w.dataset.wallet===wallet ? "block" : "none";
-    });
-    document.querySelectorAll("#businessSection .currency-cut span").forEach(span=>{
-        span.classList.remove("active");
-        if(span.textContent.includes(wallet)) span.classList.add("active");
-    });
-    showWalletBusiness('NGN'); // default
-}
-
-initSwitcher();
-</script>
-</body>
-</html>
+    activeOpt.classList.add
