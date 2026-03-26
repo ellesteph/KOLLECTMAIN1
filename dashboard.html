@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kollect Dashboard</title>
+<title>Kollect</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/feather-icons"></script>
 <style>
@@ -21,6 +21,9 @@ header{
     padding:1rem 1.5rem;
     background:#fff;
     box-shadow:0 3px 10px rgba(0,0,0,0.05);
+    position:sticky;
+    top:0;
+    z-index:10;
 }
 
 .logo{
@@ -67,6 +70,31 @@ header{
     color:#fff;
 }
 
+/* TOGGLE SWITCH */
+.toggle-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin:1rem;
+    gap:1rem;
+}
+.toggle-btn{
+    padding:0.5rem 1.2rem;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.3s;
+}
+.toggle-btn.active{
+    background:#000;
+    color:#fff;
+}
+.toggle-btn.inactive{
+    background:#f2f2f2;
+    color:#000;
+}
+
 /* DASHBOARD SECTIONS */
 .section-title {
     font-weight:700;
@@ -74,25 +102,6 @@ header{
     margin:1rem 1.5rem 0.5rem;
     color:#000;
 }
-
-.quick-actions{
-    display:flex;
-    gap:15px;
-    padding:0 1.5rem 1rem;
-    overflow-x:auto;
-}
-.quick-action-btn{
-    min-width:100px;
-    background:#fff;
-    border-radius:16px;
-    padding:1rem 0.5rem;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-    cursor:pointer;
-    flex-shrink:0;
-    transition:0.3s;
-}
-.quick-action-btn:hover{transform:translateY(-3px);}
 
 .wallet-container{
     display:flex;
@@ -151,6 +160,12 @@ header{
     <button onclick="logout()">Logout</button>
 </div>
 
+<!-- TOGGLE SWITCH -->
+<div class="toggle-container">
+    <button id="individualToggle" class="toggle-btn active" onclick="switchDashboard('individual')">Individual</button>
+    <button id="businessToggle" class="toggle-btn inactive" onclick="switchDashboard('business')">Business</button>
+</div>
+
 <!-- INDIVIDUAL DASHBOARD -->
 <div id="individualDashboard">
 
@@ -176,16 +191,6 @@ header{
             <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
         </div>
     </div>
-    <div class="wallet-card" style="background:#1a237e;">
-        <div class="balance-label">Available Balance</div>
-        <div class="balance-amount">RWF 300,000</div>
-        <div class="actions">
-            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
-            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
-            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-        </div>
-    </div>
 </div>
 
 <h2 class="section-title">Virtual POS</h2>
@@ -198,21 +203,8 @@ header{
         <strong>GH₵ Payments</strong>
         <p style="font-size:0.8rem;color:#555;">Accept payments in Cedis</p>
     </div>
-    <div class="pos-card" onclick="openPOS('RWF')">
-        <strong>RWF Payments</strong>
-        <p style="font-size:0.8rem;color:#555;">Accept payments in RWF</p>
-    </div>
 </div>
-
 </div> <!-- end individualDashboard -->
-
-<!-- BUSINESS LANDING -->
-<div id="businessLanding" class="business-landing">
-    <h2>Take Your Business to Another Level with Kollect</h2>
-    <p>Upgrade your Virtual POS, manage wallets, and grow your business seamlessly.</p>
-    <button class="signup" onclick="showBusinessDashboard()">Sign Up for Kollect for Business</button>
-    <button class="login" onclick="showBusinessDashboard()">Login</button>
-</div>
 
 <!-- BUSINESS DASHBOARD -->
 <div id="businessDashboard" style="display:none;">
@@ -224,6 +216,8 @@ header{
         <div class="actions">
             <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
             <div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
         </div>
     </div>
     <div class="wallet-card" style="background:purple;">
@@ -232,6 +226,8 @@ header{
         <div class="actions">
             <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
             <div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
         </div>
     </div>
 </div>
@@ -268,29 +264,34 @@ function toggleMenu(){
 }
 function logout(){ alert('Logged out'); }
 
-function showDashboard(){
-    document.getElementById('individualDashboard').style.display='block';
-    document.getElementById('businessLanding').style.display='none';
-    document.getElementById('businessDashboard').style.display='none';
+function switchDashboard(type){
+    const individualBtn = document.getElementById('individualToggle');
+    const businessBtn = document.getElementById('businessToggle');
+    if(type==='individual'){
+        document.getElementById('individualDashboard').style.display='block';
+        document.getElementById('businessDashboard').style.display='none';
+        individualBtn.classList.add('active'); individualBtn.classList.remove('inactive');
+        businessBtn.classList.add('inactive'); businessBtn.classList.remove('active');
+    } else {
+        document.getElementById('individualDashboard').style.display='none';
+        document.getElementById('businessDashboard').style.display='block';
+        individualBtn.classList.add('inactive'); individualBtn.classList.remove('active');
+        businessBtn.classList.add('active'); businessBtn.classList.remove('inactive');
+    }
 }
+
+function showDashboard(){ switchDashboard('individual'); }
 function showTransactions(){ alert('Show transactions'); }
 function showSettings(){ alert('Show settings'); }
-function showBusinessLanding(){
-    document.getElementById('individualDashboard').style.display='none';
-    document.getElementById('businessLanding').style.display='block';
-    document.getElementById('businessDashboard').style.display='none';
-}
-function showBusinessDashboard(){
-    document.getElementById('individualDashboard').style.display='none';
-    document.getElementById('businessLanding').style.display='none';
-    document.getElementById('businessDashboard').style.display='block';
-}
 
 function openPOS(name){
     document.getElementById('posTitle').innerText = name + ' Payment';
     document.getElementById('posModal').style.display='flex';
 }
-function closePOS(){ document.getElementById('posModal').style.display='none'; alert('Payment submitted'); }
+function closePOS(){ 
+    document.getElementById('posModal').style.display='none'; 
+    alert('Payment submitted'); 
+}
 
 showDashboard(); // default
 </script>
