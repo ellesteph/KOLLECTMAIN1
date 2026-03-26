@@ -4,12 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kollect</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/feather-icons"></script>
 
 <style>
-body{
+body {
     margin:0;
     font-family:'Inter', sans-serif;
     background:#f5f5f7;
@@ -25,32 +24,34 @@ header{
     box-shadow:0 3px 10px rgba(0,0,0,0.05);
 }
 
-.logo{font-weight:700;font-size:1.3rem;}
-
-.profile-section{
-    display:flex;
-    align-items:center;
-    gap:1rem;
-    position:relative;
-}
-
-.profile-section img{
-    width:35px;height:35px;border-radius:50%;cursor:pointer;
+.logo{
+    font-weight:700;
+    font-size:1.3rem;
 }
 
 /* MAIN WALLET */
 .main-wallet{
     margin:1rem;
     background:#fff;
-    border-radius:18px;
-    padding:1.2rem 1.3rem;
-    box-shadow:0 8px 25px rgba(0,0,0,0.06);
+    border-radius:16px;
+    padding:1rem 1.2rem;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 .main-wallet small{color:#666;}
-.main-wallet h2{margin:5px 0;font-size:2rem;}
+.main-wallet h2{margin:5px 0;font-size:1.8rem;}
 
-/* WALLET */
-.wallet-container{margin:1rem;}
+/* QUICK ACTIONS */
+.quick-actions{
+    display:flex;
+    gap:15px;
+    padding:1rem;
+}
+
+/* WALLET CARD */
+.wallet-container{
+    margin:1rem;
+}
+
 .wallet-card{
     border-radius:28px;
     padding:1.8rem 1.5rem;
@@ -58,77 +59,77 @@ header{
     display:none;
 }
 
-.balance-label{opacity:0.7;font-size:0.85rem;}
-.balance-amount{font-size:2.3rem;font-weight:700;margin:0.5rem 0;}
+.balance-label{
+    opacity:0.7;
+    font-size:0.85rem;
+}
 
+.balance-amount{
+    font-size:2.3rem;
+    font-weight:700;
+    margin:0.5rem 0 1.2rem;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:0.5rem;
+}
+
+.action-btn{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,0.08);
+    padding:0.7rem;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+/* CURRENCY SWITCH */
 .currency-cut{
     display:flex;
-    gap:10px;
-    margin-top:10px;
+    gap:12px;
+    margin-top:15px;
 }
+
 .currency-cut span{
-    background:#fff;color:#000;
-    padding:4px 10px;border-radius:12px;
-    cursor:pointer;font-size:0.8rem;
+    cursor:pointer;
+    font-weight:600;
+    padding:0.25rem 0.6rem;
+    border-radius:12px;
+    background:#fff;
+    color:#000;
 }
+
 .currency-cut span.active{
-    background:#000;color:#fff;
+    background:#000;
+    color:#fff;
 }
 
 /* POS */
+.section{
+    padding:1rem;
+}
+
 .pos-row{
     display:flex;
     gap:1rem;
-    padding:1rem;
 }
+
 .pos-card{
-    flex:1;
+    min-width:190px;
     background:#fff;
-    border-radius:16px;
-    padding:1rem;
-    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    border-radius:18px;
+    padding:1.2rem;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
     cursor:pointer;
 }
 
 /* POS VIEW */
-.pos-view{
-    margin:1rem;
+#posWalletView{
     display:none;
-}
-.pos-box{
-    background:#fff;
-    border-radius:20px;
-    padding:1.5rem;
-    box-shadow:0 10px 30px rgba(0,0,0,0.08);
-}
-.pos-box input{
-    width:100%;
-    padding:0.8rem;
-    margin-top:8px;
-    border-radius:10px;
-    border:1px solid #ddd;
-}
-.transfer{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-top:12px;
-}
-.transfer button{
-    padding:0.7rem;
-    border:none;
-    border-radius:10px;
-    background:#000;
-    color:#fff;
-    cursor:pointer;
-}
-
-/* BACK */
-.back{
-    margin-bottom:10px;
-    cursor:pointer;
-    color:#555;
-    font-size:0.9rem;
 }
 </style>
 </head>
@@ -146,22 +147,49 @@ header{
     <h2>₦245,000</h2>
 </div>
 
+<!-- QUICK ACTIONS -->
+<div class="quick-actions">
+    <div class="action-btn">Airtime</div>
+    <div class="action-btn">Data</div>
+</div>
+
 <!-- WALLET CARDS -->
 <div class="wallet-container">
 
 <div class="wallet-card" style="background:#000;" data-wallet="NGN">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">₦245,000</div>
+
+    <div class="actions">
+        <div class="action-btn">Send to Kollect</div>
+        <div class="action-btn">To Bank</div>
+        <div class="action-btn">Withdraw</div>
+        <div class="action-btn">Fund Wallet</div>
+    </div>
 </div>
 
 <div class="wallet-card" style="background:purple;" data-wallet="GHS">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">GH₵12,000</div>
+
+    <div class="actions">
+        <div class="action-btn">Send to Kollect</div>
+        <div class="action-btn">To Bank</div>
+        <div class="action-btn">Withdraw</div>
+        <div class="action-btn">Fund Wallet</div>
+    </div>
 </div>
 
 <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">RWF 300,000</div>
+
+    <div class="actions">
+        <div class="action-btn">Send to Kollect</div>
+        <div class="action-btn">To Bank</div>
+        <div class="action-btn">Withdraw</div>
+        <div class="action-btn">Fund Wallet</div>
+    </div>
 </div>
 
 <div class="currency-cut">
@@ -172,37 +200,41 @@ header{
 
 </div>
 
-<!-- POS BUTTONS -->
-<div class="pos-row">
-    <div class="pos-card" onclick="openPOS('NGN')">
-        <strong>₦ Naira Payments</strong>
-        <p>Accept payments in Naira</p>
-    </div>
+<!-- POS -->
+<div class="section">
+    <h3>Virtual POS</h3>
 
-    <div class="pos-card" onclick="openPOS('USD')">
-        <strong>$ USD Payments</strong>
-        <p>Accept payments in USD</p>
+    <div class="pos-row">
+        <div class="pos-card" onclick="openPOS('₦')">
+            <strong>₦ Naira Payments</strong>
+            <p>Accept payments in Naira</p>
+        </div>
+
+        <div class="pos-card" onclick="openPOS('$')">
+            <strong>$ USD Payments</strong>
+            <p>Accept payments in USD</p>
+        </div>
     </div>
 </div>
 
-<!-- POS VIEW -->
-<div class="pos-view" id="posView">
-    <div class="pos-box">
+<!-- POS WALLET VIEW -->
+<div class="section" id="posWalletView">
+    <h3>Virtual POS</h3>
 
-        <div class="back" onclick="closePOS()">← Back</div>
+    <div style="background:#fff;padding:1.2rem;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.08);">
 
-        <small>Virtual POS Wallet</small>
-        <h2 id="posBalance">₦0.00</h2>
+        <div style="font-size:0.85rem;color:#666;">Wallet Balance</div>
+        <div id="posBalance" style="font-size:1.8rem;font-weight:700;">₦0.00</div>
 
         <input type="number" placeholder="Amount">
         <input type="text" placeholder="Card Number">
         <input type="text" placeholder="MM/YY">
         <input type="text" placeholder="CVC">
 
-        <div class="transfer">
-            <button>To Naira</button>
-            <button>To Cedis</button>
-            <button>To RWF</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
+            <button>To Naira Wallet</button>
+            <button>To Cedis Wallet</button>
+            <button>To RWF Wallet</button>
         </div>
 
     </div>
@@ -224,6 +256,7 @@ function showWallet(wallet,el){
     document.querySelectorAll(".wallet-card").forEach(w=>{
         w.style.display = w.dataset.wallet===wallet ? "block" : "none";
     });
+
     document.querySelectorAll(".currency-cut span").forEach(s=>s.classList.remove("active"));
     el.classList.add("active");
 }
@@ -231,18 +264,13 @@ showWallet('NGN', document.querySelector(".currency-cut span"));
 
 /* POS OPEN */
 function openPOS(type){
-    document.getElementById("posView").style.display="block";
+    document.getElementById("posWalletView").style.display = "block";
 
-    if(type==="NGN"){
+    if(type==="₦"){
         document.getElementById("posBalance").innerText="₦0.00";
     }else{
         document.getElementById("posBalance").innerText="$0.00";
     }
-}
-
-/* POS CLOSE */
-function closePOS(){
-    document.getElementById("posView").style.display="none";
 }
 </script>
 
