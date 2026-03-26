@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -368,11 +367,31 @@ header{
         </div>
     </div>
 
+    <!-- VIRTUAL POS WALLET -->
+    <div class="wallet-card" style="background:#2a2a72;" data-wallet="POS">
+        <div class="balance-label">Virtual POS Wallet</div>
+
+        <!-- Sub-wallet toggles -->
+        <div class="currency-cut" style="margin-top:10px;">
+            <span class="active" onclick="showPOSSubWallet('USD', this)">USD</span>
+            <span onclick="showPOSSubWallet('NGN', this)">₦</span>
+        </div>
+
+        <div class="balance-amount" id="balance-pos">USD 0.00</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
     <!-- CURVED EDGE CURRENCIES -->
     <div class="currency-cut">
         <span class="active" onclick="showWallet('NGN')">₦</span>
         <span onclick="showWallet('GHS')">GH₵</span>
         <span onclick="showWallet('RWF')">RWF</span>
+        <span onclick="showWallet('POS')">💳 POS</span>
         <span class="more">+</span>
     </div>
 </div>
@@ -470,12 +489,22 @@ function showWallet(wallet){
     });
     document.querySelectorAll(".currency-cut span").forEach(span=>{
         span.classList.remove("active");
-        if(span.textContent.includes(wallet)) span.classList.add("active");
+        if(span.textContent.includes(wallet) || (wallet==='POS' && span.textContent.includes('POS'))) span.classList.add("active");
     });
 }
 
 // Initialize: show Naira first
 showWallet('NGN');
+
+/* SHOW POS SUB-WALLETS */
+function showPOSSubWallet(sub, el){
+    const balance = document.getElementById("balance-pos");
+    if(sub==='USD') balance.innerText = "USD 0.00";
+    else balance.innerText = "₦ 0.00";
+
+    el.parentElement.querySelectorAll('span').forEach(s=>s.classList.remove('active'));
+    el.classList.add('active');
+}
 
 /* POS MODAL */
 function openPOS(name){
