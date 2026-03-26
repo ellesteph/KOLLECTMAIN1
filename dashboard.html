@@ -134,3 +134,129 @@ header{
 .modal-content button{padding:0.8rem 1rem;border:none;border-radius:10px;background:#000;color:#fff;font-weight:600;cursor:pointer;}
 </style>
 </head>
+<body>
+
+<header>
+    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+    <div class="logo">Kollect</div>
+</header>
+
+<!-- HAMBURGER MENU -->
+<div class="menu" id="menu">
+    <h3>Menu</h3>
+    <button onclick="switchDashboard('individual')">Dashboard</button>
+    <button onclick="showTransactions()">Transactions</button>
+    <button onclick="switchDashboard('business')">Kollect for Business</button>
+    <button onclick="showSettings()">Settings</button>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<!-- GREETING -->
+<div class="greeting-container" id="greeting">Good Morning, Elle!</div>
+
+<!-- TOGGLE -->
+<div class="toggle-container">
+    <button id="individualToggle" class="toggle-btn active" onclick="switchDashboard('individual')">Individual</button>
+    <button id="businessToggle" class="toggle-btn inactive" onclick="switchDashboard('business')">Business</button>
+</div>
+
+<!-- WALLET CARD -->
+<div class="wallet-card-container">
+    <div class="wallet-card" id="walletCard">
+        <div>
+            <div class="balance-label" id="balanceLabel">Available Balance</div>
+            <div class="balance-amount" id="balanceAmount">₦245,000</div>
+        </div>
+        <div class="actions" id="walletActions">
+            <div class="action-btn"><i data-feather="credit-card" class="icon"></i><span>Wallet</span></div>
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Payments</span></div>
+            <div class="action-btn"><i data-feather="list" class="icon"></i><span>Transactions</span></div>
+            <div class="action-btn"><i data-feather="phone" class="icon"></i><span>Airtime/Data</span></div>
+            <div class="action-btn"><i data-feather="file-text" class="icon"></i><span>Bills</span></div>
+        </div>
+        <div class="currency-tabs">
+            <div class="currency-tab" onclick="switchWallet('GHS')">GH₵</div>
+            <div class="currency-tab" onclick="switchWallet('RWF')">RWF</div>
+        </div>
+    </div>
+</div>
+
+<!-- VIRTUAL POS -->
+<h2 style="padding:0 1.5rem;">Virtual POS</h2>
+<div class="pos-row">
+    <div class="pos-card" onclick="openPOS('₦ Naira')">
+        <strong>₦ Naira Payments</strong>
+        <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
+    </div>
+    <div class="pos-card" onclick="openPOS('$ USD')">
+        <strong>$ USD Payments</strong>
+        <p style="font-size:0.8rem;color:#555;">Accept payments in USD</p>
+    </div>
+    <div class="pos-card" onclick="alert('More currencies coming soon!')">
+        <strong>+ More</strong>
+    </div>
+</div>
+
+<!-- POS MODAL -->
+<div class="modal" id="posModal">
+    <div class="modal-content">
+        <h3 id="posTitle">POS Payment</h3>
+        <input type="number" placeholder="Amount">
+        <input type="text" placeholder="Card Number">
+        <input type="text" placeholder="MM/YY">
+        <input type="text" placeholder="CVC">
+        <button onclick="closePOS()">Pay Now</button>
+    </div>
+</div>
+
+<script>
+feather.replace();
+
+// Time-based greeting
+const greetingEl = document.getElementById('greeting');
+const hour = new Date().getHours();
+let greetText = 'Hello';
+if(hour < 12) greetText = 'Good Morning';
+else if(hour < 18) greetText = 'Good Afternoon';
+else greetText = 'Good Evening';
+greetingEl.innerText = `${greetText}, Elle!`;
+
+// Hamburger menu
+function toggleMenu(){document.getElementById('menu').classList.toggle('show');}
+function logout(){alert('Logged out');}
+function showTransactions(){alert('Show transactions');}
+function showSettings(){alert('Show settings');}
+
+// Dashboard toggle
+function switchDashboard(type){
+    const individualBtn = document.getElementById('individualToggle');
+    const businessBtn = document.getElementById('businessToggle');
+    if(type==='individual'){
+        individualBtn.classList.add('active'); individualBtn.classList.remove('inactive');
+        businessBtn.classList.add('inactive'); businessBtn.classList.remove('active');
+    } else {
+        individualBtn.classList.add('inactive'); individualBtn.classList.remove('active');
+        businessBtn.classList.add('active'); businessBtn.classList.remove('inactive');
+    }
+}
+
+// Wallet switching
+const walletData = {
+    'NGN': {balance:'₦245,000'},
+    'GHS': {balance:'GH₵12,000'},
+    'RWF': {balance:'RWF 300,000'}
+};
+function switchWallet(currency){
+    document.getElementById('balanceAmount').innerText = walletData[currency].balance;
+}
+
+// POS modal
+function openPOS(name){
+    document.getElementById('posTitle').innerText = name+' Payment';
+    document.getElementById('posModal').style.display='flex';
+}
+function closePOS(){document.getElementById('posModal').style.display='none'; alert('Payment submitted');}
+</script>
+
+</body>
+</html>
