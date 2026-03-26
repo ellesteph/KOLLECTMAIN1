@@ -20,48 +20,37 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:1rem 1.5rem;
+    padding:1rem;
     background:#fff;
 }
 
 .logo{font-weight:700;font-size:1.3rem;}
 
-/* SWITCHER */
-#dashboardSwitcher{
-    display:flex;
-    position:relative;
-    margin:1rem auto;
-    width:90%;
-    max-width:400px;
-    height:50px;
-    background:#000;
-    border-radius:30px;
-}
+/* HAMBURGER */
+.menu-btn{cursor:pointer;}
 
-.switcher-option{
-    flex:1;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:600;
-    cursor:pointer;
-    z-index:2;
-    color:#000; /* FIXED */
-}
-
-.switcher-option.active{
-    color:#000;
-}
-
-/* WHITE SLIDER */
-#switcherIndicator{
-    position:absolute;
-    width:50%;
+/* SIDE MENU */
+#sideMenu{
+    position:fixed;
+    left:-260px;
+    top:0;
+    width:260px;
     height:100%;
     background:#fff;
-    border-radius:30px;
+    box-shadow:0 0 20px rgba(0,0,0,0.15);
     transition:0.3s;
+    padding:20px;
+    z-index:100;
+}
+
+#overlay{
+    position:fixed;
+    top:0;
     left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.4);
+    display:none;
 }
 
 /* QUICK ACTIONS */
@@ -69,22 +58,19 @@ header{
     display:flex;
     gap:15px;
     padding:1rem;
-    overflow-x:auto;
 }
 
 .quick-action-btn{
-    min-width:100px;
     background:#fff;
-    border-radius:16px;
     padding:1rem;
-    text-align:center;
+    border-radius:15px;
 }
 
 /* WALLET */
 .wallet-container{margin:1rem;}
 
 .wallet-card{
-    border-radius:28px;
+    border-radius:25px;
     padding:1.5rem;
     color:#fff;
     display:none;
@@ -95,78 +81,115 @@ header{
     font-weight:700;
 }
 
-/* BUSINESS CARD EXTRA */
-.business-insight{
+.actions{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+}
+
+.action-btn{
+    background:rgba(255,255,255,0.1);
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+}
+
+/* CURRENCY CUT */
+.currency-cut{
+    display:flex;
+    gap:10px;
     margin-top:10px;
-    font-size:0.8rem;
-    opacity:0.8;
+}
+
+.currency-cut span{
+    background:#fff;
+    padding:5px 10px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.currency-cut .active{
+    background:#000;
+    color:#fff;
 }
 
 /* POS */
 .section{padding:1rem;}
-.pos-row{display:flex;gap:1rem;overflow:auto;}
+
+.pos-row{
+    display:flex;
+    gap:10px;
+}
 
 .pos-card{
-    min-width:180px;
     background:#fff;
     padding:1rem;
     border-radius:15px;
 }
 
-/* TRANSACTIONS */
-.tx{
-    background:#fff;
-    margin:10px;
-    padding:10px;
-    border-radius:10px;
+/* BUSINESS PAGES */
+#businessLanding, #businessDashboard{
+    display:none;
+    padding:1rem;
 }
-
-/* BUSINESS SECTION */
-#businessSection{display:none;}
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo">Kollect</div>
+    <i data-feather="menu" class="menu-btn" onclick="openMenu()"></i>
+    <div class="logo">Kollect</div>
 </header>
 
-<!-- SWITCHER -->
-<div id="dashboardSwitcher">
-    <div id="switcherIndicator"></div>
-
-    <div class="switcher-option active" onclick="switchDashboard('individual')">
-        Individual
-    </div>
-
-    <div class="switcher-option" onclick="switchDashboard('business')">
-        Business
-    </div>
+<!-- SIDE MENU -->
+<div id="sideMenu">
+    <h3>Kollect</h3>
+    <p onclick="closeMenu()">Dashboard</p>
+    <p onclick="openBusiness()">Kollect for Business</p>
 </div>
 
-<!-- QUICK ACTIONS -->
+<div id="overlay" onclick="closeMenu()"></div>
+
+<!-- MAIN DASHBOARD -->
+<div id="mainDashboard">
+
 <div class="quick-actions">
     <div class="quick-action-btn">Airtime</div>
     <div class="quick-action-btn">Data</div>
 </div>
 
-<!-- INDIVIDUAL -->
-<div id="individualSection">
+<div class="wallet-container">
 
-    <div class="wallet-container">
-        <div class="wallet-card" id="individualWallet" style="background:#000;display:block;">
-            <div>Available Balance</div>
-            <div class="balance-amount">₦245,000</div>
+    <div class="wallet-card" style="background:black;" data-wallet="NGN">
+        <div>Available Balance</div>
+        <div class="balance-amount">₦245,000</div>
+        <div class="actions">
+            <div class="action-btn">Send</div>
+            <div class="action-btn">Withdraw</div>
+            <div class="action-btn">Fund</div>
+            <div class="action-btn">Bank</div>
         </div>
+    </div>
+
+    <div class="wallet-card" style="background:purple;" data-wallet="GHS">
+        <div>Available Balance</div>
+        <div class="balance-amount">GH₵12,000</div>
+    </div>
+
+    <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
+        <div>Available Balance</div>
+        <div class="balance-amount">RWF 300,000</div>
+    </div>
+
+    <div class="currency-cut">
+        <span class="active" onclick="showWallet('NGN')">₦</span>
+        <span onclick="showWallet('GHS')">GH₵</span>
+        <span onclick="showWallet('RWF')">RWF</span>
     </div>
 
 </div>
 
-<!-- BUSINESS -->
-<div id="businessSection"></div>
-
-<!-- POS -->
 <div class="section">
     <h3>Virtual POS</h3>
     <div class="pos-row">
@@ -175,88 +198,85 @@ header{
     </div>
 </div>
 
-<!-- TRANSACTIONS -->
-<div class="tx">+ ₦50,000</div>
-<div class="tx">- ₦5,000</div>
+</div>
+
+<!-- BUSINESS LANDING -->
+<div id="businessLanding">
+    <h2>Take your business to another level 🚀</h2>
+    <p>Accept payments, track revenue and grow with Kollect</p>
+
+    <button onclick="signupBusiness()">Sign Up</button>
+    <button onclick="loginBusiness()">Login</button>
+</div>
+
+<!-- BUSINESS DASHBOARD -->
+<div id="businessDashboard">
+
+    <div class="wallet-container">
+        <div class="wallet-card" style="background:black; display:block;">
+            <div>Business Balance</div>
+            <div class="balance-amount">₦850,000</div>
+            <p>Today: ₦120k</p>
+            <p>Growth: +18%</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Smart Payments</h3>
+        <div class="pos-row">
+            <div class="pos-card">Payment Link</div>
+            <div class="pos-card">QR Pay</div>
+            <div class="pos-card">Split Pay</div>
+        </div>
+    </div>
+
+</div>
 
 <script>
 feather.replace();
 
-let current = "individual";
+let isBusinessUser = false;
 
-function switchDashboard(type){
-    current = type;
+/* MENU */
+function openMenu(){
+    document.getElementById("sideMenu").style.left = "0";
+    document.getElementById("overlay").style.display = "block";
+}
 
-    const indicator = document.getElementById("switcherIndicator");
-    const options = document.querySelectorAll(".switcher-option");
+function closeMenu(){
+    document.getElementById("sideMenu").style.left = "-260px";
+    document.getElementById("overlay").style.display = "none";
+}
 
-    options.forEach(o => o.classList.remove("active"));
+/* WALLET SWITCH */
+function showWallet(wallet){
+    document.querySelectorAll(".wallet-card").forEach(w=>{
+        w.style.display = w.dataset.wallet===wallet ? "block":"none";
+    });
+}
+showWallet('NGN');
 
-    if(type === "individual"){
-        indicator.style.left = "0%";
-        options[0].classList.add("active");
+/* BUSINESS FLOW */
+function openBusiness(){
+    closeMenu();
+    document.getElementById("mainDashboard").style.display="none";
 
-        document.getElementById("individualSection").style.display="block";
-        document.getElementById("businessSection").style.display="none";
+    if(!isBusinessUser){
+        document.getElementById("businessLanding").style.display="block";
     }else{
-        indicator.style.left = "50%";
-        options[1].classList.add("active");
-
-        document.getElementById("individualSection").style.display="none";
-
-        loadBusiness();
-        document.getElementById("businessSection").style.display="block";
+        document.getElementById("businessDashboard").style.display="block";
     }
 }
 
-/* LOAD BUSINESS */
-function loadBusiness(){
+function signupBusiness(){
+    isBusinessUser = true;
+    document.getElementById("businessLanding").style.display="none";
+    document.getElementById("businessDashboard").style.display="block";
+}
 
-    let section = document.getElementById("businessSection");
-
-    if(section.innerHTML !== "") return;
-
-    section.innerHTML = `
-        <div class="wallet-container">
-
-            <!-- ONLY ONE WALLET -->
-            <div class="wallet-card" style="background:#000;display:block;">
-                <div>Business Balance</div>
-                <div class="balance-amount">₦845,000</div>
-
-                <!-- 🔥 SMART FEATURES -->
-                <div class="business-insight">
-                    💡 Today’s Sales: ₦120,000
-                </div>
-
-                <div class="business-insight">
-                    📈 Weekly Growth: +18%
-                </div>
-
-                <div class="business-insight">
-                    ⭐ Top Customer: David
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- SMART PAYMENTS -->
-        <div class="section">
-            <h3>Smart Payments</h3>
-            <div class="pos-row">
-                <div class="pos-card">Payment Link</div>
-                <div class="pos-card">Split Payment</div>
-                <div class="pos-card">QR Pay</div>
-            </div>
-        </div>
-
-        <!-- AI INSIGHTS -->
-        <div class="section">
-            <h3>AI Insights</h3>
-            <div class="pos-card">Next week sales prediction: ₦300k</div>
-        </div>
-    `;
+function loginBusiness(){
+    isBusinessUser = true;
+    openBusiness();
 }
 </script>
 
