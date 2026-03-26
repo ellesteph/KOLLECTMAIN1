@@ -25,16 +25,8 @@ header{
     top:0;
     z-index:10;
 }
-
-.logo{
-    font-weight:700;
-    font-size:1.3rem;
-}
-
-.hamburger{
-    font-size:1.6rem;
-    cursor:pointer;
-}
+.logo{ font-weight:700; font-size:1.3rem; }
+.hamburger{ font-size:1.6rem; cursor:pointer; }
 
 /* HAMBURGER MENU */
 .menu {
@@ -48,12 +40,8 @@ header{
     transition:0.3s;
     z-index:100;
 }
-.menu.show{
-    left:0;
-}
-.menu h3{
-    margin-bottom:1.5rem;
-}
+.menu.show{ left:0; }
+.menu h3{ margin-bottom:1.5rem; }
 .menu button{
     display:block;
     width:100%;
@@ -65,10 +53,7 @@ header{
     cursor:pointer;
     font-weight:600;
 }
-.menu button:hover{
-    background:#000;
-    color:#fff;
-}
+.menu button:hover{ background:#000; color:#fff; }
 
 /* PROFILE & GREETING */
 .greeting-container{
@@ -93,72 +78,49 @@ header{
     font-weight:600;
     transition:0.3s;
 }
-.toggle-btn.active{
+.toggle-btn.active{ background:#000; color:#fff; }
+.toggle-btn.inactive{ background:#f2f2f2; color:#000; }
+
+/* WALLET CARD */
+.wallet-card-container{ padding:1rem 1.5rem 2rem; display:flex; justify-content:center; }
+.wallet-card{
+    width:320px;
+    height:180px;
+    border-radius:20px;
     background:#000;
     color:#fff;
-}
-.toggle-btn.inactive{
-    background:#f2f2f2;
-    color:#000;
-}
-
-/* QUICK ACTIONS */
-.quick-actions{
-    display:flex;
-    gap:15px;
-    padding:0 1.5rem 1rem;
-    overflow-x:auto;
-}
-.quick-action-btn{
-    min-width:100px;
-    background:#fff;
-    border-radius:16px;
-    padding:1rem 0.5rem;
-    text-align:center;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-    cursor:pointer;
-    flex-shrink:0;
-    transition:0.3s;
-}
-.quick-action-btn:hover{transform:translateY(-3px);}
-
-/* WALLETS */
-.wallet-container{
-    display:flex;
-    gap:1rem;
-    overflow-x:auto;
-    padding:0 1.5rem 1rem;
-}
-.wallet-card{
-    min-width:220px;
-    border-radius:28px;
-    padding:1.5rem;
-    color:#fff;
-    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+    padding:1rem;
     position:relative;
+    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
-.wallet-card .currency-tab{
+.wallet-card .currency-tabs{
     position:absolute;
     top:50%;
-    right:-30px;
+    right:-45px;
+    display:flex;
+    flex-direction:column;
     transform:translateY(-50%);
+    gap:10px;
+}
+.currency-tab{
     background:#fff;
     color:#000;
-    padding:0.3rem 0.6rem;
+    padding:0.3rem 0.7rem;
     border-radius:12px;
     cursor:pointer;
     font-weight:600;
     box-shadow:0 3px 10px rgba(0,0,0,0.2);
     font-size:0.85rem;
 }
-
-/* CARD CONTENT */
 .balance-label{opacity:0.7;font-size:0.85rem;}
-.balance-amount{font-size:2rem;font-weight:700;margin:0.5rem 0 1rem;}
-.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:0.5rem;}
-.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);padding:0.7rem;border-radius:12px;cursor:pointer;transition:0.3s;font-size:0.85rem;}
-.action-btn:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px);}
-.icon{font-size:1.2rem;}
+.balance-amount{font-size:1.8rem;font-weight:700;margin:0.5rem 0;}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;}
+.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.1);backdrop-filter:blur(5px);padding:0.7rem;border-radius:12px;cursor:pointer;transition:0.3s;font-size:0.75rem;}
+.action-btn:hover{background:rgba(255,255,255,0.2);transform:translateY(-2px);}
+.icon{font-size:1.1rem;}
 
 /* VIRTUAL POS */
 .pos-row{display:flex;gap:1rem;padding:0 1.5rem 1rem;overflow-x:auto;}
@@ -172,192 +134,3 @@ header{
 .modal-content button{padding:0.8rem 1rem;border:none;border-radius:10px;background:#000;color:#fff;font-weight:600;cursor:pointer;}
 </style>
 </head>
-<body>
-
-<header>
-    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
-    <div class="logo">Kollect</div>
-</header>
-
-<!-- HAMBURGER MENU -->
-<div class="menu" id="menu">
-    <h3>Menu</h3>
-    <button onclick="switchDashboard('individual')">Dashboard</button>
-    <button onclick="showTransactions()">Transactions</button>
-    <button onclick="switchDashboard('business')">Kollect for Business</button>
-    <button onclick="showSettings()">Settings</button>
-    <button onclick="logout()">Logout</button>
-</div>
-
-<!-- PROFILE GREETING -->
-<div class="greeting-container" id="greeting">
-    Good Morning, Elle!
-</div>
-
-<!-- TOGGLE SWITCH -->
-<div class="toggle-container">
-    <button id="individualToggle" class="toggle-btn active" onclick="switchDashboard('individual')">Individual</button>
-    <button id="businessToggle" class="toggle-btn inactive" onclick="switchDashboard('business')">Business</button>
-</div>
-
-<!-- QUICK ACTIONS -->
-<div class="quick-actions" id="quickActions">
-    <div class="quick-action-btn" onclick="alert('Fund Wallet')">Fund Wallet</div>
-    <div class="quick-action-btn" onclick="alert('Payments & Transfers')">Payments</div>
-    <div class="quick-action-btn" onclick="alert('Transactions')">Transactions</div>
-    <div class="quick-action-btn" onclick="alert('Airtime / Data')">Airtime / Data</div>
-    <div class="quick-action-btn" onclick="alert('Bills')">Bills</div>
-</div>
-
-<!-- INDIVIDUAL DASHBOARD -->
-<div id="individualDashboard">
-<div class="wallet-container" id="walletContainer">
-    <!-- Naira Wallet -->
-    <div class="wallet-card" style="background:#000;" data-currency="NGN">
-        <div class="balance-label">Available Balance</div>
-        <div class="balance-amount">₦245,000</div>
-        <div class="actions">
-            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
-            <div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
-            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-        </div>
-        <div class="currency-tab" onclick="switchWallet('GH₵')">GH₵</div>
-    </div>
-
-    <!-- Cedis Wallet (hidden by default) -->
-    <div class="wallet-card" style="background:purple;display:none;" data-currency="GHS">
-        <div class="balance-label">Available Balance</div>
-        <div class="balance-amount">GH₵12,000</div>
-        <div class="actions">
-            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
-            <div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
-            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-        </div>
-        <div class="currency-tab" onclick="switchWallet('RWF')">RWF</div>
-    </div>
-
-    <!-- RWF Wallet (hidden by default) -->
-    <div class="wallet-card" style="background:#1a237e;display:none;" data-currency="RWF">
-        <div class="balance-label">Available Balance</div>
-        <div class="balance-amount">RWF 300,000</div>
-        <div class="actions">
-            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
-            <div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
-            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-        </div>
-    </div>
-</div>
-
-<h2 class="section-title">Virtual POS</h2>
-<div class="pos-row">
-    <div class="pos-card" onclick="openPOS('₦ Naira')">
-        <strong>₦ Naira Payments</strong>
-        <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
-    </div>
-    <div class="pos-card" onclick="openPOS('$ USD')">
-        <strong>$ USD Payments</strong>
-        <p style="font-size:0.8rem;color:#555;">Accept payments in USD</p>
-    </div>
-    <div class="pos-card" onclick="alert('More currencies coming soon!')">
-        <strong>+ More</strong>
-    </div>
-</div>
-</div> <!-- end individualDashboard -->
-
-<!-- BUSINESS DASHBOARD -->
-<div id="businessDashboard" style="display:none;">
-<div class="wallet-container">
-    <div class="wallet-card" style="background:#000;">
-        <div class="balance-label">Available Balance</div>
-        <div class="balance-amount">₦1,200,000</div>
-        <div class="actions">
-            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
-            <div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
-            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
-        </div>
-    </div>
-</div>
-
-<h2 class="section-title">Virtual POS</h2>
-<div class="pos-row">
-    <div class="pos-card" onclick="openPOS('₦ Naira')">
-        <strong>₦ Naira Payments</strong>
-        <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
-    </div>
-</div>
-</div>
-
-<!-- POS MODAL -->
-<div class="modal" id="posModal">
-    <div class="modal-content">
-        <h3 id="posTitle">POS Payment</h3>
-        <input type="number" placeholder="Amount">
-        <input type="text" placeholder="Card Number">
-        <input type="text" placeholder="MM/YY">
-        <input type="text" placeholder="CVC">
-        <button onclick="closePOS()">Pay Now</button>
-    </div>
-</div>
-
-<script>
-feather.replace();
-
-// Time-based greeting
-const greetingEl = document.getElementById('greeting');
-const hour = new Date().getHours();
-let greetText = 'Hello';
-if(hour < 12) greetText = 'Good Morning';
-else if(hour < 18) greetText = 'Good Afternoon';
-else greetText = 'Good Evening';
-greetingEl.innerText = `${greetText}, Elle!`;
-
-// Hamburger menu
-function toggleMenu(){document.getElementById('menu').classList.toggle('show');}
-function logout(){alert('Logged out');}
-function showTransactions(){alert('Show transactions');}
-function showSettings(){alert('Show settings');}
-
-// Individual/Business toggle
-function switchDashboard(type){
-    const individualBtn = document.getElementById('individualToggle');
-    const businessBtn = document.getElementById('businessToggle');
-    if(type==='individual'){
-        document.getElementById('individualDashboard').style.display='block';
-        document.getElementById('businessDashboard').style.display='none';
-        individualBtn.classList.add('active'); individualBtn.classList.remove('inactive');
-        businessBtn.classList.add('inactive'); businessBtn.classList.remove('active');
-    } else {
-        document.getElementById('individualDashboard').style.display='none';
-        document.getElementById('businessDashboard').style.display='block';
-        individualBtn.classList.add('inactive'); individualBtn.classList.remove('active');
-        businessBtn.classList.add('active'); businessBtn.classList.remove('inactive');
-    }
-}
-
-// Switch wallets
-function switchWallet(currency){
-    const wallets = document.querySelectorAll('.wallet-card');
-    wallets.forEach(w=>{
-        if(w.dataset.currency === currency) w.style.display='block';
-        else w.style.display='none';
-    });
-}
-
-// POS modal
-function openPOS(name){
-    document.getElementById('posTitle').innerText = name + ' Payment';
-    document.getElementById('posModal').style.display='flex';
-}
-function closePOS(){document.getElementById('posModal').style.display='none';alert('Payment submitted');}
-
-// default dashboard
-switchDashboard('individual');
-switchWallet('NGN');
-</script>
-
-</body>
-</html>
