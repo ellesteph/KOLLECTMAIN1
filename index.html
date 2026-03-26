@@ -6,36 +6,34 @@
 <title>Kollect | Virtual POS</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* General Styles */
 body { margin:0; font-family:'Inter', sans-serif; background:#fff; color:#000; overflow-x:hidden; }
 header { padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; background:#fff; z-index:10; box-shadow:0 2px 4px rgba(0,0,0,0.05);}
 header h1 { font-weight:700; font-size:1.8rem; }
 header nav button { margin-left:1rem; padding:0.5rem 1rem; border:none; font-weight:600; cursor:pointer; border-radius:8px; transition: all 0.3s ease; color:#fff; background: linear-gradient(135deg,#6a11cb,#2575fc); }
 header nav button:hover { opacity:0.9; transform:translateY(-2px); }
 
-/* Container */
 .container { padding:4rem 2rem; max-width:1200px; margin:auto; }
 
-/* Hero Section */
-.hero { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 2rem; animation:fadeIn 1s ease forwards; background: linear-gradient(135deg,#eef2f3,#8e9eab); border-radius:12px; margin-bottom:3rem; }
+.hero { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 2rem; animation:fadeIn 1s ease forwards; background: linear-gradient(135deg,#eef2f3,#8e9eab); border-radius:12px; margin-bottom:3rem; position:relative; }
+.segment-toggle { display:flex; gap:1rem; margin-bottom:2rem; }
+.segment-toggle button { padding:0.5rem 1.5rem; border:none; font-weight:600; border-radius:8px; cursor:pointer; transition: all 0.3s; background:#fff; color:#6a11cb; box-shadow:0 4px 10px rgba(0,0,0,0.1);}
+.segment-toggle button.active { background:linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; }
 .hero h2 { font-size:2.5rem; margin-bottom:1rem; color:#1f2937; }
 .hero p { font-size:1.2rem; margin-bottom:2rem; opacity:0.85; }
-.hero button { font-size:1rem; padding:0.8rem 2rem; border:none; cursor:pointer; border-radius:8px; font-weight:600; margin:0.5rem; background: linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; transition: all 0.3s ease; box-shadow:0 4px 15px rgba(0,0,0,0.15); }
-.hero button:hover { transform:translateY(-3px); opacity:0.95; box-shadow:0 6px 20px rgba(0,0,0,0.25); }
+.hero .hero-buttons { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
+.hero button.hero-btn { font-size:1rem; padding:0.8rem 2rem; border:none; cursor:pointer; border-radius:8px; font-weight:600; margin:0.5rem; background: linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; transition: all 0.3s ease; box-shadow:0 4px 15px rgba(0,0,0,0.15); }
+.hero button.hero-btn:hover { transform:translateY(-3px); opacity:0.95; box-shadow:0 6px 20px rgba(0,0,0,0.25); }
 
-/* Why Kollect Section */
-#whyKollect { display:none; text-align:center; margin-top:4rem; }
-#whyKollect.active { display:block; animation:fadeIn 0.8s ease forwards; }
-#whyKollect h2 { font-size:2rem; margin-bottom:1rem; color:#6a11cb; }
-#whyKollect p { font-size:1.1rem; margin-bottom:2rem; line-height:1.6; opacity:0.85; }
-
-/* Features Cards */
-.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:2rem; margin-top:2rem; }
+/* Features Grid */
+.features { margin-top:3rem; }
+.features h2 { text-align:center; font-size:2rem; color:#6a11cb; margin-bottom:2rem; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:2rem; }
 .card { padding:2rem; border-radius:12px; text-align:center; background: linear-gradient(135deg,#6a11cb,#2575fc); color:#fff; font-weight:600; transition: transform 0.3s ease, box-shadow 0.3s ease; cursor:pointer; }
 .card:hover { transform:translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.2); }
 
 /* Animations */
 @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
 </style>
 </head>
 <body>
@@ -52,27 +50,23 @@ header nav button:hover { opacity:0.9; transform:translateY(-2px); }
 
     <!-- Hero Section -->
     <section class="hero">
-        <h2>Accept Payments Globally<br>Without a POS</h2>
-        <p>Kollect helps African businesses and individuals accept local and foreign cards seamlessly and securely.</p>
-        <button onclick="window.location.href='signup.html'">Get Started</button>
-        <button onclick="showWhyKollect()">Why Kollect</button>
+        <div class="segment-toggle">
+            <button id="individualBtn" class="active" onclick="switchSegment('individual')">Individual</button>
+            <button id="businessBtn" onclick="switchSegment('business')">Business</button>
+        </div>
+        <h2 id="heroTitle">Accept Payments Globally<br>Without a POS</h2>
+        <p id="heroDesc">Kollect helps African individuals accept local and foreign cards seamlessly and securely.</p>
+        <div class="hero-buttons">
+            <button class="hero-btn" id="heroPrimaryBtn" onclick="window.location.href='signup.html'">Get Started</button>
+            <button class="hero-btn" id="heroSecondaryBtn" onclick="showFeatures()">Learn More</button>
+        </div>
     </section>
 
-    <!-- Why Kollect Section -->
-    <section id="whyKollect">
-        <h2>What is Kollect?</h2>
-        <p>Kollect is a virtual payment platform that lets you receive payments anywhere without needing a physical POS machine. Accept payments globally using your phone or laptop.</p>
-        
-        <h2>How It Works</h2>
-        <p><strong>Create Account:</strong> Sign up and access your dashboard instantly.</p>
-        <p><strong>Accept Payments:</strong> Use Virtual POS or payment links.</p>
-        <p><strong>Get Paid:</strong> Receive money instantly into your wallet.</p>
-
-        <h2>Built for Modern Payments</h2>
-        <p>Accept payments anywhere, anytime with low payout fees and instant settlement.</p>
-
-        <h2>Why Kollect</h2>
-        <div class="grid">
+    <!-- Features Section -->
+    <section class="features" id="featuresSection">
+        <h2 id="featuresTitle">Why Kollect</h2>
+        <div class="grid" id="featuresGrid">
+            <!-- Individual Feature Cards -->
             <div class="card">No Hardware Needed</div>
             <div class="card">Accept Foreign Cards</div>
             <div class="card">Instant Settlement</div>
@@ -86,11 +80,76 @@ header nav button:hover { opacity:0.9; transform:translateY(-2px); }
 </div>
 
 <script>
-// Show Why Kollect section
-function showWhyKollect() {
-    const section = document.getElementById('whyKollect');
-    section.classList.add('active');
-    section.scrollIntoView({ behavior: 'smooth' });
+const individualFeatures = [
+    "No Hardware Needed",
+    "Accept Foreign Cards",
+    "Instant Settlement",
+    "Multi-Currency Support",
+    "Low Payout Fees",
+    "Secure Transactions",
+    "Fast Onboarding"
+];
+
+const businessFeatures = [
+    "Multi-Currency Business Accounts",
+    "Bulk Local Payouts",
+    "Developer APIs",
+    "Unified Dashboard",
+    "Crypto-ready Infrastructure",
+    "Virtual Cards",
+    "Enterprise-grade Security"
+];
+
+function switchSegment(segment) {
+    const heroTitle = document.getElementById('heroTitle');
+    const heroDesc = document.getElementById('heroDesc');
+    const featuresGrid = document.getElementById('featuresGrid');
+    const individualBtn = document.getElementById('individualBtn');
+    const businessBtn = document.getElementById('businessBtn');
+    const heroPrimaryBtn = document.getElementById('heroPrimaryBtn');
+    const heroSecondaryBtn = document.getElementById('heroSecondaryBtn');
+
+    // Clear existing features
+    featuresGrid.innerHTML = '';
+
+    if(segment === 'individual'){
+        heroTitle.innerHTML = "Accept Payments Globally<br>Without a POS";
+        heroDesc.innerText = "Kollect helps African individuals accept local and foreign cards seamlessly and securely.";
+        individualFeatures.forEach(f => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerText = f;
+            featuresGrid.appendChild(div);
+        });
+        individualBtn.classList.add('active');
+        businessBtn.classList.remove('active');
+        heroPrimaryBtn.innerText = "Get Started";
+        heroPrimaryBtn.onclick = () => window.location.href='signup.html';
+        heroSecondaryBtn.innerText = "Learn More";
+        heroSecondaryBtn.onclick = () => showFeatures();
+    } else {
+        heroTitle.innerHTML = "Modern Banking for Global Businesses";
+        heroDesc.innerText = "Get USD, NGN, and other business accounts with multi-currency support, seamless payouts, and enterprise-grade security.";
+        businessFeatures.forEach(f => {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerText = f;
+            featuresGrid.appendChild(div);
+        });
+        businessBtn.classList.add('active');
+        individualBtn.classList.remove('active');
+        heroPrimaryBtn.innerText = "Create Account";
+        heroPrimaryBtn.onclick = () => window.location.href='signup.html';
+        heroSecondaryBtn.innerText = "Log In";
+        heroSecondaryBtn.onclick = () => window.location.href='login.html';
+    }
+
+    // Scroll to features smoothly
+    document.getElementById('featuresSection').scrollIntoView({ behavior:'smooth' });
+}
+
+function showFeatures(){
+    document.getElementById('featuresSection').scrollIntoView({ behavior:'smooth' });
 }
 </script>
 
