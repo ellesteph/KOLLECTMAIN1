@@ -88,7 +88,7 @@ const individualFeatures = [
 ];
 
 const businessFeatures = [
-    "Virtual POS: Receive Payments Anywhere in Africa",
+    "Virtual POS: Accept Payments Across Africa Easily",
     "Multi-Currency Business Accounts (NGN, USD, EUR, etc.)",
     "Fast Payments for Freelancers & SMEs",
     "Bulk Local Payouts Across African Countries",
@@ -106,7 +106,6 @@ function switchSegment(segment) {
     const heroPrimaryBtn = document.getElementById('heroPrimaryBtn');
     const heroSecondaryBtn = document.getElementById('heroSecondaryBtn');
 
-    // Clear existing features
     featuresGrid.innerHTML = '';
 
     if(segment === 'individual'){
@@ -125,8 +124,8 @@ function switchSegment(segment) {
         heroSecondaryBtn.innerText = "Learn More";
         heroSecondaryBtn.onclick = () => showFeatures();
     } else {
-        heroTitle.innerHTML = "Modern African Banking for Businesses";
-        heroDesc.innerText = "Kollect empowers African businesses and freelancers to receive payments instantly, run bulk payouts, and manage multi-currency accounts without hassle.";
+        heroTitle.innerHTML = "Virtual POS & African Business Banking";
+        heroDesc.innerText = "Kollect empowers African businesses and freelancers to receive payments instantly using our Virtual POS system and manage multi-currency accounts with ease.";
         businessFeatures.forEach(f => {
             const div = document.createElement('div');
             div.className = 'card';
@@ -141,7 +140,6 @@ function switchSegment(segment) {
         heroSecondaryBtn.onclick = () => window.location.href='login.html';
     }
 
-    // Scroll to features smoothly
     document.getElementById('featuresSection').scrollIntoView({ behavior:'smooth' });
 }
 
