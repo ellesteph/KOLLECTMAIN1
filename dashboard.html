@@ -98,7 +98,7 @@ header{
     transform:translateY(-3px);
 }
 
-/* WALLET CARDS */
+/* WALLET CARD */
 .wallet-container{
     position:relative;
     margin:1rem;
@@ -106,28 +106,6 @@ header{
     height:auto;
 }
 
-/* MAIN KOLLECT WALLET */
-.main-wallet{
-    background:#000;
-    color:#fff;
-    border-radius:28px;
-    padding:1.8rem 1.5rem;
-    box-shadow:0 20px 50px rgba(0,0,0,0.2);
-    margin-bottom:1rem;
-}
-
-.main-wallet .balance-label{
-    opacity:0.7;
-    font-size:0.85rem;
-}
-
-.main-wallet .balance-amount{
-    font-size:2.3rem;
-    font-weight:700;
-    margin:0.5rem 0 0;
-}
-
-/* WALLET CARDS (Naira, GH₵, RWF) */
 .wallet-card{
     border-radius:28px;
     padding:1.8rem 1.5rem;
@@ -204,7 +182,7 @@ header{
     color:#fff;
 }
 
-/* POS CARDS */
+/* POS */
 .section{
     padding:1rem;
 }
@@ -227,38 +205,6 @@ header{
 
 .pos-card:hover{
     transform:translateY(-3px);
-}
-
-/* POS PAYMENT SECTION */
-.pos-payment{
-    display:none;
-    background:#fff;
-    border-radius:20px;
-    padding:1.5rem;
-    margin-top:1rem;
-    box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
-
-.pos-payment h4{
-    margin-bottom:1rem;
-}
-
-.pos-payment input, .pos-payment select{
-    width:100%;
-    padding:0.8rem;
-    margin-bottom:0.8rem;
-    border-radius:10px;
-    border:1px solid #ccc;
-}
-
-.pos-payment button{
-    padding:0.8rem 1rem;
-    border:none;
-    border-radius:10px;
-    background:#000;
-    color:#fff;
-    font-weight:600;
-    cursor:pointer;
 }
 
 /* TRANSACTIONS */
@@ -307,6 +253,46 @@ header{
 
 .credit{color:#16a34a;}
 .debit{color:#dc2626;}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:50;
+}
+
+.modal-content{
+    background:#fff;
+    padding:2rem;
+    border-radius:20px;
+    width:90%;
+    max-width:400px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+}
+
+.modal-content input{
+    width:100%;
+    padding:0.8rem;
+    margin:0.6rem 0;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+.modal-content button{
+    padding:0.8rem 1rem;
+    border:none;
+    border-radius:10px;
+    background:#000;
+    color:#fff;
+    font-weight:600;
+    cursor:pointer;
+}
 </style>
 </head>
 <body>
@@ -330,51 +316,101 @@ header{
     </div>
 </header>
 
-<!-- MAIN KOLLECT WALLET -->
-<div class="wallet-container">
-    <div class="main-wallet">
-        <div class="balance-label">Kollect Wallet Balance</div>
-        <div class="balance-amount" id="mainBalance">₦500,000</div>
+<!-- QUICK ACTIONS -->
+<div class="quick-actions">
+    <div class="quick-action-btn" onclick="alert('Top Up Airtime')">
+        <i data-feather="smartphone"></i>
+        <div>Airtime</div>
+    </div>
+    <div class="quick-action-btn" onclick="alert('Top Up Data')">
+        <i data-feather="wifi"></i>
+        <div>Data</div>
     </div>
 </div>
 
-<!-- POS CARDS -->
-<div class="section">
-    <h3>Virtual POS</h3>
-    <div class="pos-row">
-        <div class="pos-card" onclick="openPOS('₦')">
-            <strong>₦ Naira POS</strong>
-        </div>
-        <div class="pos-card" onclick="openPOS('$')">
-            <strong>$ USD POS</strong>
-        </div>
-        <div class="pos-card" onclick="openPOS('GH₵')">
-            <strong>GH₵ POS</strong>
-        </div>
-        <div class="pos-card" onclick="openPOS('RWF')">
-            <strong>RWF POS</strong>
+<!-- WALLET CARDS -->
+<div class="wallet-container">
+
+    <!-- Naira Wallet -->
+    <div class="wallet-card" style="background:#000;" data-wallet="NGN">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance">₦245,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
         </div>
     </div>
 
-    <!-- POS Payment Section -->
-    <div class="pos-payment" id="posPaymentSection">
-        <h4 id="posTitle">POS Payment</h4>
-        <div>
-            <label>POS Wallet Balance: <span id="posBalance">₦0</span></label>
+    <!-- GH₵ Wallet -->
+    <div class="wallet-card" style="background:purple;" data-wallet="GHS">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance-ghs">GH₵12,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
         </div>
-        <div>
-            <label>Select Wallet to Send Money:</label>
-            <select id="targetWallet">
-                <option value="NGN">₦ Naira Wallet</option>
-                <option value="GHS">GH₵ Wallet</option>
-                <option value="RWF">RWF Wallet</option>
-            </select>
+    </div>
+
+    <!-- RWF Wallet -->
+    <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
+        <div class="balance-label">Available Balance</div>
+        <div class="balance-amount" id="balance-rwf">RWF 300,000</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
         </div>
-        <input type="number" placeholder="Amount">
-        <input type="text" placeholder="Card Number">
-        <input type="text" placeholder="MM/YY">
-        <input type="text" placeholder="CVC">
-        <button onclick="submitPayment()">Charge / Receive Payment</button>
+    </div>
+
+    <!-- VIRTUAL POS WALLET -->
+    <div class="wallet-card" style="background:#2a2a72;" data-wallet="POS">
+        <div class="balance-label">Virtual POS Wallet</div>
+
+        <!-- Sub-wallet toggles -->
+        <div class="currency-cut" style="margin-top:10px;">
+            <span class="active" onclick="showPOSSubWallet('USD', this)">USD</span>
+            <span onclick="showPOSSubWallet('NGN', this)">₦</span>
+        </div>
+
+        <div class="balance-amount" id="balance-pos">USD 0.00</div>
+        <div class="actions">
+            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send to Kollect</span></div>
+            <div class="action-btn"><i data-feather="home" class="icon"></i><span>To Bank</span></div>
+            <div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
+            <div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund Wallet</span></div>
+        </div>
+    </div>
+
+    <!-- CURVED EDGE CURRENCIES -->
+    <div class="currency-cut">
+        <span class="active" onclick="showWallet('NGN')">₦</span>
+        <span onclick="showWallet('GHS')">GH₵</span>
+        <span onclick="showWallet('RWF')">RWF</span>
+        <span onclick="showWallet('POS')">💳 POS</span>
+        <span class="more">+</span>
+    </div>
+</div>
+
+<!-- POS -->
+<div class="section">
+    <h3>Virtual POS</h3>
+    <div class="pos-row">
+        <div class="pos-card" onclick="openPOS('₦ Naira')">
+            <strong>₦ Naira Payments</strong>
+            <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
+        </div>
+        <div class="pos-card" onclick="openPOS('$ USD')">
+            <strong>$ USD Payments</strong>
+            <p style="font-size:0.8rem;color:#555;">Accept payments in USD</p>
+        </div>
+        <div class="pos-card" onclick="openPOS('+ More')">
+            <strong>+ More</strong>
+        </div>
     </div>
 </div>
 
@@ -401,6 +437,18 @@ header{
         <div class="tx" data-type="credit">
             <span>Received from Jane</span><span class="credit">+ ₦20,000</span>
         </div>
+    </div>
+</div>
+
+<!-- POS MODAL -->
+<div class="modal" id="posModal">
+    <div class="modal-content">
+        <h3 id="posTitle">POS Payment</h3>
+        <input type="number" placeholder="Amount">
+        <input type="text" placeholder="Card Number">
+        <input type="text" placeholder="MM/YY">
+        <input type="text" placeholder="CVC">
+        <button onclick="closePOS()">Pay Now</button>
     </div>
 </div>
 
@@ -433,27 +481,40 @@ else if(h<18) g="Good Afternoon";
 else g="Good Evening";
 document.getElementById("userName").innerText = g + " 👋";
 
-/* OPEN POS PAYMENT SECTION */
-function openPOS(currency){
-    const posSection = document.getElementById("posPaymentSection");
-    const posTitle = document.getElementById("posTitle");
-    const posBalance = document.getElementById("posBalance");
-
-    posTitle.innerText = currency + " POS Payment";
-
-    // Dummy balances for each POS wallet
-    if(currency==='₦') posBalance.innerText = '₦245,000';
-    else if(currency==='$') posBalance.innerText = '$1,200';
-    else if(currency==='GH₵') posBalance.innerText = 'GH₵12,000';
-    else if(currency==='RWF') posBalance.innerText = 'RWF 300,000';
-
-    posSection.style.display = 'block';
+/* SHOW SELECTED WALLET */
+function showWallet(wallet){
+    const wallets = document.querySelectorAll(".wallet-card");
+    wallets.forEach(w=>{
+        w.style.display = w.dataset.wallet===wallet ? "block" : "none";
+    });
+    document.querySelectorAll(".currency-cut span").forEach(span=>{
+        span.classList.remove("active");
+        if(span.textContent.includes(wallet) || (wallet==='POS' && span.textContent.includes('POS'))) span.classList.add("active");
+    });
 }
 
-/* SUBMIT PAYMENT */
-function submitPayment(){
-    const wallet = document.getElementById("targetWallet").value;
-    alert('Payment submitted to ' + wallet + ' wallet!');
+// Initialize: show Naira first
+showWallet('NGN');
+
+/* SHOW POS SUB-WALLETS */
+function showPOSSubWallet(sub, el){
+    const balance = document.getElementById("balance-pos");
+    if(sub==='USD') balance.innerText = "USD 0.00";
+    else balance.innerText = "₦ 0.00";
+
+    el.parentElement.querySelectorAll('span').forEach(s=>s.classList.remove('active'));
+    el.classList.add('active');
+}
+
+/* POS MODAL */
+function openPOS(name){
+    document.getElementById("posTitle").innerText = name + " Payment";
+    document.getElementById("posModal").style.display = "flex";
+}
+
+function closePOS(){
+    document.getElementById("posModal").style.display = "none";
+    alert("Payment submitted!");
 }
 
 /* TRANSACTION FILTER */
