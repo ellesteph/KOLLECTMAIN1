@@ -3,259 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kollect Dashboard</title>
+<title>Kollect</title>
+
+<!-- Fonts & Scripts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
 <style>
-body {
-    margin:0;
-    font-family:'Inter', sans-serif;
-    background:#f5f5f7;
-}
+body { margin:0; font-family:'Inter', sans-serif; background:#fff; color:#000; }
+header { padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #000; position:sticky; top:0; background:#fff; z-index:10;}
+header h1 { margin:0; font-weight:700; }
+header .profile { display:flex; align-items:center; gap:0.5rem; cursor:pointer; }
+header .profile img { width:40px; height:40px; border-radius:50%; object-fit:cover; }
+header button.logout { background:#000; color:#fff; border:none; padding:0.5rem 1rem; cursor:pointer; border-radius:6px; transition:0.3s; }
+header button.logout:hover { opacity:0.85; transform:translateY(-2px); }
 
-/* HEADER */
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1rem 1.5rem;
-    background:#fff;
-    box-shadow:0 3px 10px rgba(0,0,0,0.05);
-    position:sticky;
-    top:0;
-    z-index:10;
-}
-.logo{ font-weight:700; font-size:1.3rem; }
-.hamburger{ font-size:1.6rem; cursor:pointer; }
+.container { max-width:1000px; margin:2rem auto; padding:2rem; }
 
-/* HAMBURGER MENU */
-.menu {
-    position:fixed;
-    top:0; left:-250px;
-    width:250px;
-    height:100%;
-    background:#fff;
-    box-shadow:2px 0 15px rgba(0,0,0,0.2);
-    padding:2rem 1rem;
-    transition:0.3s;
-    z-index:100;
-}
-.menu.show{ left:0; }
-.menu h3{ margin-bottom:1.5rem; }
-.menu button{
-    display:block;
-    width:100%;
-    padding:0.8rem;
-    margin-bottom:0.5rem;
-    border:none;
-    background:#f2f2f2;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:600;
-}
-.menu button:hover{ background:#000; color:#fff; }
+/* Tabs */
+.tab-bar { display:flex; gap:1rem; margin-bottom:2rem; flex-wrap:wrap; }
+.tab-bar button { flex:1; padding:0.8rem; border:none; border-radius:6px; font-weight:600; cursor:pointer; background:#000; color:#fff; transition:0.3s; }
+.tab-bar button.active { background:#fff; color:#000; border:2px solid #000; }
 
-/* PROFILE & GREETING */
-.greeting-container{
-    padding:1rem 1.5rem 0;
-    font-weight:600;
-    font-size:1.2rem;
-}
+/* Tab content */
+.tab-content { display:none; opacity:0; transform:translateY(20px); transition:0.5s ease; }
+.tab-content.active { display:block; opacity:1; transform:translateY(0); }
 
-/* TOGGLE SWITCH */
-.toggle-container{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:1rem 1.5rem;
-    gap:1rem;
-}
-.toggle-btn{
-    padding:0.5rem 1.2rem;
-    border:none;
-    border-radius:20px;
-    cursor:pointer;
-    font-weight:600;
-    transition:0.3s;
-}
-.toggle-btn.active{ background:#000; color:#fff; }
-.toggle-btn.inactive{ background:#f2f2f2; color:#000; }
+/* Wallet Section */
+.wallet-section { margin-bottom:2rem; }
+.currency-tabs { display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap; }
+.currency-tab { flex:1; text-align:center; padding:0.5rem 0.8rem; border-radius:10px; background:#eee; cursor:pointer; font-weight:600; transition:0.3s; }
+.currency-tab.active { background:#000; color:#fff; }
+.currency-tab.more { background:#ccc; }
 
-/* WALLET CARD */
-.wallet-card-container{ padding:1rem 1.5rem 2rem; display:flex; justify-content:center; }
-.wallet-card{
-    width:320px;
-    height:180px;
-    border-radius:20px;
-    background:#000;
-    color:#fff;
-    padding:1rem;
-    position:relative;
-    box-shadow:0 20px 50px rgba(0,0,0,0.2);
-    display:flex;
-    flex-direction:column;
-    justify-content:space-between;
-}
-.wallet-card .currency-tabs{
-    position:absolute;
-    top:50%;
-    right:-45px;
-    display:flex;
-    flex-direction:column;
-    transform:translateY(-50%);
-    gap:10px;
-}
-.currency-tab{
-    background:#fff;
-    color:#000;
-    padding:0.3rem 0.7rem;
-    border-radius:12px;
-    cursor:pointer;
-    font-weight:600;
-    box-shadow:0 3px 10px rgba(0,0,0,0.2);
-    font-size:0.85rem;
-}
-.balance-label{opacity:0.7;font-size:0.85rem;}
-.balance-amount{font-size:1.8rem;font-weight:700;margin:0.5rem 0;}
-.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;}
-.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.1);backdrop-filter:blur(5px);padding:0.7rem;border-radius:12px;cursor:pointer;transition:0.3s;font-size:0.75rem;}
-.action-btn:hover{background:rgba(255,255,255,0.2);transform:translateY(-2px);}
-.icon{font-size:1.1rem;}
+.wallet-card { position:relative; background:linear-gradient(135deg,#000,#333); color:#fff; border-radius:16px; padding:2rem 1.5rem 1.5rem 1.5rem; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.2); transition:0.3s; }
+.wallet-card:hover { transform:translateY(-3px); box-shadow:0 10px 25px rgba(0,0,0,0.3); }
+.card-top-curve { position:absolute; top:0; left:0; width:100%; height:50px; background:#fff; clip-path:ellipse(120% 100% at 50% 0%); opacity:0.15; }
+.wallet-header { display:flex; justify-content:space-between; font-weight:600; font-size:0.95rem; margin-bottom:1rem; position:relative; z-index:1; }
+.wallet-balance { font-size:1.5rem; font-weight:700; margin-bottom:1rem; position:relative; z-index:1; }
+.wallet-actions button { margin-right:0.5rem; margin-top:0.5rem; }
 
-/* VIRTUAL POS */
-.pos-row{display:flex;gap:1rem;padding:0 1.5rem 1rem;overflow-x:auto;}
-.pos-card{min-width:190px;background:#fff;border-radius:18px;padding:1rem;box-shadow:0 8px 25px rgba(0,0,0,0.08);cursor:pointer;transition:0.3s;}
-.pos-card:hover{transform:translateY(-3px);}
-
-/* MODAL */
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:50;}
-.modal-content{background:#fff;padding:2rem;border-radius:20px;width:90%;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
-.modal-content input{width:100%;padding:0.8rem;margin:0.6rem 0;border-radius:10px;border:1px solid #ccc;}
-.modal-content button{padding:0.8rem 1rem;border:none;border-radius:10px;background:#000;color:#fff;font-weight:600;cursor:pointer;}
+/* Other tabs content */
+input, select { width:100%; padding:0.8rem; margin:0.8rem 0; border:1px solid #000; border-radius:6px; font-size:1rem; transition:0.3s; }
+input:focus, select:focus { outline:none; border-color:#000; box-shadow:0 0 5px rgba(0,0,0,0.2); }
+button.primary { background:#000; color:#fff; border:none; padding:0.8rem 1rem; border-radius:6px; cursor:pointer; font-weight:600; transition:0.3s; margin-top:0.5rem; }
+button.primary:hover { transform:translateY(-2px); opacity:0.9; }
+.wallet-cards { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem; }
+.transactions { max-height:300px; overflow-y:auto; border:1px solid #000; padding:1rem; margin-top:1rem; border-radius:6px; }
+.transaction-item { display:flex; justify-content:space-between; padding:0.5rem 0; border-bottom:1px solid #ccc; }
+.card-section { margin-bottom:2rem; }
 </style>
 </head>
+
 <body>
 
 <header>
-    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
-    <div class="logo">Kollect</div>
+    <h1>Kollect</h1>
+    <div class="profile">
+        <img src="https://i.pravatar.cc/150?img=3" alt="Profile Image" id="profileImage">
+        <span id="greeting">Hello!</span>
+    </div>
+    <button class="logout" onclick="logout()">Logout</button>
 </header>
 
-<!-- HAMBURGER MENU -->
-<div class="menu" id="menu">
-    <h3>Menu</h3>
-    <button onclick="switchDashboard('individual')">Dashboard</button>
-    <button onclick="showTransactions()">Transactions</button>
-    <button onclick="switchDashboard('business')">Kollect for Business</button>
-    <button onclick="showSettings()">Settings</button>
-    <button onclick="logout()">Logout</button>
-</div>
+<div class="container">
 
-<!-- GREETING -->
-<div class="greeting-container" id="greeting">Good Morning, Elle!</div>
+    <!-- Wallet Section -->
+    <div id="walletTab" class="tab-content active">
+        <div class="wallet-section">
+            <!-- Currency Tabs -->
+            <div class="currency-tabs">
+                <div class="currency-tab active" onclick="switchCurrency('NGN')">₦ Naira</div>
+                <div class="currency-tab" onclick="switchCurrency('GHS')">GH₵ Cedis</div>
+                <div class="currency-tab" onclick="switchCurrency('RWF')">RWF</div>
+                <div class="currency-tab more" onclick="showMoreCurrencies()">+ More</div>
+            </div>
 
-<!-- TOGGLE -->
-<div class="toggle-container">
-    <button id="individualToggle" class="toggle-btn active" onclick="switchDashboard('individual')">Individual</button>
-    <button id="businessToggle" class="toggle-btn inactive" onclick="switchDashboard('business')">Business</button>
-</div>
-
-<!-- WALLET CARD -->
-<div class="wallet-card-container">
-    <div class="wallet-card" id="walletCard">
-        <div>
-            <div class="balance-label" id="balanceLabel">Available Balance</div>
-            <div class="balance-amount" id="balanceAmount">₦245,000</div>
-        </div>
-        <div class="actions" id="walletActions">
-            <div class="action-btn"><i data-feather="credit-card" class="icon"></i><span>Wallet</span></div>
-            <div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Payments</span></div>
-            <div class="action-btn"><i data-feather="list" class="icon"></i><span>Transactions</span></div>
-            <div class="action-btn"><i data-feather="phone" class="icon"></i><span>Airtime/Data</span></div>
-            <div class="action-btn"><i data-feather="file-text" class="icon"></i><span>Bills</span></div>
-        </div>
-        <div class="currency-tabs">
-            <div class="currency-tab" onclick="switchWallet('GHS')">GH₵</div>
-            <div class="currency-tab" onclick="switchWallet('RWF')">RWF</div>
+            <!-- Main Wallet Card -->
+            <div class="wallet-card curved-card" id="walletCard">
+                <div class="card-top-curve"></div>
+                <div class="wallet-header">
+                    <span id="currencySymbol">₦</span>
+                    <span id="walletTitle">Naira Wallet</span>
+                </div>
+                <div class="wallet-balance" id="walletBalance">₦0</div>
+                <div class="wallet-actions">
+                    <button class="primary small" onclick="openTab(null,'fund')">Fund Wallet</button>
+                    <button class="primary small" onclick="openTab(null,'payments')">Payment & Transfer</button>
+                    <button class="primary small" onclick="openTab(null,'transactions')">Transactions</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Fund Wallet Tab -->
+    <div id="fund" class="tab-content">
+        <h2>Fund Your Wallet</h2>
+        <div class="card-section">
+            <select id="fundCurrency">
+                <option value="NGN">Naira (₦)</option>
+                <option value="GH₵">Cedis (GH₵)</option>
+                <option value="RWF">Rwandan Franc (RWF)</option>
+            </select>
+            <input type="number" id="fundAmount" placeholder="Enter Amount">
+            <label>Select Funding Method:</label>
+            <select id="fundMethod">
+                <option value="card">Card Payment</option>
+                <option value="bank">Bank Transfer</option>
+                <option value="ussd">USSD</option>
+            </select>
+            <div id="cardFields">
+                <input type="text" id="cardNumber" placeholder="Card Number">
+                <input type="text" id="cardExpiry" placeholder="MM/YY">
+                <input type="text" id="cardCVC" placeholder="CVC">
+            </div>
+            <button class="primary" onclick="fundWallet()">Fund Wallet</button>
+        </div>
+    </div>
+
+    <!-- Virtual POS Tab -->
+    <div id="pos" class="tab-content">
+        <h2>Virtual POS - Accept Payments</h2>
+        <div class="wallet-cards" id="posCardsContainer">
+            <!-- Cards will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Payments & Transfers -->
+    <div id="payments" class="tab-content">
+        <h2>Payments & Transfers</h2>
+        <select id="paymentCurrency">
+            <option value="NGN">Naira (₦)</option>
+            <option value="GH₵">Cedis (GH₵)</option>
+            <option value="RWF">Rwandan Franc (RWF)</option>
+        </select>
+        <button class="primary" onclick="sendToUser()">Send to Kollect User</button>
+        <button class="primary" onclick="withdraw()">Withdraw to Bank</button>
+    </div>
+
+    <!-- Transactions Tab -->
+    <div id="transactions" class="tab-content">
+        <h2>Recent Transactions</h2>
+        <div id="transaction-list" class="transactions"></div>
+    </div>
+
 </div>
 
-<!-- VIRTUAL POS -->
-<h2 style="padding:0 1.5rem;">Virtual POS</h2>
-<div class="pos-row">
-    <div class="pos-card" onclick="openPOS('₦ Naira')">
-        <strong>₦ Naira Payments</strong>
-        <p style="font-size:0.8rem;color:#555;">Accept payments in Naira</p>
-    </div>
-    <div class="pos-card" onclick="openPOS('$ USD')">
-        <strong>$ USD Payments</strong>
-        <p style="font-size:0.8rem;color:#555;">Accept payments in USD</p>
-    </div>
-    <div class="pos-card" onclick="alert('More currencies coming soon!')">
-        <strong>+ More</strong>
-    </div>
-</div>
-
-<!-- POS MODAL -->
-<div class="modal" id="posModal">
-    <div class="modal-content">
-        <h3 id="posTitle">POS Payment</h3>
-        <input type="number" placeholder="Amount">
-        <input type="text" placeholder="Card Number">
-        <input type="text" placeholder="MM/YY">
-        <input type="text" placeholder="CVC">
-        <button onclick="closePOS()">Pay Now</button>
-    </div>
-</div>
+<script src="firebase.js"></script>
+<script src="app.js"></script>
 
 <script>
-feather.replace();
-
-// Time-based greeting
-const greetingEl = document.getElementById('greeting');
-const hour = new Date().getHours();
-let greetText = 'Hello';
-if(hour < 12) greetText = 'Good Morning';
-else if(hour < 18) greetText = 'Good Afternoon';
-else greetText = 'Good Evening';
-greetingEl.innerText = `${greetText}, Elle!`;
-
-// Hamburger menu
-function toggleMenu(){document.getElementById('menu').classList.toggle('show');}
-function logout(){alert('Logged out');}
-function showTransactions(){alert('Show transactions');}
-function showSettings(){alert('Show settings');}
-
-// Dashboard toggle
-function switchDashboard(type){
-    const individualBtn = document.getElementById('individualToggle');
-    const businessBtn = document.getElementById('businessToggle');
-    if(type==='individual'){
-        individualBtn.classList.add('active'); individualBtn.classList.remove('inactive');
-        businessBtn.classList.add('inactive'); businessBtn.classList.remove('active');
-    } else {
-        individualBtn.classList.add('inactive'); individualBtn.classList.remove('active');
-        businessBtn.classList.add('active'); businessBtn.classList.remove('inactive');
-    }
+// Tab switching
+function openTab(evt, tabName){
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(tc => tc.classList.remove('active'));
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    tabBtns.forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    if(evt) evt.currentTarget.classList.add('active');
 }
 
-// Wallet switching
-const walletData = {
-    'NGN': {balance:'₦245,000'},
-    'GHS': {balance:'GH₵12,000'},
-    'RWF': {balance:'RWF 300,000'}
+// Profile greeting
+function updateGreeting(name){
+    const greeting = document.getElementById('greeting');
+    const hour = new Date().getHours();
+    let timeGreet = "Hello";
+    if(hour<12) timeGreet = "Good morning";
+    else if(hour<18) timeGreet = "Good afternoon";
+    else timeGreet = "Good evening";
+    greeting.innerText = `${timeGreet} ${name}`;
+}
+
+// Currency switching
+let currentCurrency = 'NGN';
+const currencyData = {
+    NGN: { symbol: '₦', title: 'Naira Wallet', balanceId: 'balance-ngn' },
+    GHS: { symbol: 'GH₵', title: 'Cedis Wallet', balanceId: 'balance-ghc' },
+    RWF: { symbol: 'RWF', title: 'Rwandan Franc Wallet', balanceId: 'balance-rwf' }
 };
-function switchWallet(currency){
-    document.getElementById('balanceAmount').innerText = walletData[currency].balance;
+function switchCurrency(currency){
+    currentCurrency = currency;
+    document.querySelectorAll('.currency-tab').forEach(tab => tab.classList.remove('active'));
+    document.querySelector(`.currency-tab:contains(${currency})`)?.classList.add('active');
+    document.getElementById('currencySymbol').innerText = currencyData[currency].symbol;
+    document.getElementById('walletTitle').innerText = currencyData[currency].title;
+    document.getElementById('walletBalance').innerText = currencyData[currency].symbol + "0"; // Firebase balance here
 }
+function showMoreCurrencies(){ alert("More currencies coming soon!"); }
 
-// POS modal
-function openPOS(name){
-    document.getElementById('posTitle').innerText = name+' Payment';
-    document.getElementById('posModal').style.display='flex';
-}
-function closePOS(){document.getElementById('posModal').style.display='none'; alert('Payment submitted');}
+// Firebase auth
+const auth = firebase.auth();
+const db = firebase.firestore();
+auth.onAuthStateChanged(user => {
+    if(user){
+        // Display user name
+        db.collection("users").doc(user.uid).get().then(doc=>{
+            const data = doc.data();
+            const name = data.details?.fullName || data.details?.businessName || "User";
+            updateGreeting(name);
+        });
+    } else {
+        window.location.href = "login.html";
+    }
+});
+
+// Logout
+function logout(){ auth.signOut(); }
 </script>
 
 </body>
