@@ -3,179 +3,262 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kollect Dashboard</title>
+<title>Kollect</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/feather-icons"></script>
+
 <style>
-body {margin:0;font-family:'Inter', sans-serif;background:#f5f5f7;}
-header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,0.05);}
+body{
+    margin:0;
+    font-family:'Inter', sans-serif;
+    background:#f5f5f7;
+}
+
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem 1.5rem;
+    background:#fff;
+}
+
 .logo{font-weight:700;font-size:1.3rem;}
-.profile-section{display:flex;align-items:center;gap:1rem;position:relative;}
-.profile-section img{width:35px;height:35px;border-radius:50%;cursor:pointer;}
-.dropdown, .notif-dropdown{position:absolute;top:45px;right:0;background:#fff;border-radius:10px;box-shadow:0 10px 25px rgba(0,0,0,0.1);display:none;overflow:hidden;z-index:20;}
-.dropdown button, .notif-dropdown div{border:none;background:#fff;padding:0.8rem 1.2rem;width:100%;text-align:left;cursor:pointer;}
-.dropdown button:hover, .notif-dropdown div:hover{background:#f2f2f2;}
-.bell{font-size:1.4rem;cursor:pointer;}
-#dashboardSwitcher{display:flex;justify-content:space-around;align-items:center;background:#000;border-radius:25px;margin:1rem auto;height:50px;max-width:400px;position:relative;}
-.switcher-option {font-weight:600;cursor:pointer;position:relative;z-index:2;color:#000;}
-.switcher-option.active { color:#fff; }
-#switcherIndicator{position:absolute;top:-5px;width:50%;height:60px;background:#fff;border-radius:30px;transition:0.3s all ease;z-index:1;}
-.quick-actions{display:flex;gap:15px;padding:1rem;overflow-x:auto;}
-.quick-action-btn{min-width:100px;background:#fff;border-radius:16px;padding:1rem 0.5rem;text-align:center;box-shadow:0 5px 15px rgba(0,0,0,0.1);cursor:pointer;flex-shrink:0;transition:0.3s;}
-.quick-action-btn:hover{transform:translateY(-3px);}
-.wallet-container{position:relative;margin:1rem;overflow:hidden;height:auto;}
-.wallet-card{border-radius:28px;padding:1.8rem 1.5rem;color:#fff;position:relative;box-shadow:0 20px 50px rgba(0,0,0,0.2);transition:transform 0.4s ease, opacity 0.4s ease;display:none;}
-.balance-label{opacity:0.7;font-size:0.85rem;}
-.balance-amount{font-size:2.3rem;font-weight:700;margin:0.5rem 0 1.2rem;}
-.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:0.5rem;}
-.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:rgba(255,255,255,0.08);backdrop-filter:blur(10px);padding:0.7rem;border-radius:12px;cursor:pointer;transition:0.3s;font-size:0.85rem;}
-.action-btn:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px);}
-.icon{font-size:1.1rem;}
-.currency-cut{display:flex;gap:12px;margin-top:15px;}
-.currency-cut span{cursor:pointer;font-weight:600;padding:0.25rem 0.6rem;border-radius:12px;transition:0.3s;background:#fff;color:#000;font-size:0.85rem;}
-.currency-cut span.active{background:#000;color:#fff;}
+
+/* SWITCHER */
+#dashboardSwitcher{
+    display:flex;
+    position:relative;
+    margin:1rem auto;
+    width:90%;
+    max-width:400px;
+    height:50px;
+    background:#000;
+    border-radius:30px;
+}
+
+.switcher-option{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:600;
+    cursor:pointer;
+    z-index:2;
+    color:#000; /* FIXED */
+}
+
+.switcher-option.active{
+    color:#000;
+}
+
+/* WHITE SLIDER */
+#switcherIndicator{
+    position:absolute;
+    width:50%;
+    height:100%;
+    background:#fff;
+    border-radius:30px;
+    transition:0.3s;
+    left:0;
+}
+
+/* QUICK ACTIONS */
+.quick-actions{
+    display:flex;
+    gap:15px;
+    padding:1rem;
+    overflow-x:auto;
+}
+
+.quick-action-btn{
+    min-width:100px;
+    background:#fff;
+    border-radius:16px;
+    padding:1rem;
+    text-align:center;
+}
+
+/* WALLET */
+.wallet-container{margin:1rem;}
+
+.wallet-card{
+    border-radius:28px;
+    padding:1.5rem;
+    color:#fff;
+    display:none;
+}
+
+.balance-amount{
+    font-size:2rem;
+    font-weight:700;
+}
+
+/* BUSINESS CARD EXTRA */
+.business-insight{
+    margin-top:10px;
+    font-size:0.8rem;
+    opacity:0.8;
+}
+
+/* POS */
 .section{padding:1rem;}
-.pos-row{display:flex;gap:1rem;overflow-x:auto;}
-.pos-card{min-width:190px;background:#fff;border-radius:18px;padding:1.2rem;box-shadow:0 8px 25px rgba(0,0,0,0.08);transition:0.3s;cursor:pointer;}
-.pos-card:hover{transform:translateY(-3px);}
-.tx-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;}
-.tx-filters{display:flex;gap:0.5rem;}
-.tx-filters button{padding:0.4rem 0.8rem;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;background:#eee;}
-.tx-filters button.active{background:#000;color:#fff;}
-.tx-search input{padding:0.5rem 0.8rem;border-radius:8px;border:1px solid #ccc;width:150px;}
-.tx{display:flex;justify-content:space-between;padding:0.9rem;background:#fff;border-radius:12px;margin-bottom:0.6rem;font-size:0.9rem;}
-.credit{color:#16a34a;}
-.debit{color:#dc2626;}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:50;}
-.modal-content{background:#fff;padding:2rem;border-radius:20px;width:90%;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,0.2);}
-.modal-content input{width:100%;padding:0.8rem;margin:0.6rem 0;border-radius:10px;border:1px solid #ccc;}
-.modal-content button{padding:0.8rem 1rem;border:none;border-radius:10px;background:#000;color:#fff;font-weight:600;cursor:pointer;}
+.pos-row{display:flex;gap:1rem;overflow:auto;}
+
+.pos-card{
+    min-width:180px;
+    background:#fff;
+    padding:1rem;
+    border-radius:15px;
+}
+
+/* TRANSACTIONS */
+.tx{
+    background:#fff;
+    margin:10px;
+    padding:10px;
+    border-radius:10px;
+}
+
+/* BUSINESS SECTION */
+#businessSection{display:none;}
 </style>
 </head>
+
 <body>
 
 <header>
 <div class="logo">Kollect</div>
-<div class="profile-section">
-<i class="bell" data-feather="bell" onclick="toggleNotif()"></i>
-<img src="https://via.placeholder.com/40" onclick="toggleMenu()">
-<span id="userName">User</span>
-<div class="dropdown" id="menu">
-<button onclick="logout()">Logout</button>
-</div>
-<div class="notif-dropdown" id="notifMenu">
-<div>Payment received</div>
-<div>Withdrawal successful</div>
-<div>Promo: Top up for 10% bonus</div>
-</div>
-</div>
 </header>
 
-<!-- DASHBOARD SWITCHER -->
+<!-- SWITCHER -->
 <div id="dashboardSwitcher">
-<div class="switcher-option active" data-type="individual" onclick="switchDashboard('individual')">Individual</div>
-<div class="switcher-option" data-type="business" onclick="switchDashboard('business')">Business</div>
-<div id="switcherIndicator"></div>
+    <div id="switcherIndicator"></div>
+
+    <div class="switcher-option active" onclick="switchDashboard('individual')">
+        Individual
+    </div>
+
+    <div class="switcher-option" onclick="switchDashboard('business')">
+        Business
+    </div>
 </div>
 
-<!-- INDIVIDUAL DASHBOARD -->
-<div id="individualDashboard">
-
+<!-- QUICK ACTIONS -->
 <div class="quick-actions">
-<div class="quick-action-btn"><i data-feather="smartphone"></i><div>Airtime</div></div>
-<div class="quick-action-btn"><i data-feather="wifi"></i><div>Data</div></div>
+    <div class="quick-action-btn">Airtime</div>
+    <div class="quick-action-btn">Data</div>
 </div>
 
-<div class="wallet-container">
-<div class="wallet-card" style="background:#000;" data-wallet="NGN">
-<div class="balance-label">Available Balance</div>
-<div class="balance-amount" id="balance">₦245,000</div>
-<div class="actions">
-<div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
-<div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
-<div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-<div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund</span></div>
-</div>
-</div>
+<!-- INDIVIDUAL -->
+<div id="individualSection">
 
-<div class="currency-cut">
-<span class="active" onclick="showWallet('NGN')">₦</span>
-</div>
-</div>
+    <div class="wallet-container">
+        <div class="wallet-card" id="individualWallet" style="background:#000;display:block;">
+            <div>Available Balance</div>
+            <div class="balance-amount">₦245,000</div>
+        </div>
+    </div>
 
 </div>
 
-<!-- BUSINESS DASHBOARD -->
-<div id="businessDashboard" style="display:none;"></div>
+<!-- BUSINESS -->
+<div id="businessSection"></div>
+
+<!-- POS -->
+<div class="section">
+    <h3>Virtual POS</h3>
+    <div class="pos-row">
+        <div class="pos-card">₦ Payments</div>
+        <div class="pos-card">$ Payments</div>
+    </div>
+</div>
+
+<!-- TRANSACTIONS -->
+<div class="tx">+ ₦50,000</div>
+<div class="tx">- ₦5,000</div>
 
 <script>
 feather.replace();
 
-/* PROFILE MENU & NOTIF */
-function toggleMenu(){document.getElementById("menu").style.display=(document.getElementById("menu").style.display==='block')?'none':'block';}
-function toggleNotif(){document.getElementById("notifMenu").style.display=(document.getElementById("notifMenu").style.display==='block')?'none':'block';}
-function logout(){alert("Logged out");}
-
-/* GREETING */
-const h=new Date().getHours();let g="Hello";
-if(h<12) g="Good Morning"; else if(h<18) g="Good Afternoon"; else g="Good Evening";
-document.getElementById("userName").innerText=g+" 👋";
-
-/* WALLET SHOW */
-function showWallet(wallet){document.querySelectorAll("#individualDashboard .wallet-card").forEach(w=>{w.style.display=w.dataset.wallet===wallet?"block":"none";});}
-
-/* SWITCHER */
-let currentDashboard='individual';
-const indicator=document.getElementById('switcherIndicator');
-const options=document.querySelectorAll('.switcher-option');
+let current = "individual";
 
 function switchDashboard(type){
-currentDashboard=type;
-options.forEach(opt=>{opt.classList.remove('active');opt.style.color='#000';});
-const activeOpt=document.querySelector(`.switcher-option[data-type="${type}"]`);
-activeOpt.classList.add('active');activeOpt.style.color='#fff';
-indicator.style.left=(type==='individual'?'0%':'50%');
-document.getElementById('individualDashboard').style.display=(type==='individual')?'block':'none';
-document.getElementById('businessDashboard').style.display=(type==='business')?'block':'none';
-if(type==='business') showBusiness();
+    current = type;
+
+    const indicator = document.getElementById("switcherIndicator");
+    const options = document.querySelectorAll(".switcher-option");
+
+    options.forEach(o => o.classList.remove("active"));
+
+    if(type === "individual"){
+        indicator.style.left = "0%";
+        options[0].classList.add("active");
+
+        document.getElementById("individualSection").style.display="block";
+        document.getElementById("businessSection").style.display="none";
+    }else{
+        indicator.style.left = "50%";
+        options[1].classList.add("active");
+
+        document.getElementById("individualSection").style.display="none";
+
+        loadBusiness();
+        document.getElementById("businessSection").style.display="block";
+    }
 }
 
-/* BUSINESS DASHBOARD */
-function showBusiness(){
-let bus=document.getElementById('businessDashboard');
-if(!bus.innerHTML){
-bus.innerHTML=`
-<div class="quick-actions">
-<div class="quick-action-btn"><i data-feather="smartphone"></i><div>Airtime</div></div>
-<div class="quick-action-btn"><i data-feather="wifi"></i><div>Data</div></div>
-</div>
+/* LOAD BUSINESS */
+function loadBusiness(){
 
-<div class="wallet-container">
-<div class="wallet-card" style="background:#000;" data-wallet="NGN">
-<div class="balance-label">Available Balance</div>
-<div class="balance-amount">₦245,000</div>
-<div class="actions">
-<div class="action-btn"><i data-feather="arrow-up-right" class="icon"></i><span>Send</span></div>
-<div class="action-btn"><i data-feather="home" class="icon"></i><span>Bank</span></div>
-<div class="action-btn"><i data-feather="dollar-sign" class="icon"></i><span>Withdraw</span></div>
-<div class="action-btn"><i data-feather="plus" class="icon"></i><span>Fund</span></div>
-</div>
-</div>
-<div class="currency-cut"><span class="active" onclick="showWalletBusiness('NGN')">₦</span></div>
-</div>
+    let section = document.getElementById("businessSection");
 
-<div class="section"><h3>Virtual POS</h3>
-<div class="pos-row">
-<div class="pos-card"><strong>₦ Naira Payments</strong></div>
-<div class="pos-card"><strong>+ More</strong></div>
-</div></div>
-`;
-feather.replace();
+    if(section.innerHTML !== "") return;
+
+    section.innerHTML = `
+        <div class="wallet-container">
+
+            <!-- ONLY ONE WALLET -->
+            <div class="wallet-card" style="background:#000;display:block;">
+                <div>Business Balance</div>
+                <div class="balance-amount">₦845,000</div>
+
+                <!-- 🔥 SMART FEATURES -->
+                <div class="business-insight">
+                    💡 Today’s Sales: ₦120,000
+                </div>
+
+                <div class="business-insight">
+                    📈 Weekly Growth: +18%
+                </div>
+
+                <div class="business-insight">
+                    ⭐ Top Customer: David
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SMART PAYMENTS -->
+        <div class="section">
+            <h3>Smart Payments</h3>
+            <div class="pos-row">
+                <div class="pos-card">Payment Link</div>
+                <div class="pos-card">Split Payment</div>
+                <div class="pos-card">QR Pay</div>
+            </div>
+        </div>
+
+        <!-- AI INSIGHTS -->
+        <div class="section">
+            <h3>AI Insights</h3>
+            <div class="pos-card">Next week sales prediction: ₦300k</div>
+        </div>
+    `;
 }
-}
-
-function showWalletBusiness(wallet){document.querySelectorAll("#businessDashboard .wallet-card").forEach(w=>{w.style.display=w.dataset.wallet===wallet?"block":"none";});}
-showWallet('NGN');
 </script>
+
 </body>
 </html>
