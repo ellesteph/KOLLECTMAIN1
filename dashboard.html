@@ -47,7 +47,7 @@ header{
     padding:1rem;
 }
 
-/* WALLET CARD */
+/* WALLET CARDS */
 .wallet-container{
     margin:1rem;
 }
@@ -127,9 +127,80 @@ header{
     cursor:pointer;
 }
 
-/* POS VIEW */
+/* POS WALLET VIEW */
 #posWalletView{
     display:none;
+}
+
+/* FREELANCER HUB */
+.freelancer-hub{
+    margin:1rem;
+    background:#1a1a1a;
+    border-radius:16px;
+    padding:1rem;
+    color:#fff;
+}
+
+.freelancer-hub h3{
+    margin-bottom:1rem;
+}
+
+.earnings{
+    background:#333;
+    border-radius:12px;
+    padding:1rem;
+    margin-bottom:1rem;
+}
+
+.earnings .balance-label{
+    opacity:0.7;
+    font-size:0.85rem;
+}
+
+.earnings .balance{
+    font-size:1.8rem;
+    font-weight:700;
+    margin:5px 0;
+    color:#fff;
+}
+
+.earnings .currency{
+    font-size:0.9rem;
+    opacity:0.7;
+}
+
+.fh-actions{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+    flex-wrap: wrap;
+}
+
+.fh-actions button, .fh-actions select{
+    padding:0.6rem 0.8rem;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.fh-actions button{
+    background:#6a0dad;
+    color:#fff;
+}
+
+.fh-actions select{
+    background:#fff;
+    color:#000;
+}
+
+.payment-link{
+    margin-top:12px;
+    padding:0.6rem;
+    border-radius:10px;
+    background:#444;
+    word-break:break-all;
+    font-size:0.85rem;
 }
 </style>
 </head>
@@ -240,6 +311,45 @@ header{
     </div>
 </div>
 
+<!-- FREELANCER HUB -->
+<div class="section freelancer-hub">
+    <h3>Freelancer Hub</h3>
+
+    <div class="earnings" data-currency="NGN">
+        <div class="balance-label">Earnings Wallet</div>
+        <div class="balance">₦15,000</div>
+        <div class="currency">Naira</div>
+
+        <div class="fh-actions">
+            <button onclick="generateLink('NGN')">Generate Payment Link</button>
+            <select id="sendToNGN">
+                <option value="NGN">Send to Naira Wallet</option>
+                <option value="GHS">Send to Cedis Wallet</option>
+                <option value="RWF">Send to RWF Wallet</option>
+            </select>
+            <button onclick="withdraw('NGN')">Withdraw to Main Wallet</button>
+        </div>
+        <div class="payment-link" id="linkNGN"></div>
+    </div>
+
+    <div class="earnings" data-currency="USD" style="margin-top:1rem;">
+        <div class="balance-label">Earnings Wallet</div>
+        <div class="balance">$200</div>
+        <div class="currency">USD</div>
+
+        <div class="fh-actions">
+            <button onclick="generateLink('USD')">Generate Payment Link</button>
+            <select id="sendToUSD">
+                <option value="NGN">Send to Naira Wallet</option>
+                <option value="GHS">Send to Cedis Wallet</option>
+                <option value="RWF">Send to RWF Wallet</option>
+            </select>
+            <button onclick="withdraw('USD')">Withdraw to Main Wallet</button>
+        </div>
+        <div class="payment-link" id="linkUSD"></div>
+    </div>
+</div>
+
 <script>
 feather.replace();
 
@@ -256,7 +366,6 @@ function showWallet(wallet,el){
     document.querySelectorAll(".wallet-card").forEach(w=>{
         w.style.display = w.dataset.wallet===wallet ? "block" : "none";
     });
-
     document.querySelectorAll(".currency-cut span").forEach(s=>s.classList.remove("active"));
     el.classList.add("active");
 }
@@ -265,12 +374,23 @@ showWallet('NGN', document.querySelector(".currency-cut span"));
 /* POS OPEN */
 function openPOS(type){
     document.getElementById("posWalletView").style.display = "block";
-
     if(type==="₦"){
         document.getElementById("posBalance").innerText="₦0.00";
     }else{
         document.getElementById("posBalance").innerText="$0.00";
     }
+}
+
+/* FREELANCER HUB FUNCTIONS */
+function withdraw(currency){
+    alert(`Withdraw from ${currency} earnings wallet to main wallet`);
+}
+
+function generateLink(currency){
+    const link = currency==='NGN' ? 
+        `https://kollect.app/pay?currency=NGN&amount=1000` : 
+        `https://kollect.app/pay?currency=USD&amount=200`;
+    document.getElementById(`link${currency}`).innerText = link;
 }
 </script>
 
