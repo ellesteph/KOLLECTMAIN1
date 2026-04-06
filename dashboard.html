@@ -23,24 +23,18 @@ header{
     background:#fff;
     box-shadow:0 3px 10px rgba(0,0,0,0.05);
 }
+.logo{ font-weight:700; font-size:1.3rem; }
 
-.logo{
-    font-weight:700;
-    font-size:1.3rem;
-}
-
-/* NAIRA DASHBOARD */
+/* NAIRA DASHBOARD (MAIN) */
 .naira-dashboard{
-    display:flex;
-    align-items:center;
-    gap:1rem;
+    background:#fff;
     margin:1rem;
+    border-radius:16px;
+    padding:1.5rem 1rem;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
-
-/* BALANCE CIRCLE */
 .balance-circle{
-    width:50px;
-    height:50px;
+    width:90px; height:90px;
     border-radius:50%;
     background:#000;
     display:flex;
@@ -48,37 +42,34 @@ header{
     justify-content:center;
     color:#fff;
     font-weight:700;
-    font-size:0.9rem;
+    font-size:1.2rem;
+    margin:0 auto 1rem auto;
 }
-
-/* ACTION BUTTONS GRID */
 .action-grid{
-    display:flex;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
     gap:12px;
-    flex:1;
 }
 .action-btn{
-    flex:1;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     background:#fff;
-    padding:0.8rem;
+    padding:1rem;
     border-radius:12px;
     box-shadow:0 5px 12px rgba(0,0,0,0.05);
     cursor:pointer;
     font-weight:600;
-    transition:0.2s;
     text-align:center;
-    color:#000;
+    transition:0.2s;
 }
 .action-btn:hover{
     transform:translateY(-2px);
     box-shadow:0 8px 15px rgba(0,0,0,0.1);
 }
 .action-btn i{
-    font-size:1.5rem;
+    font-size:1.8rem;
     margin-bottom:6px;
     color:#000;
 }
@@ -93,100 +84,67 @@ header{
     color:#fff;
     display:none;
 }
-.balance-label{
-    opacity:0.7;
-    font-size:0.85rem;
-}
-.balance-amount{
-    font-size:2.3rem;
-    font-weight:700;
-    margin:0.5rem 0 1.2rem;
-}
+.balance-label{ opacity:0.7; font-size:0.85rem; }
+.balance-amount{ font-size:2.3rem; font-weight:700; margin:0.5rem 0 1.2rem; }
 .wallet-card .actions{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:0.5rem;
+    display:grid; grid-template-columns:repeat(2,1fr); gap:0.5rem;
 }
 .wallet-card .actions .action-btn{
-    background:#fff;
-    color:#000;
-    font-size:0.85rem;
-    box-shadow:0 5px 10px rgba(0,0,0,0.05);
+    background:#fff; color:#000; font-size:0.85rem; box-shadow:0 5px 10px rgba(0,0,0,0.05);
 }
-.wallet-card .actions .action-btn i{
-    margin-right:4px;
-}
+.wallet-card .actions .action-btn i{ margin-right:4px; }
 
 /* CURRENCY SWITCH */
-.currency-cut{
-    display:flex;
-    gap:12px;
-    margin-top:15px;
-}
+.currency-cut{ display:flex; gap:12px; margin-top:15px; }
 .currency-cut span{
-    cursor:pointer;
-    font-weight:600;
-    padding:0.25rem 0.6rem;
-    border-radius:12px;
-    background:#fff;
-    color:#000;
+    cursor:pointer; font-weight:600; padding:0.25rem 0.6rem; border-radius:12px;
+    background:#fff; color:#000;
 }
-.currency-cut span.active{
-    background:#000;
-    color:#fff;
-}
+.currency-cut span.active{ background:#000; color:#fff; }
 
 /* POS */
-.section{
-    padding:1rem;
-}
-.pos-row{
-    display:flex;
-    gap:1rem;
-}
-.pos-card{
-    min-width:190px;
-    background:#fff;
-    border-radius:18px;
-    padding:1.2rem;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-    cursor:pointer;
-}
+.section{ padding:1rem; }
+.pos-row{ display:flex; gap:1rem; }
+.pos-card{ min-width:190px; background:#fff; border-radius:18px; padding:1.2rem;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08); cursor:pointer; }
 
 /* POS WALLET VIEW */
-#posWalletView{
-    display:none;
-}
+#posWalletView{ display:none; }
 
 /* ESCROW */
-#escrowSection{
-    margin:1rem;
-    display:none;
-}
+#escrowSection{ margin:1rem; display:none; }
 .escrow-card{
-    background:#fefefe;
-    border-radius:16px;
-    padding:1rem;
-    box-shadow:0 5px 15px rgba(0,0,0,0.06);
-    margin-bottom:1rem;
+    background:#fefefe; border-radius:16px; padding:1rem;
+    box-shadow:0 5px 15px rgba(0,0,0,0.06); margin-bottom:1rem;
 }
-.escrow-card h4{margin:0 0 0.5rem 0;font-size:1rem;}
-.escrow-card p{margin:0.25rem 0;font-size:0.85rem;color:#555;}
-.escrow-card .escrow-status{font-weight:600;margin-top:0.5rem;}
-.escrow-card .escrow-actions{margin-top:0.75rem;display:flex;gap:0.5rem;}
-.escrow-card button{
-    padding:0.5rem 0.7rem;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
+.escrow-card h4{ margin:0 0 0.5rem 0; font-size:1rem; }
+.escrow-card p{ margin:0.25rem 0; font-size:0.85rem; color:#555; }
+.escrow-card .escrow-status{ font-weight:600; margin-top:0.5rem; }
+.escrow-card .escrow-actions{ margin-top:0.75rem; display:flex; gap:0.5rem; }
+.escrow-card button{ padding:0.5rem 0.7rem; border:none; border-radius:10px; cursor:pointer; font-weight:600; }
+.escrow-card .ship-btn{ background:#6a0dad;color:#fff; }
+.escrow-card .confirm-btn{ background:green;color:#fff; }
+.escrow-card .dispute-btn{ background:red;color:#fff; }
+
+/* FREELANCER HUB */
+.freelancer-hub{
+    margin:1rem; background:#1a1a1a; border-radius:16px; padding:1rem; color:#fff;
 }
-.escrow-card .ship-btn{background:#6a0dad;color:#fff;}
-.escrow-card .confirm-btn{background:green;color:#fff;}
-.escrow-card .dispute-btn{background:red;color:#fff;}
+.freelancer-hub h3{ margin-bottom:1rem; }
+.earnings{
+    background:#333; border-radius:12px; padding:1rem; margin-bottom:1rem;
+}
+.earnings .balance-label{ opacity:0.7; font-size:0.85rem; }
+.earnings .balance{ font-size:1.8rem; font-weight:700; margin:5px 0; color:#fff; }
+.earnings .currency{ font-size:0.9rem; opacity:0.7; }
+.fh-actions{ display:flex; gap:10px; margin-top:10px; flex-wrap: wrap; }
+.fh-actions button, .fh-actions select{ padding:0.6rem 0.8rem; border:none; border-radius:10px; cursor:pointer; font-weight:600; }
+.fh-actions button{ background:#6a0dad; color:#fff; }
+.fh-actions select{ background:#fff; color:#000; }
+.payment-link{ margin-top:12px; padding:0.6rem; border-radius:10px; background:#444; word-break:break-all; font-size:0.85rem; }
+
 </style>
 </head>
-
 <body>
 
 <header>
@@ -196,20 +154,14 @@ header{
 
 <!-- NAIRA DASHBOARD -->
 <div class="naira-dashboard">
-    <div class="balance-circle">245K</div>
+    <div class="balance-circle">₦245K</div>
     <div class="action-grid">
-        <div class="action-btn">
-            <i data-feather="phone"></i>
-            Airtime
-        </div>
-        <div class="action-btn">
-            <i data-feather="globe"></i>
-            Data
-        </div>
-        <div class="action-btn" id="openEscrowBtn">
-            <i data-feather="lock"></i>
-            Escrow
-        </div>
+        <div class="action-btn" id="openEscrowBtn"><i data-feather="lock"></i> Escrow</div>
+        <div class="action-btn"><i data-feather="phone"></i> Airtime</div>
+        <div class="action-btn"><i data-feather="globe"></i> Data</div>
+        <div class="action-btn"><i data-feather="shopping-cart"></i> Shop</div>
+        <div class="action-btn"><i data-feather="send"></i> Transfer</div>
+        <div class="action-btn"><i data-feather="credit-card"></i> Bills</div>
     </div>
 </div>
 
@@ -262,12 +214,10 @@ header{
     <div style="background:#fff;padding:1.2rem;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.08);">
         <div style="font-size:0.85rem;color:#666;">Wallet Balance</div>
         <div id="posBalance" style="font-size:1.8rem;font-weight:700;">₦0.00</div>
-
         <input type="number" placeholder="Amount">
         <input type="text" placeholder="Card Number">
         <input type="text" placeholder="MM/YY">
         <input type="text" placeholder="CVC">
-
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
             <button>To Naira Wallet</button>
             <button>To Cedis Wallet</button>
@@ -284,6 +234,26 @@ header{
         <div id="escrowTotal" style="font-size:1.8rem; font-weight:700;">₦0</div>
     </div>
     <div id="escrowList"></div>
+</div>
+
+<!-- FREELANCER HUB -->
+<div class="section freelancer-hub">
+    <h3>Freelancer Hub</h3>
+    <div class="earnings" data-currency="NGN">
+        <div class="balance-label">Earnings Wallet</div>
+        <div class="balance">₦15,000</div>
+        <div class="currency">Naira</div>
+        <div class="fh-actions">
+            <button onclick="generateLink('NGN')">Generate Payment Link</button>
+            <select id="sendToNGN">
+                <option value="NGN">Send to Naira Wallet</option>
+                <option value="GHS">Send to Cedis Wallet</option>
+                <option value="RWF">Send to RWF Wallet</option>
+            </select>
+            <button onclick="withdraw('NGN')">Withdraw to Main Wallet</button>
+        </div>
+        <div class="payment-link" id="linkNGN"></div>
+    </div>
 </div>
 
 <script>
@@ -310,11 +280,15 @@ showWallet('GHS', document.querySelector(".currency-cut span"));
 /* POS OPEN */
 function openPOS(type){
     document.getElementById("posWalletView").style.display = "block";
-    if(type==="₦"){
-        document.getElementById("posBalance").innerText="₦0.00";
-    }else{
-        document.getElementById("posBalance").innerText="$0.00";
-    }
+    if(type==="₦"){ document.getElementById("posBalance").innerText="₦0.00"; }
+    else{ document.getElementById("posBalance").innerText="$0.00"; }
+}
+
+/* FREELANCER HUB FUNCTIONS */
+function withdraw(currency){ alert(`Withdraw from ${currency} earnings wallet to main wallet`); }
+function generateLink(currency){
+    const link = currency==='NGN' ? `https://kollect.app/pay?currency=NGN&amount=1000` : `https://kollect.app/pay?currency=USD&amount=200`;
+    document.getElementById(`link${currency}`).innerText = link;
 }
 
 /* ESCROW MODULE */
@@ -349,18 +323,9 @@ function renderEscrow(){
     document.getElementById('escrowTotal').innerText = `₦${totalLocked.toLocaleString()}`;
 }
 
-function markShipped(id){
-    const tx = escrowTransactions.find(t=>t.id===id);
-    if(tx){ tx.status='Shipped'; renderEscrow(); alert(`Transaction ${id} marked as shipped`);}
-}
-function confirmReceived(id){
-    const tx = escrowTransactions.find(t=>t.id===id);
-    if(tx){ tx.status='Completed'; tx.countdown=0; renderEscrow(); alert(`Transaction ${id} confirmed received. Seller gets paid.`);}
-}
-function disputeTransaction(id){
-    const tx = escrowTransactions.find(t=>t.id===id);
-    if(tx){ tx.status='Dispute'; renderEscrow(); alert(`Transaction ${id} marked as dispute. Review required.`);}
-}
+function markShipped(id){ const tx = escrowTransactions.find(t=>t.id===id); if(tx){ tx.status='Shipped'; renderEscrow(); alert(`Transaction ${id} marked as shipped`);} }
+function confirmReceived(id){ const tx = escrowTransactions.find(t=>t.id===id); if(tx){ tx.status='Completed'; tx.countdown=0; renderEscrow(); alert(`Transaction ${id} confirmed received. Seller gets paid.`);} }
+function disputeTransaction(id){ const tx = escrowTransactions.find(t=>t.id===id); if(tx){ tx.status='Dispute'; renderEscrow(); alert(`Transaction ${id} marked as dispute. Review required.`);} }
 
 document.getElementById('openEscrowBtn').addEventListener('click', ()=>{
     const section = document.getElementById('escrowSection');
