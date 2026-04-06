@@ -23,86 +23,152 @@ header{
     background:#fff;
     box-shadow:0 3px 10px rgba(0,0,0,0.05);
 }
+.logo{ font-weight:700; font-size:1.3rem; }
 
-.logo{
-    font-weight:700;
-    font-size:1.3rem;
-}
-
-/* MAIN WALLET */
-.main-wallet{
+/* NAIRA DASHBOARD */
+.naira-dashboard{
     margin:1rem;
     background:#fff;
     border-radius:16px;
-    padding:1rem 1.2rem;
+    padding:1rem;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
 
-/* WALLET CARD */
-.wallet-card{
-    border-radius:18px;
-    padding:1.2rem;
+/* MASTER CARD STYLE BALANCE */
+.balance-card{
+    width:120px;
+    height:60px;
+    border-radius:12px;
+    background:#000;
     color:#fff;
-    max-width:380px;
-    margin:auto;
-    display:none;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0.5rem 0.7rem;
+    font-weight:600;
+    box-shadow:0 5px 12px rgba(0,0,0,0.1);
+}
+.balance-card small{
+    font-size:0.7rem;
+    opacity:0.7;
+}
+.balance-card strong{
+    font-size:1rem;
 }
 
-.balance-amount{
-    font-size:2rem;
-    font-weight:700;
-}
-
-/* ACTIONS */
-.actions{
+/* ACTION GRID */
+.action-grid{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:0.6rem;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    flex:1;
 }
-
 .action-btn{
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    background:rgba(255,255,255,0.08);
+    background:#fff;
     padding:0.7rem;
     border-radius:12px;
+    box-shadow:0 5px 12px rgba(0,0,0,0.05);
     cursor:pointer;
-    font-size:0.75rem;
-    gap:5px;
+    font-weight:600;
+    font-size:0.85rem;
+    text-align:center;
+    color:#000;
+}
+.action-btn i{
+    margin-bottom:5px;
 }
 
-.escrow{
-    background:rgba(255,255,255,0.15);
-    border:1px solid rgba(255,255,255,0.3);
-}
-
-/* TRANSACTIONS */
-.transactions{
-    margin:1rem;
-}
-
-.tx-card{
-    background:#fff;
-    border-radius:14px;
-    padding:0.9rem;
-    margin-bottom:10px;
-    display:flex;
-    justify-content:space-between;
-}
-
-/* ESCROW SCREEN */
-#escrowScreen{
+/* OTHER WALLETS */
+.wallet-container{ margin:1rem; }
+.wallet-card{
+    border-radius:28px;
+    padding:1.8rem 1.5rem;
+    color:#fff;
     display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#f5f5f7;
-    z-index:999;
+}
+.balance-label{ opacity:0.7; font-size:0.85rem; }
+.balance-amount{ font-size:2.3rem; font-weight:700; margin:0.5rem 0 1.2rem; }
+
+.wallet-card .actions{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:0.5rem;
+}
+.wallet-card .actions .action-btn{
+    background:#fff;
+    color:#000;
+}
+
+/* SWITCH */
+.currency-cut{
+    display:flex;
+    gap:12px;
+    margin-top:15px;
+}
+.currency-cut span{
+    cursor:pointer;
+    font-weight:600;
+    padding:0.25rem 0.6rem;
+    border-radius:12px;
+    background:#fff;
+}
+.currency-cut span.active{
+    background:#000;
+    color:#fff;
+}
+
+/* POS */
+.section{ padding:1rem; }
+.pos-row{ display:flex; gap:1rem; }
+.pos-card{
+    min-width:190px;
+    background:#fff;
+    border-radius:18px;
+    padding:1.2rem;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    cursor:pointer;
+}
+
+/* ESCROW */
+#escrowSection{ margin:1rem; display:none; }
+.escrow-card{
+    background:#fff;
+    border-radius:16px;
     padding:1rem;
+    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+    margin-bottom:1rem;
+}
+.escrow-card button{
+    margin-top:6px;
+    padding:0.4rem 0.6rem;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* FREELANCER HUB */
+.freelancer-hub{
+    margin:1rem;
+    background:#1a1a1a;
+    border-radius:16px;
+    padding:1rem;
+    color:#fff;
+}
+.earnings{
+    background:#333;
+    border-radius:12px;
+    padding:1rem;
+    margin-bottom:1rem;
+}
+.payment-link{
+    margin-top:10px;
+    background:#444;
+    padding:0.5rem;
+    border-radius:10px;
 }
 </style>
 </head>
@@ -114,75 +180,77 @@ header{
     <span id="userName">User</span>
 </header>
 
-<!-- MAIN WALLET -->
-<div class="main-wallet">
-    <small>Main Wallet</small>
-    <h2>₦245,000</h2>
-</div>
+<!-- NAIRA DASHBOARD -->
+<div class="naira-dashboard">
 
-<!-- WALLET -->
-<div class="wallet-card" style="background:#000;" data-wallet="NGN">
-    <div>Available Balance</div>
-    <div class="balance-amount">₦245,000</div>
+    <div style="display:flex; gap:12px; align-items:center;">
 
-    <div style="font-size:0.75rem;opacity:0.6;">
-        Secured by Kollect Escrow
-    </div>
-
-    <div class="actions">
-        <div class="action-btn"><i data-feather="send"></i>Send</div>
-        <div class="action-btn"><i data-feather="credit-card"></i>To Bank</div>
-        <div class="action-btn"><i data-feather="download"></i>Withdraw</div>
-        <div class="action-btn"><i data-feather="plus-circle"></i>Fund</div>
-        <div class="action-btn escrow" onclick="openEscrow()">
-            <i data-feather="lock"></i>Escrow
+        <div class="balance-card">
+            <small>Balance</small>
+            <strong>₦245K</strong>
         </div>
-    </div>
-</div>
 
-<!-- TRANSACTIONS -->
-<div class="transactions">
-    <h3>Recent Transactions</h3>
-
-    <div class="tx-card">
-        <div>Payment Received</div>
-        <div>+₦5,000</div>
-    </div>
-
-    <div class="tx-card">
-        <div>Escrow Payment</div>
-        <div>₦12,000</div>
-    </div>
-
-    <div class="tx-card">
-        <div>Withdrawal</div>
-        <div>-₦8,000</div>
-    </div>
-</div>
-
-<!-- ESCROW SCREEN -->
-<div id="escrowScreen">
-
-    <h2>Escrow</h2>
-    <button onclick="closeEscrow()">← Back</button>
-
-    <div style="margin-top:1rem;">
-
-        <div style="background:#fff;padding:1rem;border-radius:12px;">
-            <strong>iPhone 13 Purchase</strong>
-            <p>Status: Awaiting Delivery</p>
-            <p>₦120,000 (Locked 🔒)</p>
-
-            <div style="display:flex;gap:10px;">
-                <button onclick="confirmDelivery()">Confirm Delivery</button>
-                <button onclick="contactSupport()">Contact Support</button>
+        <div class="action-grid">
+            <div class="action-btn" id="openEscrowBtn">
+                <i data-feather="lock"></i> Escrow
             </div>
-
-            <small style="color:#666;">
-                Need help? Kollect can assist with this transaction
-            </small>
+            <div class="action-btn">
+                <i data-feather="phone"></i> Airtime
+            </div>
+            <div class="action-btn">
+                <i data-feather="globe"></i> Data
+            </div>
         </div>
 
+    </div>
+
+</div>
+
+<!-- ESCROW -->
+<div id="escrowSection">
+    <div class="escrow-card">
+        <h4>ESC-001</h4>
+        <p>₦12,000 - Awaiting Shipment</p>
+        <button onclick="markShipped()">Mark Shipped</button>
+    </div>
+</div>
+
+<!-- OTHER WALLETS -->
+<div class="wallet-container">
+
+<div class="wallet-card" style="background:purple;" data-wallet="GHS">
+    <div class="balance-label">Balance</div>
+    <div class="balance-amount">GH₵12,000</div>
+</div>
+
+<div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
+    <div class="balance-label">Balance</div>
+    <div class="balance-amount">RWF 300,000</div>
+</div>
+
+<div class="currency-cut">
+    <span class="active" onclick="showWallet('GHS',this)">GH₵</span>
+    <span onclick="showWallet('RWF',this)">RWF</span>
+</div>
+
+</div>
+
+<!-- POS -->
+<div class="section">
+    <h3>Virtual POS</h3>
+    <div class="pos-row">
+        <div class="pos-card" onclick="openPOS('₦')">₦ Naira Payments</div>
+        <div class="pos-card" onclick="openPOS('$')">$ USD Payments</div>
+    </div>
+</div>
+
+<!-- FREELANCER HUB -->
+<div class="freelancer-hub">
+    <h3>Freelancer Hub</h3>
+    <div class="earnings">
+        <div>₦15,000</div>
+        <button onclick="generateLink()">Generate Link</button>
+        <div class="payment-link" id="link"></div>
     </div>
 </div>
 
@@ -191,30 +259,31 @@ feather.replace();
 
 /* Greeting */
 const h = new Date().getHours();
-let g = "Hello";
-if(h<12) g="Good Morning";
-else if(h<18) g="Good Afternoon";
-else g="Good Evening";
-document.getElementById("userName").innerText = g;
+document.getElementById("userName").innerText =
+h<12 ? "Good Morning" : h<18 ? "Good Afternoon" : "Good Evening";
 
-/* SHOW WALLET */
-document.querySelector(".wallet-card").style.display="block";
+/* Escrow toggle */
+document.getElementById("openEscrowBtn").onclick = ()=>{
+    const e = document.getElementById("escrowSection");
+    e.style.display = e.style.display==="none" ? "block":"none";
+};
 
-/* ESCROW FUNCTIONS */
-function openEscrow(){
-    document.getElementById("escrowScreen").style.display="block";
+function markShipped(){
+    alert("Marked as shipped");
 }
 
-function closeEscrow(){
-    document.getElementById("escrowScreen").style.display="none";
+/* Wallet switch */
+function showWallet(wallet,el){
+    document.querySelectorAll(".wallet-card").forEach(w=>{
+        w.style.display = w.dataset.wallet===wallet ? "block":"none";
+    });
+    document.querySelectorAll(".currency-cut span").forEach(s=>s.classList.remove("active"));
+    el.classList.add("active");
 }
+showWallet('GHS', document.querySelector(".currency-cut span"));
 
-function confirmDelivery(){
-    alert("Funds released to seller ✅");
-}
-
-function contactSupport(){
-    alert("Kollect support will assist you 🛠");
+function generateLink(){
+    document.getElementById("link").innerText="https://kollect.app/pay";
 }
 </script>
 
