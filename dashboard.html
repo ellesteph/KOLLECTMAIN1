@@ -47,6 +47,28 @@ header{
     padding:1rem;
 }
 
+.action-btn{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,0.08);
+    padding:0.7rem;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+/* ESCROW BUTTON */
+#openEscrowBtn{
+    margin-top:10px;
+    padding:0.7rem 1rem;
+    border-radius:12px;
+    background:#6a0dad;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+}
+
 /* WALLET CARDS */
 .wallet-container{
     margin:1rem;
@@ -74,17 +96,6 @@ header{
     display:grid;
     grid-template-columns:repeat(2,1fr);
     gap:0.5rem;
-}
-
-.action-btn{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,0.08);
-    padding:0.7rem;
-    border-radius:12px;
-    cursor:pointer;
 }
 
 /* CURRENCY SWITCH */
@@ -204,6 +215,11 @@ header{
 }
 
 /* ESCROW CARDS */
+#escrowSection{
+    margin:1rem;
+    display:none;
+}
+
 .escrow-card{
     background:#fefefe;
     border-radius:16px;
@@ -259,6 +275,7 @@ header{
 <div class="main-wallet">
     <small>Main Wallet</small>
     <h2>₦245,000</h2>
+    <button id="openEscrowBtn">Secure Payment (Escrow)</button>
 </div>
 
 <!-- QUICK ACTIONS -->
@@ -269,7 +286,6 @@ header{
 
 <!-- WALLET CARDS -->
 <div class="wallet-container">
-
 <div class="wallet-card" style="background:#000;" data-wallet="NGN">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">₦245,000</div>
@@ -281,7 +297,6 @@ header{
         <div class="action-btn">Fund Wallet</div>
     </div>
 </div>
-
 <div class="wallet-card" style="background:purple;" data-wallet="GHS">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">GH₵12,000</div>
@@ -293,7 +308,6 @@ header{
         <div class="action-btn">Fund Wallet</div>
     </div>
 </div>
-
 <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">RWF 300,000</div>
@@ -311,19 +325,16 @@ header{
     <span onclick="showWallet('GHS',this)">GH₵</span>
     <span onclick="showWallet('RWF',this)">RWF</span>
 </div>
-
 </div>
 
 <!-- POS -->
 <div class="section">
     <h3>Virtual POS</h3>
-
     <div class="pos-row">
         <div class="pos-card" onclick="openPOS('₦')">
             <strong>₦ Naira Payments</strong>
             <p>Accept payments in Naira</p>
         </div>
-
         <div class="pos-card" onclick="openPOS('$')">
             <strong>$ USD Payments</strong>
             <p>Accept payments in USD</p>
@@ -334,9 +345,7 @@ header{
 <!-- POS WALLET VIEW -->
 <div class="section" id="posWalletView">
     <h3>Virtual POS</h3>
-
     <div style="background:#fff;padding:1.2rem;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.08);">
-
         <div style="font-size:0.85rem;color:#666;">Wallet Balance</div>
         <div id="posBalance" style="font-size:1.8rem;font-weight:700;">₦0.00</div>
 
@@ -350,7 +359,6 @@ header{
             <button>To Cedis Wallet</button>
             <button>To RWF Wallet</button>
         </div>
-
     </div>
 </div>
 
@@ -394,19 +402,15 @@ header{
 </div>
 
 <!-- ESCROW SECTION -->
-<div class="section" id="escrowSection" style="margin:1rem; display:block;">
+<div class="section" id="escrowSection">
     <h3>Secure Payments (Escrow)</h3>
 
-    <!-- Dummy Wallet / Locked Funds Overview -->
     <div style="background:#fff; border-radius:16px; padding:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.08); margin-bottom:1rem;">
         <div style="font-size:0.85rem; color:#666;">Total Funds Locked in Escrow</div>
         <div id="escrowTotal" style="font-size:1.8rem; font-weight:700;">₦0</div>
     </div>
 
-    <!-- Escrow Transactions List -->
-    <div id="escrowList">
-        <!-- Transaction cards dynamically added here -->
-    </div>
+    <div id="escrowList"></div>
 </div>
 
 <script>
@@ -433,18 +437,11 @@ showWallet('NGN', document.querySelector(".currency-cut span"));
 /* POS OPEN */
 function openPOS(type){
     document.getElementById("posWalletView").style.display = "block";
-    if(type==="₦"){
-        document.getElementById("posBalance").innerText="₦0.00";
-    }else{
-        document.getElementById("posBalance").innerText="$0.00";
-    }
+    document.getElementById("posBalance").innerText = type==="₦" ? "₦0.00" : "$0.00";
 }
 
 /* FREELANCER HUB FUNCTIONS */
-function withdraw(currency){
-    alert(`Withdraw from ${currency} earnings wallet to main wallet`);
-}
-
+function withdraw(currency){ alert(`Withdraw from ${currency} earnings wallet to main wallet`); }
 function generateLink(currency){
     const link = currency==='NGN' ? 
         `https://kollect.app/pay?currency=NGN&amount=1000` : 
@@ -452,13 +449,13 @@ function generateLink(currency){
     document.getElementById(`link${currency}`).innerText = link;
 }
 
-/* ====== ESCROW INTERACTIVE MODULE ====== */
+/* ===== ESCROW INTERACTIVE MODULE ===== */
 let escrowTransactions = [
-    {id:'ESC-001', buyer:'John Doe', seller:'Jane Smith', item:'Black Hoodie, Size M', amount:12000, status:'Awaiting Shipment', countdown:5, proof:''},
-    {id:'ESC-002', buyer:'Ada Johnson', seller:'Mike Lee', item:'Zara Dress', amount:8500, status:'Shipped', countdown:3, proof:''}
+    {id:'ESC-001', buyer:'John Doe', seller:'Jane Smith', item:'Black Hoodie, Size M', amount:12000, status:'Awaiting Shipment', countdown:5},
+    {id:'ESC-002', buyer:'Ada Johnson', seller:'Mike Lee', item:'Zara Dress', amount:8500, status:'Shipped', countdown:3}
 ];
 
-/* Render Escrow List */
+/* Render Escrow */
 function renderEscrow(){
     const list = document.getElementById('escrowList');
     list.innerHTML = '';
@@ -488,31 +485,22 @@ function renderEscrow(){
 /* Escrow Actions */
 function markShipped(id){
     const tx = escrowTransactions.find(t=>t.id===id);
-    if(tx){
-        tx.status = 'Shipped';
-        renderEscrow();
-        alert(`Transaction ${id} marked as shipped`);
-    }
+    if(tx){ tx.status='Shipped'; renderEscrow(); alert(`Transaction ${id} marked as shipped`);}
 }
-
 function confirmReceived(id){
     const tx = escrowTransactions.find(t=>t.id===id);
-    if(tx){
-        tx.status = 'Completed';
-        tx.countdown = 0;
-        renderEscrow();
-        alert(`Transaction ${id} confirmed received. Seller gets paid.`);
-    }
+    if(tx){ tx.status='Completed'; tx.countdown=0; renderEscrow(); alert(`Transaction ${id} confirmed received. Seller gets paid.`);}
 }
-
 function disputeTransaction(id){
     const tx = escrowTransactions.find(t=>t.id===id);
-    if(tx){
-        tx.status = 'Dispute';
-        renderEscrow();
-        alert(`Transaction ${id} marked as dispute. Review required.`);
-    }
+    if(tx){ tx.status='Dispute'; renderEscrow(); alert(`Transaction ${id} marked as dispute. Review required.`);}
 }
+
+/* Escrow toggle button */
+document.getElementById('openEscrowBtn').addEventListener('click', ()=>{
+    const section = document.getElementById('escrowSection');
+    section.style.display = section.style.display==='none' ? 'block' : 'none';
+});
 
 /* Initialize Escrow */
 renderEscrow();
