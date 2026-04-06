@@ -202,6 +202,49 @@ header{
     word-break:break-all;
     font-size:0.85rem;
 }
+
+/* ESCROW CARDS */
+.escrow-card{
+    background:#fefefe;
+    border-radius:16px;
+    padding:1rem;
+    box-shadow:0 5px 15px rgba(0,0,0,0.06);
+    margin-bottom:1rem;
+}
+
+.escrow-card h4{
+    margin:0 0 0.5rem 0;
+    font-size:1rem;
+}
+
+.escrow-card p{
+    margin:0.25rem 0;
+    font-size:0.85rem;
+    color:#555;
+}
+
+.escrow-card .escrow-status{
+    font-weight:600;
+    margin-top:0.5rem;
+}
+
+.escrow-card .escrow-actions{
+    margin-top:0.75rem;
+    display:flex;
+    gap:0.5rem;
+}
+
+.escrow-card button{
+    padding:0.5rem 0.7rem;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.escrow-card .ship-btn{background:#6a0dad; color:#fff;}
+.escrow-card .confirm-btn{background:green; color:#fff;}
+.escrow-card .dispute-btn{background:red; color:#fff;}
 </style>
 </head>
 
@@ -350,6 +393,22 @@ header{
     </div>
 </div>
 
+<!-- ESCROW SECTION -->
+<div class="section" id="escrowSection" style="margin:1rem; display:block;">
+    <h3>Secure Payments (Escrow)</h3>
+
+    <!-- Dummy Wallet / Locked Funds Overview -->
+    <div style="background:#fff; border-radius:16px; padding:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.08); margin-bottom:1rem;">
+        <div style="font-size:0.85rem; color:#666;">Total Funds Locked in Escrow</div>
+        <div id="escrowTotal" style="font-size:1.8rem; font-weight:700;">₦0</div>
+    </div>
+
+    <!-- Escrow Transactions List -->
+    <div id="escrowList">
+        <!-- Transaction cards dynamically added here -->
+    </div>
+</div>
+
 <script>
 feather.replace();
 
@@ -392,6 +451,71 @@ function generateLink(currency){
         `https://kollect.app/pay?currency=USD&amount=200`;
     document.getElementById(`link${currency}`).innerText = link;
 }
+
+/* ====== ESCROW INTERACTIVE MODULE ====== */
+let escrowTransactions = [
+    {id:'ESC-001', buyer:'John Doe', seller:'Jane Smith', item:'Black Hoodie, Size M', amount:12000, status:'Awaiting Shipment', countdown:5, proof:''},
+    {id:'ESC-002', buyer:'Ada Johnson', seller:'Mike Lee', item:'Zara Dress', amount:8500, status:'Shipped', countdown:3, proof:''}
+];
+
+/* Render Escrow List */
+function renderEscrow(){
+    const list = document.getElementById('escrowList');
+    list.innerHTML = '';
+    let totalLocked = 0;
+    escrowTransactions.forEach(tx=>{
+        totalLocked += tx.amount;
+        const card = document.createElement('div');
+        card.className = 'escrow-card';
+        card.innerHTML = `
+            <h4>Transaction ID: ${tx.id}</h4>
+            <p><strong>Buyer:</strong> ${tx.buyer}</p>
+            <p><strong>Seller:</strong> ${tx.seller}</p>
+            <p><strong>Item:</strong> ${tx.item}</p>
+            <p><strong>Amount Locked:</strong> ₦${tx.amount.toLocaleString()}</p>
+            <p class="escrow-status"><strong>Status:</strong> ${tx.status} | ${tx.countdown} days left</p>
+            <div class="escrow-actions">
+                ${tx.status==='Awaiting Shipment'? `<button class="ship-btn" onclick="markShipped('${tx.id}')">Mark Shipped</button>` : ''}
+                ${tx.status==='Shipped'? `<button class="confirm-btn" onclick="confirmReceived('${tx.id}')">Confirm Received</button>
+                <button class="dispute-btn" onclick="disputeTransaction('${tx.id}')">Report Issue</button>` : ''}
+            </div>
+        `;
+        list.appendChild(card);
+    });
+    document.getElementById('escrowTotal').innerText = `₦${totalLocked.toLocaleString()}`;
+}
+
+/* Escrow Actions */
+function markShipped(id){
+    const tx = escrowTransactions.find(t=>t.id===id);
+    if(tx){
+        tx.status = 'Shipped';
+        renderEscrow();
+        alert(`Transaction ${id} marked as shipped`);
+    }
+}
+
+function confirmReceived(id){
+    const tx = escrowTransactions.find(t=>t.id===id);
+    if(tx){
+        tx.status = 'Completed';
+        tx.countdown = 0;
+        renderEscrow();
+        alert(`Transaction ${id} confirmed received. Seller gets paid.`);
+    }
+}
+
+function disputeTransaction(id){
+    const tx = escrowTransactions.find(t=>t.id===id);
+    if(tx){
+        tx.status = 'Dispute';
+        renderEscrow();
+        alert(`Transaction ${id} marked as dispute. Review required.`);
+    }
+}
+
+/* Initialize Escrow */
+renderEscrow();
 </script>
 
 </body>
