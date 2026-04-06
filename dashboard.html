@@ -29,73 +29,70 @@ header{
     font-size:1.3rem;
 }
 
-/* MAIN WALLET */
+/* MAIN WALLET (Compact) */
 .main-wallet{
     margin:1rem;
     background:#fff;
     border-radius:16px;
-    padding:1rem 1.2rem;
+    padding:1rem;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
 .main-wallet small{color:#666;}
-.main-wallet h2{margin:5px 0;font-size:1.8rem;}
+.main-wallet h2{margin:0;font-size:1.5rem;}
 
-/* QUICK ACTIONS */
-.quick-actions{
+/* QUICK ACTION BUTTONS */
+.action-grid{
     display:flex;
-    gap:15px;
-    padding:1rem;
+    gap:12px;
+    margin:1rem;
 }
 
 .action-btn{
+    flex:1;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
-    background:rgba(255,255,255,0.08);
-    padding:0.7rem;
+    background:#fff;
+    padding:0.8rem;
     border-radius:12px;
+    box-shadow:0 5px 12px rgba(0,0,0,0.05);
     cursor:pointer;
-}
-
-/* ESCROW BUTTON */
-#openEscrowBtn{
-    margin-top:10px;
-    padding:0.7rem 1rem;
-    border-radius:12px;
-    background:#6a0dad;
-    color:white;
     font-weight:600;
-    cursor:pointer;
+    transition:0.2s;
+    text-align:center;
+}
+.action-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 15px rgba(0,0,0,0.1);
+}
+.action-btn i{
+    font-size:1.5rem;
+    margin-bottom:6px;
+    color:#6a0dad;
 }
 
-/* WALLET CARDS */
+/* WALLET CARDS (Other Currencies) */
 .wallet-container{
     margin:1rem;
 }
-
 .wallet-card{
     border-radius:28px;
     padding:1.8rem 1.5rem;
     color:#fff;
     display:none;
 }
-
 .balance-label{
     opacity:0.7;
     font-size:0.85rem;
 }
-
 .balance-amount{
     font-size:2.3rem;
     font-weight:700;
     margin:0.5rem 0 1.2rem;
-}
-
-.actions{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:0.5rem;
 }
 
 /* CURRENCY SWITCH */
@@ -104,7 +101,6 @@ header{
     gap:12px;
     margin-top:15px;
 }
-
 .currency-cut span{
     cursor:pointer;
     font-weight:600;
@@ -113,113 +109,16 @@ header{
     background:#fff;
     color:#000;
 }
-
 .currency-cut span.active{
     background:#000;
     color:#fff;
 }
 
-/* POS */
-.section{
-    padding:1rem;
-}
-
-.pos-row{
-    display:flex;
-    gap:1rem;
-}
-
-.pos-card{
-    min-width:190px;
-    background:#fff;
-    border-radius:18px;
-    padding:1.2rem;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-    cursor:pointer;
-}
-
-/* POS WALLET VIEW */
-#posWalletView{
-    display:none;
-}
-
-/* FREELANCER HUB */
-.freelancer-hub{
-    margin:1rem;
-    background:#1a1a1a;
-    border-radius:16px;
-    padding:1rem;
-    color:#fff;
-}
-
-.freelancer-hub h3{
-    margin-bottom:1rem;
-}
-
-.earnings{
-    background:#333;
-    border-radius:12px;
-    padding:1rem;
-    margin-bottom:1rem;
-}
-
-.earnings .balance-label{
-    opacity:0.7;
-    font-size:0.85rem;
-}
-
-.earnings .balance{
-    font-size:1.8rem;
-    font-weight:700;
-    margin:5px 0;
-    color:#fff;
-}
-
-.earnings .currency{
-    font-size:0.9rem;
-    opacity:0.7;
-}
-
-.fh-actions{
-    display:flex;
-    gap:10px;
-    margin-top:10px;
-    flex-wrap: wrap;
-}
-
-.fh-actions button, .fh-actions select{
-    padding:0.6rem 0.8rem;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-}
-
-.fh-actions button{
-    background:#6a0dad;
-    color:#fff;
-}
-
-.fh-actions select{
-    background:#fff;
-    color:#000;
-}
-
-.payment-link{
-    margin-top:12px;
-    padding:0.6rem;
-    border-radius:10px;
-    background:#444;
-    word-break:break-all;
-    font-size:0.85rem;
-}
-
-/* ESCROW CARDS */
+/* ESCROW SECTION */
 #escrowSection{
     margin:1rem;
     display:none;
 }
-
 .escrow-card{
     background:#fefefe;
     border-radius:16px;
@@ -227,29 +126,10 @@ header{
     box-shadow:0 5px 15px rgba(0,0,0,0.06);
     margin-bottom:1rem;
 }
-
-.escrow-card h4{
-    margin:0 0 0.5rem 0;
-    font-size:1rem;
-}
-
-.escrow-card p{
-    margin:0.25rem 0;
-    font-size:0.85rem;
-    color:#555;
-}
-
-.escrow-card .escrow-status{
-    font-weight:600;
-    margin-top:0.5rem;
-}
-
-.escrow-card .escrow-actions{
-    margin-top:0.75rem;
-    display:flex;
-    gap:0.5rem;
-}
-
+.escrow-card h4{margin:0 0 0.5rem 0;font-size:1rem;}
+.escrow-card p{margin:0.25rem 0;font-size:0.85rem;color:#555;}
+.escrow-card .escrow-status{font-weight:600;margin-top:0.5rem;}
+.escrow-card .escrow-actions{margin-top:0.75rem;display:flex;gap:0.5rem;}
 .escrow-card button{
     padding:0.5rem 0.7rem;
     border:none;
@@ -257,10 +137,9 @@ header{
     cursor:pointer;
     font-weight:600;
 }
-
-.escrow-card .ship-btn{background:#6a0dad; color:#fff;}
-.escrow-card .confirm-btn{background:green; color:#fff;}
-.escrow-card .dispute-btn{background:red; color:#fff;}
+.escrow-card .ship-btn{background:#6a0dad;color:#fff;}
+.escrow-card .confirm-btn{background:green;color:#fff;}
+.escrow-card .dispute-btn{background:red;color:#fff;}
 </style>
 </head>
 
@@ -271,25 +150,34 @@ header{
     <span id="userName">User</span>
 </header>
 
-<!-- MAIN WALLET -->
+<!-- Naira Dashboard Compact -->
 <div class="main-wallet">
-    <small>Main Wallet</small>
-    <h2>₦245,000</h2>
-    <button id="openEscrowBtn">Secure Payment (Escrow)</button>
+    <div>
+        <small>Main Wallet</small>
+        <h2>₦245,000</h2>
+    </div>
 </div>
 
-<!-- QUICK ACTIONS -->
-<div class="quick-actions">
-    <div class="action-btn">Airtime</div>
-    <div class="action-btn">Data</div>
+<div class="action-grid">
+    <div class="action-btn">
+        <i class="feather-airplay"></i>
+        Airtime
+    </div>
+    <div class="action-btn">
+        <i class="feather-zap"></i>
+        Data
+    </div>
+    <div class="action-btn" id="openEscrowBtn">
+        <i class="feather-lock"></i>
+        Escrow
+    </div>
 </div>
 
-<!-- WALLET CARDS -->
+<!-- Other currency wallets -->
 <div class="wallet-container">
 <div class="wallet-card" style="background:#000;" data-wallet="NGN">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">₦245,000</div>
-
     <div class="actions">
         <div class="action-btn">Send to Kollect</div>
         <div class="action-btn">To Bank</div>
@@ -300,7 +188,6 @@ header{
 <div class="wallet-card" style="background:purple;" data-wallet="GHS">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">GH₵12,000</div>
-
     <div class="actions">
         <div class="action-btn">Send to Kollect</div>
         <div class="action-btn">To Bank</div>
@@ -311,7 +198,6 @@ header{
 <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">RWF 300,000</div>
-
     <div class="actions">
         <div class="action-btn">Send to Kollect</div>
         <div class="action-btn">To Bank</div>
@@ -319,7 +205,6 @@ header{
         <div class="action-btn">Fund Wallet</div>
     </div>
 </div>
-
 <div class="currency-cut">
     <span class="active" onclick="showWallet('NGN',this)">₦</span>
     <span onclick="showWallet('GHS',this)">GH₵</span>
@@ -327,89 +212,13 @@ header{
 </div>
 </div>
 
-<!-- POS -->
-<div class="section">
-    <h3>Virtual POS</h3>
-    <div class="pos-row">
-        <div class="pos-card" onclick="openPOS('₦')">
-            <strong>₦ Naira Payments</strong>
-            <p>Accept payments in Naira</p>
-        </div>
-        <div class="pos-card" onclick="openPOS('$')">
-            <strong>$ USD Payments</strong>
-            <p>Accept payments in USD</p>
-        </div>
-    </div>
-</div>
-
-<!-- POS WALLET VIEW -->
-<div class="section" id="posWalletView">
-    <h3>Virtual POS</h3>
-    <div style="background:#fff;padding:1.2rem;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.08);">
-        <div style="font-size:0.85rem;color:#666;">Wallet Balance</div>
-        <div id="posBalance" style="font-size:1.8rem;font-weight:700;">₦0.00</div>
-
-        <input type="number" placeholder="Amount">
-        <input type="text" placeholder="Card Number">
-        <input type="text" placeholder="MM/YY">
-        <input type="text" placeholder="CVC">
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
-            <button>To Naira Wallet</button>
-            <button>To Cedis Wallet</button>
-            <button>To RWF Wallet</button>
-        </div>
-    </div>
-</div>
-
-<!-- FREELANCER HUB -->
-<div class="section freelancer-hub">
-    <h3>Freelancer Hub</h3>
-
-    <div class="earnings" data-currency="NGN">
-        <div class="balance-label">Earnings Wallet</div>
-        <div class="balance">₦15,000</div>
-        <div class="currency">Naira</div>
-
-        <div class="fh-actions">
-            <button onclick="generateLink('NGN')">Generate Payment Link</button>
-            <select id="sendToNGN">
-                <option value="NGN">Send to Naira Wallet</option>
-                <option value="GHS">Send to Cedis Wallet</option>
-                <option value="RWF">Send to RWF Wallet</option>
-            </select>
-            <button onclick="withdraw('NGN')">Withdraw to Main Wallet</button>
-        </div>
-        <div class="payment-link" id="linkNGN"></div>
-    </div>
-
-    <div class="earnings" data-currency="USD" style="margin-top:1rem;">
-        <div class="balance-label">Earnings Wallet</div>
-        <div class="balance">$200</div>
-        <div class="currency">USD</div>
-
-        <div class="fh-actions">
-            <button onclick="generateLink('USD')">Generate Payment Link</button>
-            <select id="sendToUSD">
-                <option value="NGN">Send to Naira Wallet</option>
-                <option value="GHS">Send to Cedis Wallet</option>
-                <option value="RWF">Send to RWF Wallet</option>
-            </select>
-            <button onclick="withdraw('USD')">Withdraw to Main Wallet</button>
-        </div>
-        <div class="payment-link" id="linkUSD"></div>
-    </div>
-</div>
-
 <!-- ESCROW SECTION -->
 <div class="section" id="escrowSection">
     <h3>Secure Payments (Escrow)</h3>
-
     <div style="background:#fff; border-radius:16px; padding:1rem; box-shadow:0 5px 15px rgba(0,0,0,0.08); margin-bottom:1rem;">
         <div style="font-size:0.85rem; color:#666;">Total Funds Locked in Escrow</div>
         <div id="escrowTotal" style="font-size:1.8rem; font-weight:700;">₦0</div>
     </div>
-
     <div id="escrowList"></div>
 </div>
 
@@ -434,28 +243,12 @@ function showWallet(wallet,el){
 }
 showWallet('NGN', document.querySelector(".currency-cut span"));
 
-/* POS OPEN */
-function openPOS(type){
-    document.getElementById("posWalletView").style.display = "block";
-    document.getElementById("posBalance").innerText = type==="₦" ? "₦0.00" : "$0.00";
-}
-
-/* FREELANCER HUB FUNCTIONS */
-function withdraw(currency){ alert(`Withdraw from ${currency} earnings wallet to main wallet`); }
-function generateLink(currency){
-    const link = currency==='NGN' ? 
-        `https://kollect.app/pay?currency=NGN&amount=1000` : 
-        `https://kollect.app/pay?currency=USD&amount=200`;
-    document.getElementById(`link${currency}`).innerText = link;
-}
-
 /* ===== ESCROW INTERACTIVE MODULE ===== */
 let escrowTransactions = [
     {id:'ESC-001', buyer:'John Doe', seller:'Jane Smith', item:'Black Hoodie, Size M', amount:12000, status:'Awaiting Shipment', countdown:5},
     {id:'ESC-002', buyer:'Ada Johnson', seller:'Mike Lee', item:'Zara Dress', amount:8500, status:'Shipped', countdown:3}
 ];
 
-/* Render Escrow */
 function renderEscrow(){
     const list = document.getElementById('escrowList');
     list.innerHTML = '';
@@ -482,7 +275,6 @@ function renderEscrow(){
     document.getElementById('escrowTotal').innerText = `₦${totalLocked.toLocaleString()}`;
 }
 
-/* Escrow Actions */
 function markShipped(id){
     const tx = escrowTransactions.find(t=>t.id===id);
     if(tx){ tx.status='Shipped'; renderEscrow(); alert(`Transaction ${id} marked as shipped`);}
@@ -496,13 +288,11 @@ function disputeTransaction(id){
     if(tx){ tx.status='Dispute'; renderEscrow(); alert(`Transaction ${id} marked as dispute. Review required.`);}
 }
 
-/* Escrow toggle button */
 document.getElementById('openEscrowBtn').addEventListener('click', ()=>{
     const section = document.getElementById('escrowSection');
     section.style.display = section.style.display==='none' ? 'block' : 'none';
 });
 
-/* Initialize Escrow */
 renderEscrow();
 </script>
 
