@@ -8,237 +8,64 @@
 <script src="https://unpkg.com/feather-icons"></script>
 
 <style>
-body {
-    margin:0;
-    font-family:'Inter', sans-serif;
-    background:#f5f5f7;
-}
+body {margin:0;font-family:'Inter',sans-serif;background:#f5f5f7;}
 
 /* HEADER */
-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1rem 1.5rem;
-    background:#fff;
-    box-shadow:0 3px 10px rgba(0,0,0,0.05);
-}
-
-.logo{
-    font-weight:700;
-    font-size:1.3rem;
-}
+header{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,0.05);}
+.logo{font-weight:700;font-size:1.3rem;}
 
 /* MAIN WALLET */
-.main-wallet{
-    margin:1rem;
-    background:#fff;
-    border-radius:16px;
-    padding:1rem 1.2rem;
-    box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
+.main-wallet{margin:1rem;background:#fff;border-radius:16px;padding:1rem 1.2rem;box-shadow:0 5px 15px rgba(0,0,0,0.08);}
 .main-wallet small{color:#666;}
 .main-wallet h2{margin:5px 0;font-size:1.8rem;}
 
 /* QUICK ACTIONS */
-.quick-actions{
-    display:flex;
-    gap:15px;
-    padding:1rem;
-}
+.quick-actions{display:flex;gap:15px;padding:1rem;}
+.action-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);padding:0.7rem;border-radius:12px;cursor:pointer;}
+.action-btn.escrow{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);}
 
 /* WALLET CARDS */
-.wallet-container{
-    margin:1rem;
-}
-
-.wallet-card{
-    border-radius:28px;
-    padding:1.8rem 1.5rem;
-    color:#fff;
-    display:none;
-}
-
-.balance-label{
-    opacity:0.7;
-    font-size:0.85rem;
-}
-
-.balance-amount{
-    font-size:2.3rem;
-    font-weight:700;
-    margin:0.5rem 0 1.2rem;
-}
-
-.actions{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:0.5rem;
-}
-
-.action-btn{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    background:rgba(255,255,255,0.08);
-    padding:0.7rem;
-    border-radius:12px;
-    cursor:pointer;
-}
-
-/* Escrow button styling */
-.escrow{
-    background:rgba(255,255,255,0.15);
-    border:1px solid rgba(255,255,255,0.3);
-}
+.wallet-container{margin:1rem;}
+.wallet-card{border-radius:28px;padding:1.8rem 1.5rem;color:#fff;display:none;}
+.balance-label{opacity:0.7;font-size:0.85rem;}
+.balance-amount{font-size:2.3rem;font-weight:700;margin:0.5rem 0 1.2rem;}
+.actions{display:grid;grid-template-columns:repeat(2,1fr);gap:0.5rem;}
 
 /* CURRENCY SWITCH */
-.currency-cut{
-    display:flex;
-    gap:12px;
-    margin-top:15px;
-}
-
-.currency-cut span{
-    cursor:pointer;
-    font-weight:600;
-    padding:0.25rem 0.6rem;
-    border-radius:12px;
-    background:#fff;
-    color:#000;
-}
-
-.currency-cut span.active{
-    background:#000;
-    color:#fff;
-}
+.currency-cut{display:flex;gap:12px;margin-top:15px;}
+.currency-cut span{cursor:pointer;font-weight:600;padding:0.25rem 0.6rem;border-radius:12px;background:#fff;color:#000;}
+.currency-cut span.active{background:#000;color:#fff;}
 
 /* POS */
-.section{
-    padding:1rem;
-}
-
-.pos-row{
-    display:flex;
-    gap:1rem;
-}
-
-.pos-card{
-    min-width:190px;
-    background:#fff;
-    border-radius:18px;
-    padding:1.2rem;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-    cursor:pointer;
-}
+.section{padding:1rem;}
+.pos-row{display:flex;gap:1rem;}
+.pos-card{min-width:190px;background:#fff;border-radius:18px;padding:1.2rem;box-shadow:0 8px 25px rgba(0,0,0,0.08);cursor:pointer;}
 
 /* POS WALLET VIEW */
-#posWalletView{
-    display:none;
-}
+#posWalletView{display:none;}
 
 /* FREELANCER HUB */
-.freelancer-hub{
-    margin:1rem;
-    background:#1a1a1a;
-    border-radius:16px;
-    padding:1rem;
-    color:#fff;
-}
-
-.freelancer-hub h3{
-    margin-bottom:1rem;
-}
-
-.earnings{
-    background:#333;
-    border-radius:12px;
-    padding:1rem;
-    margin-bottom:1rem;
-}
-
-.earnings .balance-label{
-    opacity:0.7;
-    font-size:0.85rem;
-}
-
-.earnings .balance{
-    font-size:1.8rem;
-    font-weight:700;
-    margin:5px 0;
-    color:#fff;
-}
-
-.earnings .currency{
-    font-size:0.9rem;
-    opacity:0.7;
-}
-
-.fh-actions{
-    display:flex;
-    gap:10px;
-    margin-top:10px;
-    flex-wrap: wrap;
-}
-
-.fh-actions button, .fh-actions select{
-    padding:0.6rem 0.8rem;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-}
-
-.fh-actions button{
-    background:#6a0dad;
-    color:#fff;
-}
-
-.fh-actions select{
-    background:#fff;
-    color:#000;
-}
-
-.payment-link{
-    margin-top:12px;
-    padding:0.6rem;
-    border-radius:10px;
-    background:#444;
-    word-break:break-all;
-    font-size:0.85rem;
-}
+.freelancer-btn{margin:1rem;padding:0.8rem 1rem;border-radius:12px;background:#6a0dad;color:#fff;cursor:pointer;font-weight:600;border:none;}
+.freelancer-hub{margin:1rem;background:#1a1a1a;border-radius:16px;padding:1rem;color:#fff;display:none;}
+.freelancer-hub h3{margin-bottom:1rem;}
+.earnings{background:#333;border-radius:12px;padding:1rem;margin-bottom:1rem;}
+.earnings .balance-label{opacity:0.7;font-size:0.85rem;}
+.earnings .balance{font-size:1.8rem;font-weight:700;margin:5px 0;color:#fff;}
+.earnings .currency{font-size:0.9rem;opacity:0.7;}
+.fh-actions{display:flex;gap:10px;margin-top:10px;flex-wrap: wrap;}
+.fh-actions button, .fh-actions select{padding:0.6rem 0.8rem;border:none;border-radius:10px;cursor:pointer;font-weight:600;}
+.fh-actions button{background:#6a0dad;color:#fff;}
+.fh-actions select{background:#fff;color:#000;}
+.payment-link{margin-top:12px;padding:0.6rem;border-radius:10px;background:#444;word-break:break-all;font-size:0.85rem;}
 
 /* RECENT TRANSACTIONS */
-.transactions{
-    margin:1rem;
-}
-
-.tx-card{
-    background:#fff;
-    border-radius:14px;
-    padding:0.9rem;
-    margin-bottom:10px;
-    display:flex;
-    justify-content:space-between;
-    box-shadow:0 5px 12px rgba(0,0,0,0.05);
-}
+.transactions{margin:1rem;}
+.tx-card{background:#fff;border-radius:14px;padding:0.9rem;margin-bottom:10px;display:flex;justify-content:space-between;box-shadow:0 5px 12px rgba(0,0,0,0.05);}
 
 /* ESCROW SCREEN */
-#escrowScreen{
-    display:none;
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:#f5f5f7;
-    z-index:999;
-    padding:1rem;
-}
+#escrowScreen{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#f5f5f7;z-index:999;padding:1rem;}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -260,26 +87,21 @@ header{
 
 <!-- WALLET CARDS -->
 <div class="wallet-container">
-
 <div class="wallet-card" style="background:#000;" data-wallet="NGN">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">₦245,000</div>
-
     <div class="actions">
         <div class="action-btn">Send to Kollect</div>
         <div class="action-btn">To Bank</div>
         <div class="action-btn">Withdraw</div>
         <div class="action-btn">Fund Wallet</div>
-        <div class="action-btn escrow" onclick="openEscrow()">
-            <i data-feather="lock"></i>Escrow
-        </div>
+        <div class="action-btn escrow" onclick="openEscrow()"><i data-feather="lock"></i>Escrow</div>
     </div>
 </div>
 
 <div class="wallet-card" style="background:purple;" data-wallet="GHS">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">GH₵12,000</div>
-
     <div class="actions">
         <div class="action-btn">Send to Kollect</div>
         <div class="action-btn">To Bank</div>
@@ -291,7 +113,6 @@ header{
 <div class="wallet-card" style="background:#1a237e;" data-wallet="RWF">
     <div class="balance-label">Available Balance</div>
     <div class="balance-amount">RWF 300,000</div>
-
     <div class="actions">
         <div class="action-btn">Send to Kollect</div>
         <div class="action-btn">To Bank</div>
@@ -305,60 +126,50 @@ header{
     <span onclick="showWallet('GHS',this)">GH₵</span>
     <span onclick="showWallet('RWF',this)">RWF</span>
 </div>
-
 </div>
 
 <!-- POS -->
 <div class="section">
     <h3>Virtual POS</h3>
-
     <div class="pos-row">
-        <div class="pos-card" onclick="openPOS('₦')">
-            <strong>₦ Naira Payments</strong>
-            <p>Accept payments in Naira</p>
-        </div>
-
-        <div class="pos-card" onclick="openPOS('$')">
-            <strong>$ USD Payments</strong>
-            <p>Accept payments in USD</p>
-        </div>
+        <div class="pos-card" onclick="openPOS('₦')"><strong>₦ Naira Payments</strong><p>Accept payments in Naira</p></div>
+        <div class="pos-card" onclick="openPOS('$')"><strong>$ USD Payments</strong><p>Accept payments in USD</p></div>
+        <div class="pos-card" onclick="openPOS('intl')"><strong>Intl Cards</strong><p>Accept Visa/Mastercard</p></div>
     </div>
 </div>
 
 <!-- POS WALLET VIEW -->
 <div class="section" id="posWalletView">
     <h3>Virtual POS</h3>
-
     <div style="background:#fff;padding:1.2rem;border-radius:18px;box-shadow:0 8px 25px rgba(0,0,0,0.08);">
-
         <div style="font-size:0.85rem;color:#666;">Wallet Balance</div>
         <div id="posBalance" style="font-size:1.8rem;font-weight:700;">₦0.00</div>
-
         <input type="number" placeholder="Amount">
         <input type="text" placeholder="Card Number">
         <input type="text" placeholder="MM/YY">
         <input type="text" placeholder="CVC">
-
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">
             <button>To Naira Wallet</button>
             <button>To Cedis Wallet</button>
             <button>To RWF Wallet</button>
         </div>
-
     </div>
 </div>
 
-<!-- FREELANCER HUB -->
-<div class="section freelancer-hub">
-    <h3>Freelancer Hub</h3>
+<!-- FREELANCER HUB BUTTON -->
+<button class="freelancer-btn" onclick="toggleFreelancerHub()">Freelancer Hub 💼</button>
 
+<!-- FREELANCER HUB -->
+<div class="section freelancer-hub" id="freelancerHub">
+
+    <!-- Naira Section -->
     <div class="earnings" data-currency="NGN">
         <div class="balance-label">Earnings Wallet</div>
         <div class="balance">₦15,000</div>
         <div class="currency">Naira</div>
-
         <div class="fh-actions">
             <button onclick="generateLink('NGN')">Generate Payment Link</button>
+            <button onclick="generateBankAccount('NGN')">Generate Bank Account</button>
             <select id="sendToNGN">
                 <option value="NGN">Send to Naira Wallet</option>
                 <option value="GHS">Send to Cedis Wallet</option>
@@ -369,13 +180,14 @@ header{
         <div class="payment-link" id="linkNGN"></div>
     </div>
 
-    <div class="earnings" data-currency="USD" style="margin-top:1rem;">
+    <!-- USD Section -->
+    <div class="earnings" data-currency="USD">
         <div class="balance-label">Earnings Wallet</div>
         <div class="balance">$200</div>
         <div class="currency">USD</div>
-
         <div class="fh-actions">
             <button onclick="generateLink('USD')">Generate Payment Link</button>
+            <button onclick="generateBankAccount('USD')">Generate Bank Account</button>
             <select id="sendToUSD">
                 <option value="NGN">Send to Naira Wallet</option>
                 <option value="GHS">Send to Cedis Wallet</option>
@@ -385,47 +197,31 @@ header{
         </div>
         <div class="payment-link" id="linkUSD"></div>
     </div>
+
 </div>
 
 <!-- RECENT TRANSACTIONS -->
 <div class="transactions">
     <h3>Recent Transactions</h3>
-
-    <div class="tx-card">
-        <div>Payment Received</div>
-        <div>+₦5,000</div>
-    </div>
-
-    <div class="tx-card">
-        <div>Escrow Payment</div>
-        <div>₦12,000</div>
-    </div>
-
-    <div class="tx-card">
-        <div>Withdrawal</div>
-        <div>-₦8,000</div>
-    </div>
+    <div class="tx-card"><div>Payment Received</div><div>+₦5,000</div></div>
+    <div class="tx-card"><div>Escrow Payment</div><div>₦12,000</div></div>
+    <div class="tx-card"><div>Withdrawal</div><div>-₦8,000</div></div>
 </div>
 
 <!-- ESCROW SCREEN -->
 <div id="escrowScreen">
     <h2>Escrow</h2>
     <button onclick="closeEscrow()">← Back</button>
-
     <div style="margin-top:1rem;">
         <div style="background:#fff;padding:1rem;border-radius:12px;">
             <strong>iPhone 13 Purchase</strong>
             <p>Status: Awaiting Delivery</p>
             <p>₦120,000 (Locked 🔒)</p>
-
             <div style="display:flex;gap:10px;">
                 <button onclick="confirmDelivery()">Confirm Delivery</button>
                 <button onclick="contactSupport()">Contact Support</button>
             </div>
-
-            <small style="color:#666;">
-                Need help? Kollect can assist with this transaction
-            </small>
+            <small style="color:#666;">Need help? Kollect can assist with this transaction</small>
         </div>
     </div>
 </div>
@@ -456,36 +252,38 @@ function openPOS(type){
     document.getElementById("posWalletView").style.display = "block";
     if(type==="₦"){
         document.getElementById("posBalance").innerText="₦0.00";
-    }else{
+    }else if(type==="$"){
         document.getElementById("posBalance").innerText="$0.00";
+    }else{
+        document.getElementById("posBalance").innerText="Intl 0.00";
     }
+}
+
+/* FREELANCER HUB TOGGLE */
+function toggleFreelancerHub(){
+    const hub=document.getElementById("freelancerHub");
+    hub.style.display=hub.style.display==="block"?"none":"block";
 }
 
 /* FREELANCER HUB FUNCTIONS */
 function withdraw(currency){
     alert(`Withdraw from ${currency} earnings wallet to main wallet`);
 }
-
 function generateLink(currency){
     const link = currency==='NGN' ? 
         `https://kollect.app/pay?currency=NGN&amount=1000` : 
         `https://kollect.app/pay?currency=USD&amount=200`;
     document.getElementById(`link${currency}`).innerText = link;
 }
+function generateBankAccount(currency){
+    alert(`Bank account generated for ${currency} payments`);
+}
 
 /* ESCROW FUNCTIONS */
-function openEscrow(){
-    document.getElementById("escrowScreen").style.display="block";
-}
-function closeEscrow(){
-    document.getElementById("escrowScreen").style.display="none";
-}
-function confirmDelivery(){
-    alert("Funds released to seller ✅");
-}
-function contactSupport(){
-    alert("Kollect support will assist you 🛠");
-}
+function openEscrow(){document.getElementById("escrowScreen").style.display="block";}
+function closeEscrow(){document.getElementById("escrowScreen").style.display="none";}
+function confirmDelivery(){alert("Funds released to seller ✅");}
+function contactSupport(){alert("Kollect support will assist you 🛠");}
 </script>
 
 </body>
